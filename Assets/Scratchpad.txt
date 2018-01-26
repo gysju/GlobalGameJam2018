@@ -1,0 +1,13 @@
+// geometric solution
+				
+float3 L = i.wCenter - _WorldSpaceCameraPos;
+				
+float tca = dot(L, viewDirection);
+				
+float d2 = dot(L,L) - tca * tca;
+				
+float thc = sqrt(fOuterRadius2 - d2);
+				
+float t0 = tca - thc;
+				
+float t1 = tca + thc;
