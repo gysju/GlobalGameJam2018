@@ -1,0 +1,41 @@
+﻿#pragma kernel CSMain
+
+Texture2D<float4> src;
+RWTexture2D<float4> dst;
+
+//Camera parameters
+float4 _ViewLU;
+float4 _ViewRU;
+float4 _ViewLD;
+float4 _ViewRD;
+float4 _CameraPos;
+
+
+struct Ray
+{
+    float3 origin;
+    float3 direction;
+};
+
+
+Ray GetViewDirection(uint3 id)
+{
+    float sizeX, sizeY;
+    src.GetDimensions(sizeX, sizeY);
+    float2 uv = float2(id.x / sizeX, id.y / sizeY) * 2;
+    float3 camForward = normalize((_ViewLD + _ViewLU + _ViewRD + _ViewRU) * 0.25).xyz;
+    float3 forward = normalize(lerp(lerp(_ViewLD, _ViewLU, uv.y), lerp(_ViewRD, _ViewRU, uv.y), uv.x).xyz);
+    Ray ray;
+    ray.origin = _CameraPos.xyz;
+    ray.direction = forward;
+	return ray;
+}
+
+[numthreads(8,8,1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    Ray viewDir = GetViewDirection(id);
+
+
+    dst[id.xy] = float4(viewDir.direction, 0.0);
+}
