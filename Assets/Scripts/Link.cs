@@ -3,19 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName ="Link", menuName = "Level", order = 50)]
-public class Link : ScriptableObject {
+public class Link:MonoBehaviour  {
+
+    public Point _PointA;
+    public Point _PointB;
+
+    Link(Point a, Point b) {
+        _PointA = a;
+        _PointB = b;
+    }
+
+    private void Start()
+    {
+        _PointA._Links.Add(this);
+        _PointB._Links.Add(this);
+        
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        if (!_PointA || !_PointB )
+            return;
+
+        Gizmos.DrawLine(_PointA.transform.position, _PointB.transform.position);
+    }
+
+    public Point getOtherPoint(Point p) {
+
+        if (_PointA != p)
+        {
+            return _PointA;
+        }
+        else {
+            return _PointB;
+        }
+
+    }
 
 
-    public List<Point> _Points = new List<Point>();
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
