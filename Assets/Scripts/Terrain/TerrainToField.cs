@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 [ExecuteInEditMode, ImageEffectAllowedInSceneView, RequireComponent(typeof(Camera))]
 public class TerrainToField : MonoBehaviour
@@ -8,10 +9,20 @@ public class TerrainToField : MonoBehaviour
     public ComputeShader Compute;
     public Vector4 Utils;
     public LevelGenerator Generator;
+    public float DrawRange;
     private RenderTexture temp = null;
     private ComputeBuffer nodesBuffer;
     private ComputeBuffer linesBuffer;
     private int kernel;
+
+    void OnDrawGizmos()
+    {
+        Vector3 left = transform.position + Vector3.left * DrawRange;
+        Vector3 right = transform.position + Vector3.right * DrawRange;
+        Gizmos.color = new Color(1, 0.7f, 0, 1f);
+        Gizmos.DrawLine(left + Vector3.down * 20, left + Vector3.up * 20);
+        Gizmos.DrawLine(right + Vector3.down * 20, right + Vector3.up * 20);
+    }
 
     void Start()
     {
@@ -68,8 +79,28 @@ public class TerrainToField : MonoBehaviour
         Compute.SetVector("_Utils", Utils);
 
         //Share terrain
-        Node[] nodes = Generator._Points.Select(x => new Node() { Center = x.Center, Radius = 10, Color = x.GetNodeColor()}).ToArray();
-        Line[] lines = Generator._Links.Select(x => new Line() { PointA = x._PointA.transform.position, PointB = x._PointB.transform.position }).ToArray();
+        float leftThreshold = transform.position.x - DrawRange;
+        float rightThreshold = transform.position.x + DrawRange;
+
+        List<Node> nodes = new List<Node>();
+        for (int i = 0; i < Generator._Points.Count; i++)
+        {
+            Point current = Generator._Points[i];
+            if (current.Center.x < leftThreshold || current.Center.x > rightThreshold)
+                continue;
+            nodes.Add(new Node() { Center = current.Center, Radius = 10, Color = current.GetNodeColor()});
+        }
+
+        List<Line> lines = new List<Line>();
+        for (int i = 0; i < Generator._Links.Count; i++)
+        {
+            Link current = Generator._Links[i];
+            if (current._PointA.Center.x < leftThreshold || current._PointA.Center.x > rightThreshold &&
+                current._PointB.Center.x < leftThreshold || current._PointB.Center.x > rightThreshold)
+                continue;
+            lines.Add(new Line() { PointA = current._PointA.Center, PointB = current._PointB.Center });
+        }
+
         Player player = FindObjectOfType<Player>();
         if (player != null)
         {
@@ -78,20 +109,20 @@ public class TerrainToField : MonoBehaviour
         }
 
 
-        if (nodes.Length > 0)
+        if (nodes.Count > 0)
         {
             if (nodesBuffer != null)
                 nodesBuffer.Release();
-            nodesBuffer = new ComputeBuffer(nodes.Length, sizeof(float) * 8);
+            nodesBuffer = new ComputeBuffer(nodes.Count, sizeof(float) * 8);
             nodesBuffer.SetData(nodes);
             Compute.SetBuffer(kernel, "Nodes", nodesBuffer);
         }
 
-        if (lines.Length > 0)
+        if (lines.Count > 0)
         {
             if (linesBuffer != null)
                 linesBuffer.Release();
-            linesBuffer = new ComputeBuffer(lines.Length, sizeof(float) * 6);
+            linesBuffer = new ComputeBuffer(lines.Count, sizeof(float) * 6);
             linesBuffer.SetData(lines);
             Compute.SetBuffer(kernel, "Lines", linesBuffer);
         }
@@ -101,8 +132,11 @@ public class TerrainToField : MonoBehaviour
         Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(Screen.width / 8.0f), Mathf.CeilToInt(Screen.height / 8.0f), 1);
         Compute.Dispatch(kernel, threadSize.x, threadSize.y, threadSize.z);
 
-        if (nodes.Length > 0)
+        if (nodes.Count > 0)
             nodesBuffer.Release();
+
+        if (lines.Count > 0)
+            linesBuffer.Release();
 
         //Apply result to dst
         Graphics.Blit(temp, dst);
