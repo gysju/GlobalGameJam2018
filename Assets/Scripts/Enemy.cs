@@ -16,7 +16,7 @@ public class Enemy : Player {
     private void Update()
     {
 
-        if (Player._Instance && (_Instance.transform.position - transform.position).magnitude < _CollisionDistance)
+        if (_Instance && (_Instance.transform.position - transform.position).magnitude < _CollisionDistance)
         {
             Kill();
         }
