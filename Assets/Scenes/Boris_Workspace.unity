@@ -113,6 +113,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &275632121 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114936084576122216, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1400535434}
+  m_Script: {fileID: 11500000, guid: d20b935097f22d6438170901aafee98e, type: 3}
+--- !u!1 &342645493 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1001908124637730, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1400535434}
 --- !u!1 &1052913701
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,34 +189,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1332615148
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1332615149}
-  m_Layer: 0
-  m_Name: DeathZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1332615149
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1332615148}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -62.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1340778346
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,6 +348,36 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 275632121}
+    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 342645493}
+    - target: {fileID: 114262760303398498, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+        type: 2}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1f6a38f40e250074bb84e47d30c3cd6e, type: 2}
   m_IsPrefabParent: 0
@@ -405,13 +418,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4133828088751602, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
         type: 2}
       propertyPath: _DeathZone
       value: 
-      objectReference: {fileID: 1332615148}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f, type: 2}
   m_IsPrefabParent: 0
