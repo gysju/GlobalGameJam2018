@@ -9,8 +9,6 @@ public class LevelGenerator : MonoBehaviour
 
 
     public static LevelGenerator _Instance = null;
-    [Header("Game info")]
-    public int _Difficulty = 1;
 
     [Header("Game Construction info")]
     [Range(1, 100)]
@@ -26,6 +24,7 @@ public class LevelGenerator : MonoBehaviour
     public int _CounterSignalNmb = 0;
     public List<Point> _Points = new List<Point>();
     public List<Link> _Links = new List<Link>();
+    public List<Enemy> _Enemies = new List<Enemy>();
 
     [Header("Points type info")]
     [Range(0.0f, 0.25f)]
@@ -44,6 +43,7 @@ public class LevelGenerator : MonoBehaviour
     public float _DeathSpawnBias = 1.0f;
 
     public GameObject _Player;
+    public GameObject _CounterSignal; 
     public Coroutine _deathZoneCoroutine;
 
     private void Awake()
@@ -68,10 +68,10 @@ public class LevelGenerator : MonoBehaviour
 
     public IEnumerator GenerateLevel(int i = 1)
     {
-        i = 2;
+
         _Length = 5 * i;
         _Segments = 5 * i;
-        _SegmentPointCount = 5 * i;
+        _SegmentPointCount = 4 * i;
         _CounterSignalNmb = i;
 
         yield return StartCoroutine(SpawnPoints());
@@ -82,9 +82,31 @@ public class LevelGenerator : MonoBehaviour
         Debug.Log("Level generated");
     }
 
+    public void CleanLevels()
+    {
+        foreach (Point p in _Points)
+        {
+            Destroy(p.gameObject);
+        }
+        _Points.Clear();
+
+        foreach (Link l in _Links)
+        {
+            Destroy(l.gameObject);
+        }
+        _Links.Clear();
+
+        foreach (Enemy e in _Enemies)
+        {
+            Destroy(e.gameObject);
+        }
+        _Enemies.Clear();
+
+        Destroy(Player._Instance.gameObject);
+    }
     public void GeneratePlayer()
     {
-        if (Player._Instance == null)
+        if (_Player)
         {
             Instantiate(_Player);
             Player._Instance._Start = _Points[0];
@@ -101,6 +123,13 @@ public class LevelGenerator : MonoBehaviour
         {
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
         }
+
+        if(_CounterSignal) 
+            for (int i = 0; i < _CounterSignalNmb; i++) {
+                    _Enemies.Add(Instantiate(_CounterSignal).GetComponent<Enemy>()); 
+            } 
+
+
 
         _deathZoneCoroutine = StartCoroutine(DeathZone());
     }
@@ -123,7 +152,7 @@ public class LevelGenerator : MonoBehaviour
             float segmentLength = _Length / _Segments;
             float start = j * segmentLength;
 
-            for (int i = 1; i < _SegmentPointCount; i++)
+            for (int i = 1; i < _SegmentPointCount; i++)   
             {
                 go = new GameObject("Point_" + j + "-" + i, typeof(Point));
                 go.transform.position = new Vector3(Random.Range(start + i * segmentLength / _SegmentPointCount, start + (i + 1) * segmentLength / _SegmentPointCount), Random.Range(0, _Height), 0);
@@ -258,6 +287,11 @@ public class LevelGenerator : MonoBehaviour
         
         foreach (Point p in _Points)
             p.Reset();
+
+        foreach (Enemy e in _Enemies)
+            if (e != null)
+                Destroy(e.gameObject);
+        _Enemies.Clear();
     }
 
     private void OnDrawGizmos()

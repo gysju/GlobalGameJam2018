@@ -16,9 +16,9 @@ public class Enemy : Player {
     private void Update()
     {
 
-        if (_Instance && (_Instance.transform.position - transform.position).magnitude < _CollisionDistance)
+        if (_Instance && !_Instance._Immobile && (_Instance.transform.position - transform.position).magnitude < _CollisionDistance)
         {
-            Kill();
+            _Instance.Kill();
         }
         if (GoToPointCorroutine == null && !_Immobile)
             GoToPointCorroutine = StartCoroutine(goToPoint());
@@ -60,6 +60,7 @@ public class Enemy : Player {
             case Point.PointType.Dead:
                 {
                     //Kill();
+                    Destroy(gameObject);
                     break;
                 }
             case Point.PointType.Back:

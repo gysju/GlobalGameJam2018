@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1850752528177892}
+  m_IsPrefabParent: 1
+--- !u!1 &1850752528177892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4133828088751602}
+  - component: {fileID: 114711907565226158}
+  m_Layer: 0
+  m_Name: LevelBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4133828088751602
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850752528177892}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114711907565226158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850752528177892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6fb455c0c9a34419c039515abd05d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Length: 16
+  _SegmentPointCount: 10
+  _Segments: 7
+  _Height: 8.01
+  _MinLinkLenght: 0.5
+  _MaxLinkLenght: 3
+  _Speed: 0.01
+  _CounterSignalNmb: 0
+  _Points: []
+  _Links: []
+  _KillPointsSpawnPercentage: 0.047
+  _FriedPointsSpawnPercentage: 0.1
+  _BackPointsSpawnPercentage: 0.17
+  _NormalPointsSpawnPercentage: 0
+  _DeathZone: {fileID: 0}
+  _DeathSpeed: 1
+  _DeathSpawnBias: 1
+  _Player: {fileID: 1511820335342222, guid: a35a46e538c20ff4293b75dd2b5bc011, type: 2}
+  _CounterSignal: {fileID: 1825913286528416, guid: d5012efeae89921449bc9c48b330a809,
+    type: 2}
