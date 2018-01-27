@@ -14,7 +14,6 @@ public class CameraMovement : MonoBehaviour {
         if (!_Instance)
         {
             _Instance = this;
-            _HeightBias = Mathf.Abs(_HeightBias);
         }
         else
         {
