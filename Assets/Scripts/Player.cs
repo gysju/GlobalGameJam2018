@@ -4,24 +4,33 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    public static Player _Instance = null;
+
     public Point _Start;
     public Point _Target;
 
     public float _Speed = 1f;
 
-	// Use this for initialization
-	void Start () {
+
+
+
+    // Use this for initialization
+    private void Awake()
+    {
+        if (!_Instance)
+        {
+            _Instance = this;
+
+        }
+        else {
+            Destroy(this);
+        }
+
+    }
+    void Start () {
         StartCoroutine(goToPoint());
 
     }
-
-
-    void Update () {
-
-	}
-
-     
-
 
     IEnumerator goToPoint() {
 
