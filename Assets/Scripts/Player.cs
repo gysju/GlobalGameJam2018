@@ -80,7 +80,7 @@ public class Player : MonoBehaviour {
             case Point.PointType.Fried:
                 {
                     _Start = _Target;
-                    _Target = _Target._Links[Random.Range(0, _Target._Links.Count-1)].getOtherPoint(_Target);
+                    _Target = _Target.GetRandomForwardPath() ;
                     
                     break;
                 }
