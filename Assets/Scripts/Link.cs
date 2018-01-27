@@ -22,11 +22,32 @@ public class Link:MonoBehaviour  {
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-
         if (!_PointA || !_PointB )
             return;
 
+        switch (_PointB._Type)
+        {
+            case Point.PointType.Normal:
+                {
+                    Gizmos.color = Color.cyan;
+                    break;
+                }
+            case Point.PointType.Dead:
+                {
+                    Gizmos.color = Color.red;
+                    break;
+                }
+            case Point.PointType.Fried:
+                {
+                    Gizmos.color = Color.blue;
+                    break;
+                }
+            case Point.PointType.Back:
+                {
+                    Gizmos.color = Color.black;
+                    break;
+                }
+        }
         Gizmos.DrawLine(_PointA.transform.position, _PointB.transform.position);
     }
 
@@ -51,8 +72,6 @@ public class Link:MonoBehaviour  {
 
     public static bool LineSegmentsIntersection(Vector2 p1, Vector2 p2, Vector2 p3, Vector3 p4)
     {
-        //intersection = Vector2.zero;
-
         var d = (p2.x - p1.x) * (p4.y - p3.y) - (p2.y - p1.y) * (p4.x - p3.x);
 
         if (d == 0.0f)
@@ -67,9 +86,6 @@ public class Link:MonoBehaviour  {
         {
             return false;
         }
-
-       //intersection.x = p1.x + u * (p2.x - p1.x);
-       //intersection.y = p1.y + u * (p2.y - p1.y);
 
         return true;
     }

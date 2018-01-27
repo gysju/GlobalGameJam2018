@@ -9,9 +9,8 @@ public class Point: MonoBehaviour{
         Normal,
         Dead,
         Fried,
-        Back
-
-
+        Back,
+        Count
     }
 
     public PointType _Type = PointType.Normal;
@@ -26,6 +25,27 @@ public class Point: MonoBehaviour{
     private void Awake()
     {
         _Links = new List<Link>();
+        GeneratedType();
+    }
+
+    public void GeneratedType()
+    {
+        PointType type;
+        float val = Random.Range(0.0f, 1.0f);
+
+        if (val <= LevelGenerator._Instance._NormalPointsSpawnPercentage)
+            type = PointType.Normal;
+        else if (val <= LevelGenerator._Instance._NormalPointsSpawnPercentage 
+                      + LevelGenerator._Instance._BackPointsSpawnPercentage)
+            type = PointType.Fried;
+        else if (val <= LevelGenerator._Instance._NormalPointsSpawnPercentage 
+                      + LevelGenerator._Instance._BackPointsSpawnPercentage
+                      + LevelGenerator._Instance._FriedPointsSpawnPercentage)
+            type = PointType.Back;
+        else
+            type = PointType.Dead;
+
+        SetInitialType(type);
     }
 
     public Point getMostAccurateDestinaton(Vector3 targetDirection)
@@ -51,8 +71,29 @@ public class Point: MonoBehaviour{
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.cyan;
-
+        switch (_Type)
+        {
+            case PointType.Normal:
+            {
+                Gizmos.color = Color.cyan;
+                break;
+            }
+            case PointType.Dead:
+            {
+                Gizmos.color = Color.red;
+                break;
+            }
+            case PointType.Fried:
+            {
+                Gizmos.color = Color.blue;
+                break;
+            }
+            case PointType.Back:
+            {
+                Gizmos.color = Color.black;
+                break;
+            }
+        }
         Gizmos.DrawWireSphere(transform.position, 0.1f);
     }
 

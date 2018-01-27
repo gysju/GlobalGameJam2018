@@ -111,9 +111,8 @@ public class Player : MonoBehaviour {
 
         Gizmos.DrawWireSphere(transform.position, 0.1f);
         Gizmos.color = Color.yellow;
+        
         Gizmos.DrawLine(transform.position, transform.position + LastInput);
-
-
     }
-    
+
 }

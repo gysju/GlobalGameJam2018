@@ -23,6 +23,7 @@ public class LevelGenerator : MonoBehaviour
     }
 
 
+    [Header("Game Construction info")]
     [Range(1, 100)]
     public float _Length = 5;
 
@@ -37,10 +38,22 @@ public class LevelGenerator : MonoBehaviour
     public List<Point> _Points = new List<Point>();
     public List<Link> _Links = new List<Link>();
 
+    [Header("Points type info")]
+    [Range(0.0f, 0.25f)]
+    public float _KillPointsSpawnPercentage = 0.1f;
+    [Range(0.0f, 0.25f)]
+    public float _FriedPointsSpawnPercentage = 0.1f;
+    [Range(0.0f, 0.25f)]
+    public float _BackPointsSpawnPercentage = 0.1f;
+
+    [Range(0.0f, 1.0f)]
+    public float _NormalPointsSpawnPercentage;
+
     public GameObject _Player;
 
     IEnumerator Start()
     {
+        _NormalPointsSpawnPercentage = 1.0f - _KillPointsSpawnPercentage - _FriedPointsSpawnPercentage - _BackPointsSpawnPercentage;
 
         float fadeTime = 2;
         float t = fadeTime;
@@ -60,7 +73,7 @@ public class LevelGenerator : MonoBehaviour
 
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
-
+        yield return StartCoroutine(CheckPathType());
 
         if (_Player)
         {
@@ -77,7 +90,6 @@ public class LevelGenerator : MonoBehaviour
         }
 
     }
-
 
     IEnumerator SpawnPoints()
     {
@@ -140,9 +152,7 @@ public class LevelGenerator : MonoBehaviour
         pointsToDelete.Clear();
 
     }
-
-
-
+    
     IEnumerator BuildPath()
     {
 
@@ -169,6 +179,12 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator CheckPathType()
+    {
+        _Points[0]._Links[0]._PointB.SetInitialType(Point.PointType.Normal);
+        yield return null;
     }
 
     public bool DoesIntersectLinks(Vector3 p1, Vector3 p2)
@@ -204,6 +220,7 @@ public class LevelGenerator : MonoBehaviour
         StartCoroutine(KillPlayer());
 
     }
+
     public IEnumerator KillPlayer()
     {
 
@@ -212,17 +229,14 @@ public class LevelGenerator : MonoBehaviour
             p.Reset();
         }
 
-
-
         float fadeTime = 1;
         float t = 0;
         Color c = CameraMovement._Instance._FadePlane.color;
+
         while (t < fadeTime)
         { //Fade out
             t += Time.deltaTime;
-
             CameraMovement._Instance._FadePlane.color = new Color(c.r, c.g, c.b, t / fadeTime);
-
             yield return null;
         }
 
@@ -244,5 +258,4 @@ public class LevelGenerator : MonoBehaviour
 
         Player._Instance._Immobile = false;
     }
-
 }
