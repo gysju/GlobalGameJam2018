@@ -35,6 +35,8 @@ public class Point: MonoBehaviour{
         float bestPointDot = -2;
         foreach (Link l in _Links)
         {
+            if (!l._Open)
+                continue;
             Point potentialDest = l.getOtherPoint(this);
             currentDot = Vector3.Dot(targetDirection, (potentialDest.transform.position - transform.position).normalized);
             if (bestPointDot < currentDot)
@@ -65,4 +67,14 @@ public class Point: MonoBehaviour{
         _Type = _InitialType;
     }
 
+
+    public Link GetConnectingLink(Point other) {
+
+        foreach (Link l in _Links) {
+
+            if (l.getOtherPoint(this) == other)
+                return l;
+        }
+        return null;
+    }
 }

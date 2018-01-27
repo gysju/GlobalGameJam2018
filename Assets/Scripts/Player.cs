@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
     public bool _Immobile = true;
     public Point _Start;
     public Point _Target;
-
+    public Link _CurrentLink;
     public float _Speed = 3f;
 
     Vector3 LastInput = Vector3.right;
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour {
 
     IEnumerator goToPoint() {
 
-
+        _CurrentLink = _Start.GetConnectingLink(_Target);
         //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
         float duration = Mathf.Lerp((_Start.transform.position - _Target.transform.position).magnitude / _Speed, 10f / _Speed, 0.5f);
         float t = 0;
@@ -57,6 +57,9 @@ public class Player : MonoBehaviour {
             yield return null;              
         }
         transform.position = _Target.transform.position;
+
+        if (_CurrentLink)
+            _CurrentLink.OnCrossed();
 
 
         switch (_Target._Type)

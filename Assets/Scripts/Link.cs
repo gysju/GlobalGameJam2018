@@ -8,12 +8,12 @@ public class Link:MonoBehaviour  {
     public Point _PointA;
     public Point _PointB;
 
+    public bool _Open = true;
+    public Link _LinkedPassage;
     public Link buildLink(Point a, Point b) {
         _PointA = a;
         _PointB = b;
-
-        //if (_PointA._Links == null) _PointA._Links = new List<Link>();
-        //if (_PointB._Links == null) _PointB._Links = new List<Link>();
+        
         _PointA._Links.Add(this);
         _PointB._Links.Add(this);
         return this;
@@ -72,5 +72,15 @@ public class Link:MonoBehaviour  {
        //intersection.y = p1.y + u * (p2.y - p1.y);
 
         return true;
+    }
+
+    public void OnCrossed() {
+        if (_LinkedPassage)
+            _LinkedPassage._Open = true;
+    }
+
+    public void SetLinkedClosedPath(Link l) {
+        _LinkedPassage = l;
+        l._Open = false;
     }
 }
