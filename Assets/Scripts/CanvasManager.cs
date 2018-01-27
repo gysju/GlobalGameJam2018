@@ -34,20 +34,24 @@ public class CanvasManager : MonoBehaviour {
 
     public void PlayGame( GameObject currentMenu )
     {
+        bool restartLevel = false;
+        if (currentMenu == FailMenu)
+            restartLevel = true;
+
         _currentMenu = currentMenu;
 
         StartCoroutine(fadein());
-        FadeOutIsFinished += delegate
+        FadeInIsFinished = delegate
         {
-            StartCoroutine(GenerateLevel());
+            StartCoroutine(GenerateLevel(restartLevel));
             _currentMenu.SetActive(false);
         };
     }
 
-    public void DeathMenu()
+    public void GoToDeathMenu()
     {
         _currentMenu = FailMenu;
-        FadeOutIsFinished += delegate {
+        FadeInIsFinished += delegate {
             StartCoroutine(fadeout());
             _currentMenu.SetActive(true);
             LevelGenerator._Instance.ResetPlayer();
@@ -55,16 +59,42 @@ public class CanvasManager : MonoBehaviour {
         StartCoroutine(fadein());
     }
 
-    IEnumerator GenerateLevel(int i = 1)
+    public void GoToWinMenu()
     {
-        yield return StartCoroutine(LevelGenerator._Instance.GenerateLevel());
-        FadeOutIsFinished += delegate { LevelGenerator._Instance.GeneratePlayer(); };
-        yield return StartCoroutine(fadeout());
+        _currentMenu = WinMenu;
+        FadeInIsFinished += delegate {
+            StartCoroutine(fadeout());
+            _currentMenu.SetActive(true);
+            LevelGenerator._Instance.ResetPlayer();
+        };
+        StartCoroutine(fadein());
+    }
+
+    public void GoToMainMenu(GameObject currentMenu)
+    {
+        FadeInIsFinished += delegate
+        {
+            LevelGenerator._Instance.CleanLevels();
+            currentMenu.SetActive(false);
+            _currentMenu = MainMenu;
+            _currentMenu.SetActive(true);
+            StartCoroutine(fadeout());
+        };
+        StartCoroutine(fadein());
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    IEnumerator GenerateLevel(bool restartLevel, int i = 1)
+    {
+        if(!restartLevel)
+            yield return StartCoroutine(LevelGenerator._Instance.GenerateLevel());
+
+        FadeOutIsFinished = delegate { LevelGenerator._Instance.GeneratePlayer(); };
+        yield return StartCoroutine(fadeout());
     }
 
     public IEnumerator fadeout()
@@ -93,8 +123,8 @@ public class CanvasManager : MonoBehaviour {
             yield return null;
         }
 
-        if (FadeOutIsFinished != null)
-            FadeOutIsFinished();
-        FadeOutIsFinished = null;
+        if (FadeInIsFinished != null)
+            FadeInIsFinished();
+        FadeInIsFinished = null;
     }
 }

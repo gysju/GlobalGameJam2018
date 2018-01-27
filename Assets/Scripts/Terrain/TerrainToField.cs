@@ -169,8 +169,10 @@ public class TerrainToField : MonoBehaviour
         //Apply result to dst
         if (TerrainBlitter != null)
         {
+            TerrainBlitter.SetTexture("_Color_Distance", temp);
             TerrainBlitter.SetTexture("_Normal_Alpha", tempB);
-            Graphics.Blit(temp, dst);
+			Graphics.Blit(src, dst, TerrainBlitter);
+			Debug.Log("Blit");
         }
         else
             Graphics.Blit(tempB, dst);
