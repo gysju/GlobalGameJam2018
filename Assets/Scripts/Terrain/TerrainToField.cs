@@ -6,8 +6,8 @@ public class TerrainToField : MonoBehaviour
 {
 
     public ComputeShader Compute;
-    public Vector4[] Spheres;
     public Vector4 Utils;
+    public LevelGenerator Generator;
     private RenderTexture temp = null;
     private ComputeBuffer sphereBuffer;
     private int kernel;
@@ -34,7 +34,7 @@ public class TerrainToField : MonoBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dst)
     {
-        if (null == Compute || kernel < 0 || null == src)
+        if (null == Compute || kernel < 0 || null == src || Generator == null)
         {
             Graphics.Blit(src, dst);
             return;
@@ -56,10 +56,11 @@ public class TerrainToField : MonoBehaviour
         Compute.SetTexture(kernel, "dst", temp);
         Compute.SetVector("_Utils", Utils);
 
-        if (Spheres.Length > 0)
+        Vector4[] points = Generator._Points.Select(x => new Vector4(x.transform.position.x, x.transform.position.y, x.transform.position.z, 10)).ToArray();
+        if (points.Length > 0)
         {
-            sphereBuffer = new ComputeBuffer(Spheres.Length, sizeof(float) * 4);
-            sphereBuffer.SetData(Spheres);
+            sphereBuffer = new ComputeBuffer(points.Length, sizeof(float) * 4);
+            sphereBuffer.SetData(points);
             Compute.SetBuffer(kernel, "spheres", sphereBuffer);
         }
 
@@ -67,7 +68,7 @@ public class TerrainToField : MonoBehaviour
         Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(Screen.width / 8.0f), Mathf.CeilToInt(Screen.height / 8.0f), 1);
         Compute.Dispatch(kernel, threadSize.x, threadSize.y, threadSize.z);
 
-        if (Spheres.Length > 0)
+        if (points.Length > 0)
             sphereBuffer.Release();
 
         //Apply result to dst
