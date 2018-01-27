@@ -51,9 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da9650fe3857ab546a1dff364bd2304f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Immobile: 1
   _Start: {fileID: 0}
   _Target: {fileID: 0}
+  _CurrentLink: {fileID: 0}
   _Speed: 15
+  _Color: {r: 10, g: 8.068966, b: 0, a: 0}
   _SpeedCurve:
     serializedVersion: 2
     m_Curve:

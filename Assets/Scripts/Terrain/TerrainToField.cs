@@ -70,9 +70,13 @@ public class TerrainToField : MonoBehaviour
         //Share terrain
         Node[] nodes = Generator._Points.Select(x => new Node() { Center = x.Center, Radius = 10, Color = x.GetNodeColor()}).ToArray();
         Line[] lines = Generator._Links.Select(x => new Line() { PointA = x._PointA.transform.position, PointB = x._PointB.transform.position }).ToArray();
-        Player player = Object.FindObjectOfType<Player>();
+        Player player = FindObjectOfType<Player>();
         if (player != null)
+        {
             Compute.SetVector("player", player.transform.position);
+            Compute.SetVector("playerColor", player._Color);
+        }
+
 
         if (nodes.Length > 0)
         {
@@ -80,7 +84,7 @@ public class TerrainToField : MonoBehaviour
                 nodesBuffer.Release();
             nodesBuffer = new ComputeBuffer(nodes.Length, sizeof(float) * 8);
             nodesBuffer.SetData(nodes);
-            Compute.SetBuffer(kernel, "nodes", nodesBuffer);
+            Compute.SetBuffer(kernel, "Nodes", nodesBuffer);
         }
 
         if (lines.Length > 0)
@@ -89,7 +93,7 @@ public class TerrainToField : MonoBehaviour
                 linesBuffer.Release();
             linesBuffer = new ComputeBuffer(lines.Length, sizeof(float) * 6);
             linesBuffer.SetData(lines);
-            Compute.SetBuffer(kernel, "lines", linesBuffer);
+            Compute.SetBuffer(kernel, "Lines", linesBuffer);
         }
 
         //Apply compute

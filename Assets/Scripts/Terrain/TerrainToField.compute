@@ -28,8 +28,9 @@ struct Node
 Texture2D<float4> src;
 RWTexture2D<float4> dst;
 StructuredBuffer<Node> Nodes;
-StructuredBuffer<Line> lines;
+StructuredBuffer<Line> Lines;
 float3 player;
+float4 playerColor;
 
 //Camera parameters
 float4 _ViewLU;
@@ -107,6 +108,7 @@ float smin(float a, float b, float k)
 [numthreads(8,8,1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
+	//Init, compute viewRay, center plane, get arrays dimensions
     Ray viewDir = GetViewDirection(id);
     float3 camForward = normalize((_ViewLD + _ViewLU + _ViewRD + _ViewRU) * 0.25).xyz;
     Plane projectPlane;
@@ -119,8 +121,9 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     float4 nodeColor = float4(0,0,0,0);
     uint spheresCount, spheresStride, linesCount, linesStride;
     Nodes.GetDimensions(spheresCount, spheresStride);
-    lines.GetDimensions(linesCount, linesStride);
+    Lines.GetDimensions(linesCount, linesStride);
 	
+	//Aggregate nodes
     float aggregate = 1;
     for (uint i = 0; i < spheresCount; ++i)
     {
@@ -133,20 +136,23 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         nodeColor += Nodes[i].color * colorFactor;
     }
 
+	//Aggregate player
     float playerDist = DistanceToSphere(viewDir, player, 10);
     playerDist = max(playerDist, 0);
     playerDist = 1 - saturate(playerDist * 0.1);
     float playerFactor = aggregate;
     aggregate = smin(aggregate, playerDist, _Utils.x);
     playerFactor = max(playerFactor - aggregate, 0);
+    nodeColor += playerColor * playerFactor;
 
+	//Aggregate lines
     for (uint i = 0; i < linesCount; ++i)
     {
-        float len = distance(lines[i].pointA, lines[i].pointB);
+        float len = distance(Lines[i].pointA, Lines[i].pointB);
         float invLen = 1 / len;
         for (float j = 0; j < len; j += 0.5)
         {
-            float dist = DistanceToSphere(viewDir, lerp(lines[i].pointA, lines[i].pointB, j * invLen), 2);
+            float dist = DistanceToSphere(viewDir, lerp(Lines[i].pointA, Lines[i].pointB, j * invLen), 2);
             dist = max(dist, 0);
             dist = 1 - saturate(dist * 0.1);
             dist *= dist;
@@ -157,7 +163,6 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     aggregate = (1 - saturate(aggregate)) * _Utils.z;
     float cut = step(_Utils.w, aggregate);
     color.rgb = lerp(color.xyz, aggregate * 0.2, cut);
-    color.gb += playerFactor * cut * 2;
     color.rgb += nodeColor * cut;
 
     dst[id.xy] = color;
