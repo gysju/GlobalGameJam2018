@@ -7,11 +7,9 @@ public class Point: MonoBehaviour{
 
     public List<Link> _Links = new List<Link>();
 
-    Point(Vector3 pos) {
+    public Point(Vector3 pos) {
         transform.position = pos;
     }
-
-
 
 
     public Point getMostAccurateDestinaton(Vector3 targetDirection)

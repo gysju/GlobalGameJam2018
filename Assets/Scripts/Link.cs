@@ -8,15 +8,20 @@ public class Link:MonoBehaviour  {
     public Point _PointA;
     public Point _PointB;
 
-    Link(Point a, Point b) {
+    public Link buildLink(Point a, Point b) {
         _PointA = a;
         _PointB = b;
+
+        if (_PointA._Links == null) _PointA._Links = new List<Link>();
+        if (_PointB._Links == null) _PointB._Links = new List<Link>();
+        _PointA._Links.Add(this);
+        _PointB._Links.Add(this);
+        return this;
     }
 
     private void Start()
     {
-        _PointA._Links.Add(this);
-        _PointB._Links.Add(this);
+
         
     }
 
