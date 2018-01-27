@@ -13,7 +13,7 @@ public class LevelGenerator : MonoBehaviour {
     public int _SegmentPointCount = 5;
     public int _Segments = 5;
     public float _Height = 5;
-    public float _MaxLinkLenght = 1;
+    public float _MaxLinkLenght = 2;
 
     List<Point> _Points = new List<Point>();
     List<Link> _Links = new List<Link>();
@@ -60,16 +60,30 @@ public class LevelGenerator : MonoBehaviour {
                 Vector3 pToP2 = p2.transform.position - p.transform.position;
                 if (pToP2.magnitude < _MaxLinkLenght) {
                     if (Vector3.Dot(Vector3.right, pToP2.normalized) > 0.2f ) {
-
-                        GameObject go = new GameObject("link",typeof(Link));
-                        _Links.Add( go.GetComponent<Link>().buildLink(p, p2));
+                        if (!DoesIntersectLinks(p.transform.position, p2.transform.position))
+                        {
+                            GameObject go = new GameObject("link", typeof(Link));
+                            _Links.Add(go.GetComponent<Link>().buildLink(p, p2));
+                            yield return new WaitForSeconds(0.1f);
+                        }
                     }
                 }
             }
         }
 
 
-        yield return new WaitForSeconds(0.2f);
+        
+    }
+
+    public bool DoesIntersectLinks(Vector3 p1, Vector3 p2) {
+
+        foreach (Link l2 in _Links) {
+
+            if (l2.Intersect(p1, p2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

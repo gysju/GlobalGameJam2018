@@ -11,6 +11,10 @@ public class Point: MonoBehaviour{
         transform.position = pos;
     }
 
+    private void Awake()
+    {
+        _Links = new List<Link>();
+    }
 
     public Point getMostAccurateDestinaton(Vector3 targetDirection)
     {
