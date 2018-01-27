@@ -1,4 +1,4 @@
-﻿#pragma kernel CSMain
+﻿#pragma kernel TerrainToField
 
 struct Ray
 {
@@ -105,8 +105,8 @@ float smin(float a, float b, float k)
     return -log(res) / k;
 }
 
-[numthreads(8,8,1)]
-void CSMain(uint3 id : SV_DispatchThreadID)
+[numthreads(32,32,1)]
+void TerrainToField(uint3 id : SV_DispatchThreadID)
 {
 	//Init, compute viewRay, center plane, get arrays dimensions
     Ray viewDir = GetViewDirection(id);
@@ -136,15 +136,6 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         nodeColor += Nodes[i].color * colorFactor;
     }
 
-	//Aggregate player
-    float playerDist = DistanceToSphere(viewDir, player, 10);
-    playerDist = max(playerDist, 0);
-    playerDist = 1 - saturate(playerDist * 0.1);
-    float playerFactor = aggregate;
-    aggregate = smin(aggregate, playerDist, _Utils.x);
-    playerFactor = max(playerFactor - aggregate, 0);
-    nodeColor += playerColor * playerFactor;
-
 	//Aggregate lines
     for (uint i = 0; i < linesCount; ++i)
     {
@@ -159,11 +150,49 @@ void CSMain(uint3 id : SV_DispatchThreadID)
             aggregate = smin(aggregate, dist, _Utils.y);
         }
     }
+
+    //Aggregate player
+    float playerDist = DistanceToSphere(viewDir, player, 10);
+    playerDist = max(playerDist, 0);
+    playerDist = 1 - saturate(playerDist * 0.1);
+    float playerFactor = aggregate;
+    aggregate = smin(aggregate, playerDist, _Utils.x);
+    playerFactor = max(playerFactor - aggregate, 0);
+    nodeColor += playerColor * playerFactor * 100;
+    nodeColor = clamp(nodeColor, 0, 0.7);
 	
     aggregate = (1 - saturate(aggregate)) * _Utils.z;
     float cut = step(_Utils.w, aggregate);
     color.rgb = lerp(color.xyz, aggregate * 0.2, cut);
     color.rgb += nodeColor * cut;
+    color.a = aggregate - 1;
 
     dst[id.xy] = color;
+}
+
+
+
+#pragma kernel FieldToRender
+
+Texture2D<float4> source;
+RWTexture2D<float4> buffer;
+
+[numthreads(32, 32, 1)]
+void FieldToRender(uint3 id : SV_DispatchThreadID)
+{
+    float height = source[id.xy].a;
+    float right = source[int2(id.x + 1, id.y)].a;
+    float up = source[int2(id.x, id.y + 1)].a;
+    float depth = 1;
+
+    float normX = (height - right) * 10 + .5;
+    float normY = (height - up) * 10 + .5;
+
+    float3 normal = normalize(float3(normX, normY, depth));
+    float3 sunDir = normalize(float3(1, 1, 0));
+
+    float lighting = lerp(-2, 1, saturate((dot(sunDir, normal) + 1) * .5));
+
+    buffer[id.xy] = float4(source[id.xy].xyz, 0);
+
 }

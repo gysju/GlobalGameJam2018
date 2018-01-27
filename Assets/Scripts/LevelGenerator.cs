@@ -56,30 +56,23 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    IEnumerator Start()
+    void Start()
     {
         _NormalPointsSpawnPercentage = 1.0f - _KillPointsSpawnPercentage - _FriedPointsSpawnPercentage - _BackPointsSpawnPercentage;
+        CameraMovement._Instance.transform.position = new Vector3(_Length, _Height/2, CameraMovement._Instance.transform.position.z);   
 
-        float fadeTime = 2;
-        float t = fadeTime;
-        Color c = CameraMovement._Instance._FadePlane.color;
-        CameraMovement._Instance.transform.position = new Vector3(_Length, _Height/2, CameraMovement._Instance.transform.position.z);
-        while (t > 0)
-        { //Fade out
-            t -= Time.deltaTime;
+        //_deathZoneCoroutine = StartCoroutine(DeathZone());
+    }
 
-            CameraMovement._Instance._FadePlane.color = new Color(c.r, c.g, c.b, t / fadeTime);
-            CameraMovement._Instance.transform.position = new Vector3(_Length, _Height / 2, CameraMovement._Instance.transform.position.z);
-
-
-            yield return null;
-        }
-
-
+    public IEnumerator GenerateLevel()
+    {
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
-        yield return StartCoroutine(CheckPathType());
+        CheckPathType();
+    }
 
+    public void GeneratePlayer()
+    {
         if (_Player)
         {
             Instantiate(_Player);
@@ -109,6 +102,7 @@ public class LevelGenerator : MonoBehaviour
         go.transform.position = new Vector3(0, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
+
         for (int j = 0; j < _Segments; j++)
         {
             float segmentLength = _Length / _Segments;
@@ -120,20 +114,19 @@ public class LevelGenerator : MonoBehaviour
                 go.transform.position = new Vector3(Random.Range(start + i * segmentLength / _SegmentPointCount, start + (i + 1) * segmentLength / _SegmentPointCount), Random.Range(0, _Height), 0);
                 go.transform.SetParent(transform);
                 _Points.Add(go.GetComponent<Point>());
-                yield return new WaitForSeconds(_Speed);
             }
+            yield return null;
         }
 
         go = new GameObject("Point_toEnd", typeof(Point));
         go.transform.position = new Vector3(_Length, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
-        yield return new WaitForSeconds(_Speed);
+
         go = new GameObject("Point_End", typeof(Point));
         go.transform.position = new Vector3(_Length+2, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
-        yield return new WaitForSeconds(_Speed);
 
         List<Point> pointsToDelete = new List<Point>();
 
@@ -147,13 +140,13 @@ public class LevelGenerator : MonoBehaviour
                         pointsToDelete.Add(p2);
                     }
             }
+            yield return null;
         }
 
         for (int i = pointsToDelete.Count; i > 0; i--)
         {
             _Points.Remove(pointsToDelete[i - 1]);
             Destroy(pointsToDelete[i - 1].gameObject);
-            yield return new WaitForSeconds(_Speed);
         }
         pointsToDelete.Clear();
 
@@ -179,11 +172,11 @@ public class LevelGenerator : MonoBehaviour
                                 GameObject go = new GameObject("link", typeof(Link));
                                 _Links.Add(go.GetComponent<Link>().buildLink(p, p2));
                                 go.transform.SetParent(transform);
-                                yield return new WaitForSeconds(_Speed);
                             }
                     }
                 }
             }
+            yield return null;
         }
 
         foreach (Point p in _Points)
@@ -192,11 +185,10 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    IEnumerator CheckPathType()
+    void CheckPathType()
     {
         _Points[0]._Links[0]._PointB.SetInitialType(Point.PointType.Normal);
         _Points[_Points.Count - 1]._Links[0]._PointA.SetInitialType(Point.PointType.Normal);
-        yield return null;
     }
 
     IEnumerator DeathZone()
@@ -238,30 +230,9 @@ public class LevelGenerator : MonoBehaviour
         return false;
     }
 
-    public void StartResetRoutine()
-    {
-        StartCoroutine(KillPlayer());
-
-    }
-
-    public IEnumerator KillPlayer()
-    {
-
-        
-
+    public void KillPlayer()
+    {  
         StopCoroutine(_deathZoneCoroutine);
-
-        float fadeTime = 1;
-        float t = 0;
-        Color c = CameraMovement._Instance._FadePlane.color;
-
-        while (t < fadeTime)
-        { //Fade out
-            t += Time.deltaTime;
-            CameraMovement._Instance._FadePlane.color = new Color(c.r, c.g, c.b, t / fadeTime);
-            yield return null;
-        }
-
         if (Player._Instance)
         {
             Player._Instance._Start = _Points[0];
@@ -275,14 +246,6 @@ public class LevelGenerator : MonoBehaviour
         {
             p.Reset();
         }
-
-        while (t > 0)
-        { //Fade out
-            t -= Time.deltaTime;
-            CameraMovement._Instance._FadePlane.color = new Color(c.r, c.g, c.b, t / fadeTime);
-            yield return null;
-        }
-
 
         Player._Instance._Immobile = false;
         _deathZoneCoroutine = StartCoroutine(DeathZone());

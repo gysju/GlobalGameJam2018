@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class CameraMovement : MonoBehaviour {
 
     public static CameraMovement _Instance = null;
-    public Image _FadePlane;
     public float _HeightBias = 10.0f;
 
     private void Awake()
@@ -14,7 +13,6 @@ public class CameraMovement : MonoBehaviour {
         if (!_Instance)
         {
             _Instance = this;
-            _HeightBias = Mathf.Abs(_HeightBias);
         }
         else
         {
