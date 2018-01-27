@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     public Point _Target;
     public Link _CurrentLink;
     public float _Speed = 3f;
+    public float _Range = 3f;
     [ColorUsage(true,true, 0, 100, 0, 100)]public Color _Color;
 
     Vector3 LastInput = Vector3.right;

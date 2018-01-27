@@ -192,7 +192,7 @@ public class LevelGenerator : MonoBehaviour
                         pointsToDelete.Add(p2);
                     }
             }
-            yield return null;
+            //yield return null;
         }
 
         for (int i = pointsToDelete.Count; i > 0; i--)

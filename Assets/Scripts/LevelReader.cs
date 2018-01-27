@@ -26,7 +26,9 @@ public class LevelReader : MonoBehaviour
     private ComputeBuffer nodesBuffer;
     private ComputeBuffer linksBuffer;
     private MeshRenderer rend;
-    
+    private Player player;
+
+
     void OnDrawGizmos()
     {
         Matrix4x4 l2World = transform.localToWorldMatrix;
@@ -79,6 +81,7 @@ public class LevelReader : MonoBehaviour
     {
         CurrentLevel = Level;
 
+
         //Abort if needed
         if (Level == null || LevelToField == null)
             return;
@@ -94,6 +97,17 @@ public class LevelReader : MonoBehaviour
         LevelToField.SetVector("CornerRD", corners[1]);
         LevelToField.SetVector("CornerRU", corners[2]);
         LevelToField.SetVector("CornerLU", corners[3]);
+
+        //Share player info
+        if (player == null)
+            player = FindObjectOfType<Player>();
+        else
+        {
+            Vector4 playerPos = (Vector4)player.transform.position;
+            playerPos.w = player._Range;
+            LevelToField.SetVector("PlayerPosition", playerPos);
+            LevelToField.SetVector("PlayerColor", player._Color);
+        }
 
         //Compute level informations
         Rect rect = new Rect(transform.position, transform.localScale);

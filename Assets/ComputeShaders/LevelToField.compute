@@ -19,6 +19,10 @@ float3 CornerRD;
 float3 CornerRU;
 float3 CornerLU;
 
+//Player informations
+float4 PlayerPosition;
+float4 PlayerColor;
+
 //Parameters
 float BlendingFactor;
 float LinkSize;
@@ -85,8 +89,13 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         }
     }
 
+    //Aggregate player
+    float dist = CircleDistance(PlayerPosition.xy, PlayerPosition.w, worldPos);
+    color += saturate(1 - dist) * PlayerColor;
+    aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
+
     float cut = 1-step(CutThreshold, aggregate);
 
 
-    Result[id.xy] = float4(color.rgb * cut, 1);
+    Result[id.xy] = float4(color.rgb * cut, cut);
 }
