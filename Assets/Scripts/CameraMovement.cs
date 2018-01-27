@@ -7,6 +7,7 @@ public class CameraMovement : MonoBehaviour {
 
     public static CameraMovement _Instance = null;
     public Image _FadePlane;
+    public float _HeightBias = 10.0f;
 
     private void Awake()
     {
@@ -34,4 +35,16 @@ public class CameraMovement : MonoBehaviour {
         if (Player._Instance != null)
             transform.position = new Vector3(Player._Instance.transform.position.x, transform.position.y, transform.position.z);
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+
+        Vector3 pos = new Vector3( transform.position.x, transform.position.y, 0.0f);
+
+        Gizmos.DrawLine(pos - Vector3.right * 100 - Vector3.up * _HeightBias, pos + Vector3.right * 100 - Vector3.up * _HeightBias );
+        Gizmos.DrawLine(pos - Vector3.right * 100 + Vector3.up * _HeightBias, pos + Vector3.right * 100 + Vector3.up * _HeightBias );
+
+    }
+
 }

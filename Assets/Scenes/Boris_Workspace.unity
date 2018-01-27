@@ -581,3 +581,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _FadePlane: {fileID: 1173247569}
+  _HeightBias: 4.63
