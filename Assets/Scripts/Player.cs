@@ -88,7 +88,10 @@ public class Player : MonoBehaviour {
                 {
                     Point temp = _Start;
                     _Start = _Target;
+                    _Target._Type = Point.PointType.Normal;
                     _Target = temp;
+
+                    
                     break;
                 }
         }

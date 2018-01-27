@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : Player {
 
+    public float _CollisionDistance;
 
     public void Awake()
     {
@@ -12,6 +13,17 @@ public class Enemy : Player {
         _Immobile = false;
     }
 
+    private void Update()
+    {
+
+        if (Player._Instance && (_Instance.transform.position - transform.position).magnitude < _CollisionDistance)
+        {
+            Kill();
+        }
+        if (GoToPointCorroutine == null && !_Immobile)
+            GoToPointCorroutine = StartCoroutine(goToPoint());
+
+    }
 
     public override IEnumerator goToPoint()
     {
