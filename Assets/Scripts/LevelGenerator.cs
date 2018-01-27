@@ -55,6 +55,7 @@ public class LevelGenerator : MonoBehaviour
     public float _DeathSpawnBias = 1.0f;
 
     public GameObject _Player;
+    private Coroutine _deathZoneCoroutine;
 
     IEnumerator Start()
     {
@@ -94,7 +95,7 @@ public class LevelGenerator : MonoBehaviour
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
         }
 
-        StartCoroutine(DeathZone());
+        _deathZoneCoroutine = StartCoroutine(DeathZone());
     }
 
     IEnumerator SpawnPoints()
@@ -246,6 +247,8 @@ public class LevelGenerator : MonoBehaviour
             p.Reset();
         }
 
+        StopCoroutine(_deathZoneCoroutine);
+
         float fadeTime = 1;
         float t = 0;
         Color c = CameraMovement._Instance._FadePlane.color;
@@ -274,6 +277,7 @@ public class LevelGenerator : MonoBehaviour
 
 
         Player._Instance._Immobile = false;
+        _deathZoneCoroutine = StartCoroutine(DeathZone());
     }
 
     private void OnDrawGizmos()
