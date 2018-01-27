@@ -147,4 +147,32 @@ public class Point: MonoBehaviour{
         }
         return count;
     }
+
+    public Point GetRandomForwardPath() {
+        List<Point> forwardPoints = new List<Point>();
+        List<Point> other = new List<Point>();
+        foreach (Link l in _Links) {
+            if (Vector3.Dot((l.getOtherPoint(this).transform.position - transform.position).normalized, Vector3.right) > 0)
+            {
+                forwardPoints.Add(l.getOtherPoint(this));
+            }
+            else {
+                other.Add(l.getOtherPoint(this));
+            }             
+        }
+
+        if (forwardPoints.Count > 0)
+        {
+            return forwardPoints[Random.Range(0, forwardPoints.Count)];
+        }
+        else if (other.Count > 0)
+        {
+            return other[Random.Range(0, other.Count)];
+        }
+        else {
+            return null;
+        }
+
+
+    }
 }
