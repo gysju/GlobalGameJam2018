@@ -16,6 +16,8 @@ public class LevelMesh : ScriptableObject
         public Color color;
     }
 
+
+
     public void Redefine(List<Link> links)
     {
         List<Node> nodes = new List<Node>();
