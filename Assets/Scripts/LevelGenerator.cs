@@ -24,6 +24,7 @@ public class LevelGenerator : MonoBehaviour
     public int _CounterSignalNmb = 0;
     public List<Point> _Points = new List<Point>();
     public List<Link> _Links = new List<Link>();
+    public List<Enemy> _Enemies = new List<Enemy>();
 
     [Header("Points type info")]
     [Range(0.0f, 0.25f)]
@@ -78,6 +79,28 @@ public class LevelGenerator : MonoBehaviour
         CheckPathType();
     }
 
+    public void CleanLevels()
+    {
+        foreach (Point p in _Points)
+        {
+            Destroy(p.gameObject);
+        }
+        _Points.Clear();
+
+        foreach (Link l in _Links)
+        {
+            Destroy(l.gameObject);
+        }
+        _Links.Clear();
+
+        foreach (Enemy e in _Enemies)
+        {
+            Destroy(e.gameObject);
+        }
+        _Enemies.Clear();
+
+        Destroy(Player._Instance.gameObject);
+    }
     public void GeneratePlayer()
     {
         if (_Player)
@@ -99,9 +122,9 @@ public class LevelGenerator : MonoBehaviour
         }
 
         if(_CounterSignal) 
-        for (int i = 0; i < _CounterSignalNmb; i++) { 
-                Instantiate(_CounterSignal); 
-        } 
+            for (int i = 0; i < _CounterSignalNmb; i++) {
+                    _Enemies.Add(Instantiate(_CounterSignal).GetComponent<Enemy>()); 
+            } 
 
 
 
@@ -261,6 +284,11 @@ public class LevelGenerator : MonoBehaviour
         
         foreach (Point p in _Points)
             p.Reset();
+
+        foreach (Enemy e in _Enemies)
+            if (e != null)
+                Destroy(e.gameObject);
+        _Enemies.Clear();
     }
 
     private void OnDrawGizmos()
