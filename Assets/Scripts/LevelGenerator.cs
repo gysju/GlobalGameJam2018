@@ -7,7 +7,6 @@ public class LevelGenerator : MonoBehaviour
 
     // Use this for initialization
 
-
     public static LevelGenerator _Instance = null;
 
     public int _Difficulty = 1;
@@ -43,6 +42,7 @@ public class LevelGenerator : MonoBehaviour
     public float _NormalPointsSpawnPercentage;
 
     [Header("DeathZone")]
+    [HideInInspector]
     public GameObject _DeathZone;
     public float _DeathSpeed = 1.0f;
     public float _DeathSpawnBias = 50.0f;
@@ -65,6 +65,7 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        _DeathZone = new GameObject("DeathZone");
         _NormalPointsSpawnPercentage = 1.0f - _KillPointsSpawnPercentage - _FriedPointsSpawnPercentage - _BackPointsSpawnPercentage;
         CameraMovement._Instance.transform.position = new Vector3(_Length, _Height/2, CameraMovement._Instance.transform.position.z);   
 
