@@ -48,7 +48,7 @@ public class LevelGenerator : MonoBehaviour {
                 go.transform.position = new Vector3(Random.Range(start+i*segmentLength/_SegmentPointCount, start+(i+1)*segmentLength/_SegmentPointCount), Random.Range(0, _Height), 0);
                 go.transform.parent = transform;
                 _Points.Add(go.GetComponent<Point>());
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.01f);
             }
         }
     }
@@ -59,20 +59,18 @@ public class LevelGenerator : MonoBehaviour {
             foreach (Point p2 in _Points) {
                 Vector3 pToP2 = p2.transform.position - p.transform.position;
                 if (pToP2.magnitude < _MaxLinkLenght) {
-                    if (Vector3.Dot(Vector3.right, pToP2.normalized) > 0.2f ) {
-                        if (!DoesIntersectLinks(p.transform.position, p2.transform.position))
-                        {
-                            GameObject go = new GameObject("link", typeof(Link));
-                            _Links.Add(go.GetComponent<Link>().buildLink(p, p2));
-                            yield return new WaitForSeconds(0.1f);
-                        }
+                    if (Vector3.Dot(Vector3.right, pToP2.normalized) > -0.2f ) {
+                        if( !IsTooCloseFromOtherLine( p, pToP2))
+                            if (!DoesIntersectLinks(p.transform.position, p2.transform.position))
+                            {
+                                GameObject go = new GameObject("link", typeof(Link));
+                                _Links.Add(go.GetComponent<Link>().buildLink(p, p2));
+                                yield return new WaitForSeconds(0.01f);
+                            }
                     }
                 }
             }
-        }
-
-
-        
+        }        
     }
 
     public bool DoesIntersectLinks(Vector3 p1, Vector3 p2) {
@@ -83,6 +81,18 @@ public class LevelGenerator : MonoBehaviour {
                 return true;
             }
         }
+        return false;
+    }
+
+    public bool IsTooCloseFromOtherLine(Point p, Vector3 dir) {
+
+        foreach (Link l in p._Links) {
+
+            if (Vector3.Dot((l.getOtherPoint(p).transform.position - p.transform.position).normalized, dir.normalized) > 0.80)
+                return true;
+
+        }
+
         return false;
     }
 
