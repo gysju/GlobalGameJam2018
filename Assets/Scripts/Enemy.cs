@@ -60,6 +60,7 @@ public class Enemy : Player {
             case Point.PointType.Dead:
                 {
                     //Kill();
+                    Destroy(gameObject);
                     break;
                 }
             case Point.PointType.Back:
