@@ -185,6 +185,11 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
         }
+
+        foreach (Point p in _Points)
+        {
+            p.GeneratedType();
+        }
     }
 
     IEnumerator CheckPathType()
@@ -242,10 +247,7 @@ public class LevelGenerator : MonoBehaviour
     public IEnumerator KillPlayer()
     {
 
-        foreach (Point p in _Points)
-        {
-            p.Reset();
-        }
+        
 
         StopCoroutine(_deathZoneCoroutine);
 
@@ -266,6 +268,12 @@ public class LevelGenerator : MonoBehaviour
             Player._Instance._Target = _Points[1];
             Player._Instance.transform.position = _Points[0].transform.position;
             CameraMovement._Instance.Snap();
+        }
+        _DeathZone.transform.position = Vector3.right*-10;
+        
+        foreach (Point p in _Points)
+        {
+            p.Reset();
         }
 
         while (t > 0)
