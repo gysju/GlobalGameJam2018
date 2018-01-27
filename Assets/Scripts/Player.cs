@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 
     Vector3 LastInput = Vector3.right;
 
-    Coroutine GoToPointCorroutine;
+    protected Coroutine GoToPointCorroutine;
 
     public AnimationCurve _SpeedCurve;
 
