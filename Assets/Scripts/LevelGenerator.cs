@@ -15,8 +15,8 @@ public class LevelGenerator : MonoBehaviour {
     public float _Height = 5;
     public float _MaxLinkLenght = 2;
 
-    List<Point> _Points = new List<Point>();
-    List<Link> _Links = new List<Link>();
+    public List<Point> _Points = new List<Point>();
+    public List<Link> _Links = new List<Link>();
 
     IEnumerator Start()
     {
