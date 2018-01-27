@@ -9,7 +9,7 @@ public class TerrainToField : MonoBehaviour
     public Vector4 Utils;
     public LevelGenerator Generator;
     private RenderTexture temp = null;
-    private ComputeBuffer sphereBuffer;
+    private ComputeBuffer nodesBuffer;
     private ComputeBuffer linesBuffer;
     private int kernel;
 
@@ -31,10 +31,10 @@ public class TerrainToField : MonoBehaviour
             temp.Release();
             temp = null;
         }
-        if (sphereBuffer != null)
+        if (nodesBuffer != null)
         {
-            sphereBuffer.Release();
-            sphereBuffer = null;
+            nodesBuffer.Release();
+            nodesBuffer = null;
         }
         if (linesBuffer != null)
         {
@@ -51,7 +51,7 @@ public class TerrainToField : MonoBehaviour
             return;
         }
 
-        //Recreate temp
+        //Recreate temp rendertarget
         if (null == temp || src.width != temp.width
            || src.height != temp.height)
         {
@@ -62,41 +62,47 @@ public class TerrainToField : MonoBehaviour
             temp.Create();
         }
 
-        //Apply compute
+        //Init compute
         Compute.SetTexture(kernel, "src", src);
         Compute.SetTexture(kernel, "dst", temp);
         Compute.SetVector("_Utils", Utils);
 
-        Vector4[] points = Generator._Points.Select(x => new Vector4(x.transform.position.x, x.transform.position.y, x.transform.position.z, 10)).ToArray();
-        Line[] Lines = Generator._Links.Select(x => new Line() { PointA = x._PointA.transform.position, PointB = x._PointB.transform.position }).ToArray();
-        Player player = Object.FindObjectOfType<Player>();
+        //Share terrain
+        Node[] nodes = Generator._Points.Select(x => new Node() { Center = x.Center, Radius = 10, Color = x.GetNodeColor()}).ToArray();
+        Line[] lines = Generator._Links.Select(x => new Line() { PointA = x._PointA.transform.position, PointB = x._PointB.transform.position }).ToArray();
+        Player player = FindObjectOfType<Player>();
         if (player != null)
-            Compute.SetVector("player", player.transform.position);
-
-        if (points.Length > 0)
         {
-            if (sphereBuffer != null)
-                sphereBuffer.Release();
-            sphereBuffer = new ComputeBuffer(points.Length, sizeof(float) * 4);
-            sphereBuffer.SetData(points);
-            Compute.SetBuffer(kernel, "spheres", sphereBuffer);
+            Compute.SetVector("player", player.transform.position);
+            Compute.SetVector("playerColor", player._Color);
         }
 
-        if (Lines.Length > 0)
+
+        if (nodes.Length > 0)
+        {
+            if (nodesBuffer != null)
+                nodesBuffer.Release();
+            nodesBuffer = new ComputeBuffer(nodes.Length, sizeof(float) * 8);
+            nodesBuffer.SetData(nodes);
+            Compute.SetBuffer(kernel, "Nodes", nodesBuffer);
+        }
+
+        if (lines.Length > 0)
         {
             if (linesBuffer != null)
                 linesBuffer.Release();
-            linesBuffer = new ComputeBuffer(Lines.Length, sizeof(float) * 6);
-            linesBuffer.SetData(Lines);
-            Compute.SetBuffer(kernel, "lines", linesBuffer);
+            linesBuffer = new ComputeBuffer(lines.Length, sizeof(float) * 6);
+            linesBuffer.SetData(lines);
+            Compute.SetBuffer(kernel, "Lines", linesBuffer);
         }
 
+        //Apply compute
         ShareCameraParameters();
         Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(Screen.width / 8.0f), Mathf.CeilToInt(Screen.height / 8.0f), 1);
         Compute.Dispatch(kernel, threadSize.x, threadSize.y, threadSize.z);
 
-        if (points.Length > 0)
-            sphereBuffer.Release();
+        if (nodes.Length > 0)
+            nodesBuffer.Release();
 
         //Apply result to dst
         Graphics.Blit(temp, dst);
@@ -117,6 +123,13 @@ public class TerrainToField : MonoBehaviour
     {
         public Vector3 PointA;
         public Vector3 PointB;
+    }
+
+    public struct Node
+    {
+        public Vector3 Center;
+        public float Radius;
+        public Vector4 Color;
     }
 
 

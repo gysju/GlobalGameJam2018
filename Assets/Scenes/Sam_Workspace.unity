@@ -357,6 +357,7 @@ GameObject:
   - component: {fileID: 576327768}
   - component: {fileID: 576327767}
   - component: {fileID: 576327772}
+  - component: {fileID: 576327773}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -454,6 +455,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _FadePlane: {fileID: 2092329155}
+--- !u!114 &576327773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 576327766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 28e5ff6dcdeb9b340959f6e39d288ba4, type: 2}
+  GameCamera: {fileID: 576327770}
 --- !u!1 &1349702128
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,7 +697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Length: 100
   _SegmentPointCount: 2
-  _Segments: 500
+  _Segments: 250
   _Height: 20
   _MinLinkLenght: 5
   _MaxLinkLenght: 20

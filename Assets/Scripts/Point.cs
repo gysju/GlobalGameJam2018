@@ -24,6 +24,12 @@ public class Point: MonoBehaviour{
         transform.position = pos;
     }
 
+    public Vector3 Center
+    {
+        get { return transform.position; }
+        set { transform.position = value; }
+    }
+
     private void Awake()
     {
         _Links = new List<Link>();
@@ -86,30 +92,30 @@ public class Point: MonoBehaviour{
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = GetNodeColor();
+        Gizmos.DrawWireSphere(transform.position, 0.1f);
+    }
+
+    public Color GetNodeColor()
+    {
+        return StateToColor(_Type);
+    }
+
+    private Color StateToColor(PointType type)
+    {
         switch (_Type)
         {
             case PointType.Normal:
-            {
-                Gizmos.color = Color.cyan;
-                break;
-            }
+                return Color.cyan;
             case PointType.Dead:
-            {
-                Gizmos.color = Color.red;
-                break;
-            }
+                return Color.red;
             case PointType.Fried:
-            {
-                Gizmos.color = Color.blue;
-                break;
-            }
+                return Color.blue;
             case PointType.Back:
-            {
-                Gizmos.color = Color.black;
-                break;
-            }
+                return Color.black;
+            default:
+                return Color.white;
         }
-        Gizmos.DrawWireSphere(transform.position, 0.1f);
     }
 
     public void SetInitialType(PointType type) {

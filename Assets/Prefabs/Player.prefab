@@ -56,6 +56,7 @@ MonoBehaviour:
   _Target: {fileID: 0}
   _CurrentLink: {fileID: 0}
   _Speed: 10
+  _Color: {r: 1.8279998, g: 1.4750067, b: 0, a: 0}
   _SpeedCurve:
     serializedVersion: 2
     m_Curve:
