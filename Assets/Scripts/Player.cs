@@ -100,8 +100,7 @@ public class Player : MonoBehaviour {
     public void Kill() {
 
         _Immobile = true;
-        LevelGenerator._Instance.StartResetRoutine();
-
+        LevelGenerator._Instance.KillPlayer();
     }
 
 
