@@ -21,7 +21,7 @@ public class LevelGenerator : MonoBehaviour
     public float _MinLinkLenght = 0.2f;
     public float _MaxLinkLenght = 2;
     public float _Speed = 0.001f;
-
+    public int _CounterSignalNmb = 0;
     public List<Point> _Points = new List<Point>();
     public List<Link> _Links = new List<Link>();
 
@@ -64,8 +64,14 @@ public class LevelGenerator : MonoBehaviour
         //_deathZoneCoroutine = StartCoroutine(DeathZone());
     }
 
-    public IEnumerator GenerateLevel()
+    public IEnumerator GenerateLevel(int i = 1)
     {
+        i = 2;
+        _Length = 5 * i;
+        _Segments = 5 * i;
+        _SegmentPointCount = 5 * i;
+        _CounterSignalNmb = i;
+
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
         CheckPathType();
@@ -73,7 +79,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void GeneratePlayer()
     {
-        if (_Player)
+        if (!_Player)
         {
             Instantiate(_Player);
             Player._Instance._Start = _Points[0];

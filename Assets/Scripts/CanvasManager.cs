@@ -55,7 +55,7 @@ public class CanvasManager : MonoBehaviour {
         StartCoroutine(fadein());
     }
 
-    IEnumerator GenerateLevel()
+    IEnumerator GenerateLevel(int i = 1)
     {
         yield return StartCoroutine(LevelGenerator._Instance.GenerateLevel());
         FadeOutIsFinished += delegate { LevelGenerator._Instance.GeneratePlayer(); };
