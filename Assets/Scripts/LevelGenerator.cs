@@ -15,6 +15,7 @@ public class LevelGenerator : MonoBehaviour {
     public float _Height = 5;
     public float _MinLinkLenght = 0.2f;
     public float _MaxLinkLenght = 2;
+    public float _Speed = 0.01f;
 
     public List<Point> _Points = new List<Point>();
     public List<Link> _Links = new List<Link>();
@@ -66,9 +67,9 @@ public class LevelGenerator : MonoBehaviour {
             {
                 go = new GameObject("Point_" + j + "-" + i, typeof(Point));
                 go.transform.position = new Vector3(Random.Range(start+i*segmentLength/_SegmentPointCount, start+(i+1)*segmentLength/_SegmentPointCount), Random.Range(0, _Height), 0);
-                go.transform.parent = transform;
+                go.transform.SetParent(transform);
                 _Points.Add(go.GetComponent<Point>());
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(_Speed);
             }
         }
         List<Point> pointsToDelete = new List<Point>();
@@ -86,7 +87,7 @@ public class LevelGenerator : MonoBehaviour {
         {
             _Points.Remove(pointsToDelete[i-1]);
             Destroy(pointsToDelete[i-1].gameObject);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(_Speed);
         }
         pointsToDelete.Clear();
 
@@ -108,7 +109,8 @@ public class LevelGenerator : MonoBehaviour {
                             {
                                 GameObject go = new GameObject("link", typeof(Link));
                                 _Links.Add(go.GetComponent<Link>().buildLink(p, p2));
-                                yield return new WaitForSeconds(0.01f);
+                                go.transform.SetParent(transform);
+                                yield return new WaitForSeconds(_Speed);
                             }
                     }
                 }

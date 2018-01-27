@@ -1,8 +1,28 @@
 ﻿#pragma kernel CSMain
 
+struct Ray
+{
+    float3 origin;
+    float3 direction;
+};
+
+struct Line
+{
+    float3 pointA;
+    float3 pointB;
+};
+
+struct Plane
+{
+    float3 origin;
+    float3 normal;
+};
+
 Texture2D<float4> src;
 RWTexture2D<float4> dst;
 StructuredBuffer<float4> spheres;
+StructuredBuffer<Line> lines;
+float3 player;
 
 //Camera parameters
 float4 _ViewLU;
@@ -12,18 +32,6 @@ float4 _ViewRD;
 float4 _Utils;
 float4 _CameraPos;
 
-
-struct Ray
-{
-    float3 origin;
-    float3 direction;
-};
-
-struct Plane
-{
-    float3 origin;
-    float3 normal;
-};
 
 Ray GetViewDirection(uint3 id)
 {
@@ -55,7 +63,20 @@ float DistanceToPlane(Ray ray, Plane plane)
     float denom = dot(plane.normal, ray.direction);
     float3 p0l0 = plane.origin - ray.origin;
     return dot(p0l0, plane.normal) / denom;
-};
+}
+
+float DistanceToLine(Ray ray, Line aze)
+{
+    Line view;
+    view.pointA = ray.origin;
+    view.pointB = ray.origin + ray.direction * 100;
+
+    float3 a = view.pointB - view.pointA;
+    float3 b = aze.pointB - aze.pointA;
+    float3 c = aze.pointA - view.pointA;
+
+    return max(c*a*b, 0) / max(a*b, 0);
+}
 
 float sminPolynomial(float a, float b, float k)
 {
@@ -83,26 +104,49 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     float3 camForward = normalize((_ViewLD + _ViewLU + _ViewRD + _ViewRU) * 0.25).xyz;
     Plane projectPlane;
     projectPlane.origin = float3(0, 0, 0);
-    projectPlane.normal = camForward;
+    projectPlane.normal = float3(0, 0, 1);
     viewDir.origin += viewDir.direction * DistanceToPlane(viewDir, projectPlane);
-    viewDir.direction = camForward;
+    viewDir.direction = projectPlane.normal;
 
     float4 color = src[id.xy];
-    uint spheresCount, spheresStride;
+    uint spheresCount, spheresStride, linesCount, linesStride;
     spheres.GetDimensions(spheresCount, spheresStride);
+    lines.GetDimensions(linesCount, linesStride);
 	
     float aggregate = 1;
     for (uint i = 0; i < spheresCount; ++i)
     {
-        float dist = DistanceToSphere(viewDir, spheres[i].xyz, spheres[i].w);
-        dist = max(dist, 0);
-        dist = 1-saturate(dist * 0.1);
-        aggregate = smin(aggregate * _Utils.x, dist * _Utils.x, _Utils.y);
+      float dist = DistanceToSphere(viewDir, spheres[i].xyz, spheres[i].w);
+      dist = max(dist, 0);
+      dist = 1-saturate(dist * 0.1);
+      aggregate = smin(aggregate, dist, _Utils.x);
+    }
+
+    float playerDist = DistanceToSphere(viewDir, player, 10);
+    playerDist = max(playerDist, 0);
+    playerDist = 1 - saturate(playerDist * 0.1);
+    float playerFactor = aggregate;
+    aggregate = smin(aggregate, playerDist, _Utils.x);
+    playerFactor = max(playerFactor - aggregate, 0);
+
+    for (uint i = 0; i < linesCount; ++i)
+    {
+        float len = distance(lines[i].pointA, lines[i].pointB);
+        float invLen = 1 / len;
+        for (float j = 0; j < len; j += 0.5)
+        {
+            float dist = DistanceToSphere(viewDir, lerp(lines[i].pointA, lines[i].pointB, j * invLen), 2);
+            dist = max(dist, 0);
+            dist = 1 - saturate(dist * 0.1);
+            dist *= dist;
+            aggregate = smin(aggregate, dist, _Utils.y);
+        }
     }
 	
     aggregate = (1 - saturate(aggregate)) * _Utils.z;
-    aggregate = step(_Utils.w, aggregate);
-    color.xyz = aggregate ;
+    float cut = step(_Utils.w, aggregate);
+    color.rgb = lerp(color.xyz, aggregate * 0.2, cut);
+    color.gb += playerFactor * cut * 2;
 
     dst[id.xy] = color;
 }

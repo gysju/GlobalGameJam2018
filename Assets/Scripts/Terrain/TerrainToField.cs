@@ -10,6 +10,7 @@ public class TerrainToField : MonoBehaviour
     public LevelGenerator Generator;
     private RenderTexture temp = null;
     private ComputeBuffer sphereBuffer;
+    private ComputeBuffer linesBuffer;
     private int kernel;
 
     void Start()
@@ -25,10 +26,20 @@ public class TerrainToField : MonoBehaviour
 
     void OnDestroy()
     {
-        if (null != temp)
+        if (temp != null)
         {
             temp.Release();
             temp = null;
+        }
+        if (sphereBuffer != null)
+        {
+            sphereBuffer.Release();
+            sphereBuffer = null;
+        }
+        if (linesBuffer != null)
+        {
+            linesBuffer.Release();
+            linesBuffer = null;
         }
     }
 
@@ -57,11 +68,27 @@ public class TerrainToField : MonoBehaviour
         Compute.SetVector("_Utils", Utils);
 
         Vector4[] points = Generator._Points.Select(x => new Vector4(x.transform.position.x, x.transform.position.y, x.transform.position.z, 10)).ToArray();
+        Line[] Lines = Generator._Links.Select(x => new Line() { PointA = x._PointA.transform.position, PointB = x._PointB.transform.position }).ToArray();
+        Player player = Object.FindObjectOfType<Player>();
+        if (player != null)
+            Compute.SetVector("player", player.transform.position);
+
         if (points.Length > 0)
         {
+            if (sphereBuffer != null)
+                sphereBuffer.Release();
             sphereBuffer = new ComputeBuffer(points.Length, sizeof(float) * 4);
             sphereBuffer.SetData(points);
             Compute.SetBuffer(kernel, "spheres", sphereBuffer);
+        }
+
+        if (Lines.Length > 0)
+        {
+            if (linesBuffer != null)
+                linesBuffer.Release();
+            linesBuffer = new ComputeBuffer(Lines.Length, sizeof(float) * 6);
+            linesBuffer.SetData(Lines);
+            Compute.SetBuffer(kernel, "lines", linesBuffer);
         }
 
         ShareCameraParameters();
@@ -85,4 +112,12 @@ public class TerrainToField : MonoBehaviour
         Compute.SetVector("_ViewRD", cam.ScreenPointToRay(new Vector3(screen.x, 0, 0)).direction);
         Compute.SetVector("_CameraPos", cam.transform.position);
     }
+
+    public struct Line
+    {
+        public Vector3 PointA;
+        public Vector3 PointB;
+    }
+
+
 }

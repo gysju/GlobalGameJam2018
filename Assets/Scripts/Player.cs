@@ -49,7 +49,8 @@ public class Player : MonoBehaviour {
     IEnumerator goToPoint() {
 
 
-        float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
+        //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
+        float duration = Mathf.Lerp((_Start.transform.position - _Target.transform.position).magnitude / _Speed, 10f / _Speed, 0.5f);
         float t = 0;
 
         while (t < duration) {

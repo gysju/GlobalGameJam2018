@@ -1,13 +1,5 @@
-// geometric solution
-				
-float3 L = i.wCenter - _WorldSpaceCameraPos;
-				
-float tca = dot(L, viewDirection);
-				
-float d2 = dot(L,L) - tca * tca;
-				
-float thc = sqrt(fOuterRadius2 - d2);
-				
-float t0 = tca - thc;
-				
-float t1 = tca + thc;
+Propositions :
+
+- Ne pas mettre les links et points en Monobehaviour, -> Gros gain de performance, d'autant plus lors de la conversion vers le compute shader
+- Ajouter sur les liens une variables flotante contenant le degré de ciblage du joueur, permet de modifier sa couleur dans le distance field
+- Ajouter une variable sur les nodes indiquant leur état (mort, speedé, etc...) afin d'y adapter les graphismes
