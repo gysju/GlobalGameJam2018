@@ -103,7 +103,9 @@ public class Player : MonoBehaviour {
     public void Kill() {
 
         _Immobile = true;
-        LevelGenerator._Instance.KillPlayer();
+        //if(LevelGenerator._Instance._deathZoneCoroutine != null )
+        //    StopCoroutine(LevelGenerator._Instance._deathZoneCoroutine);
+        CanvasManager._Instance.DeathMenu();
     }
 
 

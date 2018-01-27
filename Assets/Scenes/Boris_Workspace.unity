@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _FadePlane: {fileID: 1173247569}
-  fadeTime: 2
+  fadeTime: 0.5
   MainMenu: {fileID: 1696478137}
   FailMenu: {fileID: 54959426}
   WinMenu: {fileID: 2139237023}

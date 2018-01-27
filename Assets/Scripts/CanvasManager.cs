@@ -44,6 +44,17 @@ public class CanvasManager : MonoBehaviour {
         };
     }
 
+    public void DeathMenu()
+    {
+        _currentMenu = FailMenu;
+        FadeOutIsFinished += delegate {
+            StartCoroutine(fadeout());
+            _currentMenu.SetActive(true);
+            LevelGenerator._Instance.ResetPlayer();
+        };
+        StartCoroutine(fadein());
+    }
+
     IEnumerator GenerateLevel()
     {
         yield return StartCoroutine(LevelGenerator._Instance.GenerateLevel());

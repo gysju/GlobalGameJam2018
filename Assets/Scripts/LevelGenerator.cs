@@ -42,7 +42,7 @@ public class LevelGenerator : MonoBehaviour
     public float _DeathSpawnBias = 1.0f;
 
     public GameObject _Player;
-    private Coroutine _deathZoneCoroutine;
+    public Coroutine _deathZoneCoroutine;
 
     private void Awake()
     {
@@ -79,6 +79,10 @@ public class LevelGenerator : MonoBehaviour
             Player._Instance._Start = _Points[0];
             Player._Instance.transform.position = _Points[0].transform.position;
             Player._Instance._Target = _Points[1];
+            Player._Instance._Immobile = false;
+        }
+        else
+        {
             Player._Instance._Immobile = false;
         }
 
@@ -195,7 +199,7 @@ public class LevelGenerator : MonoBehaviour
     {
         _DeathZone.transform.position = Player._Instance.transform.position - (Vector3.right * _DeathSpawnBias);
 
-        while (true)
+        while (!Player._Instance._Immobile)
         {
             _DeathZone.transform.position += Vector3.right * (Time.deltaTime * _DeathSpeed);
             yield return null;
@@ -230,9 +234,8 @@ public class LevelGenerator : MonoBehaviour
         return false;
     }
 
-    public void KillPlayer()
+    public void ResetPlayer()
     {  
-        StopCoroutine(_deathZoneCoroutine);
         if (Player._Instance)
         {
             Player._Instance._Start = _Points[0];
@@ -243,12 +246,7 @@ public class LevelGenerator : MonoBehaviour
         _DeathZone.transform.position = Vector3.right*-10;
         
         foreach (Point p in _Points)
-        {
             p.Reset();
-        }
-
-        Player._Instance._Immobile = false;
-        _deathZoneCoroutine = StartCoroutine(DeathZone());
     }
 
     private void OnDrawGizmos()
