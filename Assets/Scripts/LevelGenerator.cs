@@ -9,19 +9,6 @@ public class LevelGenerator : MonoBehaviour
 
 
     public static LevelGenerator _Instance = null;
-    private void Awake()
-    {
-        if (!_Instance)
-        {
-            _Instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-
-    }
-
 
     [Header("Game Construction info")]
     [Range(1, 100)]
@@ -56,6 +43,18 @@ public class LevelGenerator : MonoBehaviour
 
     public GameObject _Player;
     private Coroutine _deathZoneCoroutine;
+
+    private void Awake()
+    {
+        if (!_Instance)
+        {
+            _Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     IEnumerator Start()
     {
@@ -125,12 +124,12 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        go = new GameObject("Point_Start", typeof(Point));
+        go = new GameObject("Point_toEnd", typeof(Point));
         go.transform.position = new Vector3(_Length, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
         yield return new WaitForSeconds(_Speed);
-        go = new GameObject("Point_" + 0 + "-" + 0, typeof(Point));
+        go = new GameObject("Point_End", typeof(Point));
         go.transform.position = new Vector3(_Length+2, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
@@ -191,6 +190,7 @@ public class LevelGenerator : MonoBehaviour
     IEnumerator CheckPathType()
     {
         _Points[0]._Links[0]._PointB.SetInitialType(Point.PointType.Normal);
+        _Points[_Points.Count - 1]._Links[0]._PointA.SetInitialType(Point.PointType.Normal);
         yield return null;
     }
 
