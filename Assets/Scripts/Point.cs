@@ -35,7 +35,7 @@ public class Point: MonoBehaviour{
         _Links = new List<Link>();
         levelGenerator = LevelGenerator._Instance;
 
-        GeneratedType();
+        //GeneratedType();
     }
 
     private void Update()
@@ -49,10 +49,11 @@ public class Point: MonoBehaviour{
 
     public void GeneratedType()
     {
+
         PointType type;
         float val = Random.Range(0.0f, 1.0f);
 
-        if (val <= levelGenerator._NormalPointsSpawnPercentage)
+        if (val <= levelGenerator._NormalPointsSpawnPercentage || GetClearPathCount() <= 2)
             type = PointType.Normal;
         else if (val <= levelGenerator._NormalPointsSpawnPercentage 
                       + levelGenerator._BackPointsSpawnPercentage)
@@ -134,5 +135,16 @@ public class Point: MonoBehaviour{
                 return l;
         }
         return null;
+    }
+
+
+    public int GetClearPathCount() {
+        int count = 0;
+        foreach (Link l in _Links) {
+            if (l.getOtherPoint(this)._Type == PointType.Normal) {
+                ++count;
+            }
+        }
+        return count;
     }
 }
