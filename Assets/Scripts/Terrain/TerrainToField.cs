@@ -7,13 +7,16 @@ public class TerrainToField : MonoBehaviour
 {
 
     public ComputeShader Compute;
-    public Vector4 Utils;
+    public Vector4 Thickness;
+    public Vector4 NormalRemap;
     public LevelGenerator Generator;
     public float DrawRange;
+    public Material TerrainBlitter;
     private RenderTexture temp = null;
+    private RenderTexture tempB = null;
     private ComputeBuffer nodesBuffer;
     private ComputeBuffer linesBuffer;
-    private int kernel;
+    private int kernelT2F, kernelF2R;
 
     void OnDrawGizmos()
     {
@@ -32,7 +35,8 @@ public class TerrainToField : MonoBehaviour
             return;
         }
 
-        kernel = Compute.FindKernel("CSMain");
+        kernelT2F = Compute.FindKernel("TerrainToField");
+        kernelF2R = Compute.FindKernel("FieldToRender");
     }
 
     void OnDestroy()
@@ -42,6 +46,13 @@ public class TerrainToField : MonoBehaviour
             temp.Release();
             temp = null;
         }
+
+        if (tempB != null)
+        {
+            tempB.Release();
+            tempB = null;
+        }
+
         if (nodesBuffer != null)
         {
             nodesBuffer.Release();
@@ -56,7 +67,7 @@ public class TerrainToField : MonoBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dst)
     {
-        if (null == Compute || kernel < 0 || null == src || Generator == null)
+        if (null == Compute || kernelT2F < 0 || null == src || Generator == null)
         {
             Graphics.Blit(src, dst);
             return;
@@ -73,10 +84,22 @@ public class TerrainToField : MonoBehaviour
             temp.Create();
         }
 
+        if (null == tempB || src.width != tempB.width
+            || src.height != tempB.height)
+        {
+            if (null != tempB)
+                tempB.Release();
+            tempB = new RenderTexture(src.width, src.height, src.depth);
+            tempB.enableRandomWrite = true;
+            tempB.Create();
+        }
+
         //Init compute
-        Compute.SetTexture(kernel, "src", src);
-        Compute.SetTexture(kernel, "dst", temp);
-        Compute.SetVector("_Utils", Utils);
+        Compute.SetTexture(kernelT2F, "src", src);
+        Compute.SetTexture(kernelT2F, "dst", temp);
+        Compute.SetVector("_Utils", Thickness);
+        Compute.SetVector("_NormalRemap", NormalRemap);
+        
 
         //Share terrain
         float leftThreshold = transform.position.x - DrawRange;
@@ -115,7 +138,7 @@ public class TerrainToField : MonoBehaviour
                 nodesBuffer.Release();
             nodesBuffer = new ComputeBuffer(nodes.Count, sizeof(float) * 8);
             nodesBuffer.SetData(nodes);
-            Compute.SetBuffer(kernel, "Nodes", nodesBuffer);
+            Compute.SetBuffer(kernelT2F, "Nodes", nodesBuffer);
         }
 
         if (lines.Count > 0)
@@ -124,13 +147,13 @@ public class TerrainToField : MonoBehaviour
                 linesBuffer.Release();
             linesBuffer = new ComputeBuffer(lines.Count, sizeof(float) * 6);
             linesBuffer.SetData(lines);
-            Compute.SetBuffer(kernel, "Lines", linesBuffer);
+            Compute.SetBuffer(kernelT2F, "Lines", linesBuffer);
         }
 
         //Apply compute
         ShareCameraParameters();
-        Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(Screen.width / 8.0f), Mathf.CeilToInt(Screen.height / 8.0f), 1);
-        Compute.Dispatch(kernel, threadSize.x, threadSize.y, threadSize.z);
+        Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(Screen.width / 32.0f), Mathf.CeilToInt(Screen.height / 32.0f), 1);
+        Compute.Dispatch(kernelT2F, threadSize.x, threadSize.y, threadSize.z);
 
         if (nodes.Count > 0)
             nodesBuffer.Release();
@@ -138,8 +161,19 @@ public class TerrainToField : MonoBehaviour
         if (lines.Count > 0)
             linesBuffer.Release();
 
+        //FIELD TO RENDER________________________________
+        Compute.SetTexture(kernelF2R, "source", temp);
+        Compute.SetTexture(kernelF2R, "buffer", tempB);
+        Compute.Dispatch(kernelF2R, threadSize.x, threadSize.y, threadSize.z);
+
         //Apply result to dst
-        Graphics.Blit(temp, dst);
+        if (TerrainBlitter != null)
+        {
+            TerrainBlitter.SetTexture("_Normal_Alpha", tempB);
+            Graphics.Blit(temp, dst);
+        }
+        else
+            Graphics.Blit(tempB, dst);
     }
 
     void ShareCameraParameters()

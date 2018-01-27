@@ -10,11 +10,11 @@ public class Player : MonoBehaviour {
     public Point _Target;
     public Link _CurrentLink;
     public float _Speed = 3f;
-    [ColorUsage(true,true, 0, 10, 0, 10)]public Color _Color;
+    [ColorUsage(true,true, 0, 100, 0, 100)]public Color _Color;
 
     Vector3 LastInput = Vector3.right;
 
-    Coroutine GoToPointCorroutine;
+    protected Coroutine GoToPointCorroutine;
 
     public AnimationCurve _SpeedCurve;
 
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
 
     }
 
-    IEnumerator goToPoint() {
+    public virtual IEnumerator goToPoint() {
 
         _CurrentLink = _Start.GetConnectingLink(_Target);
         //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
@@ -88,7 +88,10 @@ public class Player : MonoBehaviour {
                 {
                     Point temp = _Start;
                     _Start = _Target;
+                    _Target._Type = Point.PointType.Normal;
                     _Target = temp;
+
+                    
                     break;
                 }
         }
@@ -100,8 +103,7 @@ public class Player : MonoBehaviour {
     public void Kill() {
 
         _Immobile = true;
-        LevelGenerator._Instance.StartResetRoutine();
-
+        LevelGenerator._Instance.KillPlayer();
     }
 
 

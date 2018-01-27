@@ -175,4 +175,37 @@ public class Point: MonoBehaviour{
 
 
     }
+
+    public Point GetRandomBackwardPath()
+    {
+        List<Point> backwardPoint = new List<Point>();
+        List<Point> other = new List<Point>();
+        foreach (Link l in _Links)
+        {
+            if (Vector3.Dot((l.getOtherPoint(this).transform.position - transform.position ).normalized, Vector3.right) < 0)
+            {
+                backwardPoint.Add(l.getOtherPoint(this));
+            }
+            else
+            {
+                other.Add(l.getOtherPoint(this));
+            }
+        }
+
+        if (backwardPoint.Count > 0)
+        {
+            Debug.Log("got backwardpoint");
+            return backwardPoint[Random.Range(0, backwardPoint.Count)];
+        }
+        else if (other.Count > 0)
+        {
+            //Debug.Log("got random point");
+            return other[Random.Range(0, other.Count)];
+        }
+        else
+        {
+            return null;
+        }
+
+    }
 }
