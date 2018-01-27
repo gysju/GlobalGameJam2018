@@ -33,12 +33,9 @@ public class Point: MonoBehaviour{
     private void Awake()
     {
         _Links = new List<Link>();
-        GeneratedType();
-    }
-
-    private void Start()
-    {
         levelGenerator = LevelGenerator._Instance;
+
+        GeneratedType();
     }
 
     private void Update()
