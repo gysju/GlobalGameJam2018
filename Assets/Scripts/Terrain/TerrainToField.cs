@@ -7,9 +7,11 @@ public class TerrainToField : MonoBehaviour
 {
 
     public ComputeShader Compute;
-    public Vector4 Utils;
+    public Vector4 Thickness;
+    public Vector4 NormalRemap;
     public LevelGenerator Generator;
     public float DrawRange;
+    public Material TerrainBlitter;
     private RenderTexture temp = null;
     private RenderTexture tempB = null;
     private ComputeBuffer nodesBuffer;
@@ -95,7 +97,9 @@ public class TerrainToField : MonoBehaviour
         //Init compute
         Compute.SetTexture(kernelT2F, "src", src);
         Compute.SetTexture(kernelT2F, "dst", temp);
-        Compute.SetVector("_Utils", Utils);
+        Compute.SetVector("_Utils", Thickness);
+        Compute.SetVector("_NormalRemap", NormalRemap);
+        
 
         //Share terrain
         float leftThreshold = transform.position.x - DrawRange;
@@ -163,7 +167,13 @@ public class TerrainToField : MonoBehaviour
         Compute.Dispatch(kernelF2R, threadSize.x, threadSize.y, threadSize.z);
 
         //Apply result to dst
-        Graphics.Blit(tempB, dst);
+        if (TerrainBlitter != null)
+        {
+            TerrainBlitter.SetTexture("_Normal_Alpha", tempB);
+            Graphics.Blit(temp, dst);
+        }
+        else
+            Graphics.Blit(tempB, dst);
     }
 
     void ShareCameraParameters()

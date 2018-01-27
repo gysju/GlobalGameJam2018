@@ -38,6 +38,7 @@ float4 _ViewRU;
 float4 _ViewLD;
 float4 _ViewRD;
 float4 _Utils;
+float4 _NormalRemap;
 float4 _CameraPos;
 
 
@@ -162,10 +163,8 @@ void TerrainToField(uint3 id : SV_DispatchThreadID)
     nodeColor = clamp(nodeColor, 0, 0.7);
 	
     aggregate = (1 - saturate(aggregate)) * _Utils.z;
-    float cut = step(_Utils.w, aggregate);
-    color.rgb = lerp(color.xyz, aggregate * 0.2, cut);
-    color.rgb += nodeColor * cut;
-    color.a = aggregate - 1;
+    color.rgb = nodeColor;
+    color.a = (aggregate - 1) * 1.5;
 
     dst[id.xy] = color;
 }
@@ -180,19 +179,17 @@ RWTexture2D<float4> buffer;
 [numthreads(32, 32, 1)]
 void FieldToRender(uint3 id : SV_DispatchThreadID)
 {
-    float height = source[id.xy].a;
-    float right = source[int2(id.x + 1, id.y)].a;
-    float up = source[int2(id.x, id.y + 1)].a;
+    float factor = smoothstep(_NormalRemap.x, _NormalRemap.y, source[id.xy].a);
+    float cut = step(_Utils.w, factor);
+
+    float height = factor;
+    float right = smoothstep(_NormalRemap.x, _NormalRemap.y, source[int2(id.x + 1, id.y)].a);
+    float up = smoothstep(_NormalRemap.x, _NormalRemap.y, source[int2(id.x, id.y + 1)].a);
     float depth = 1;
 
-    float normX = (height - right) * 10 + .5;
-    float normY = (height - up) * 10 + .5;
+    float normX = (height - right) * _NormalRemap.z + .5;
+    float normY = (height - up) * _NormalRemap.z + .5;
 
     float3 normal = normalize(float3(normX, normY, depth));
-    float3 sunDir = normalize(float3(1, 1, 0));
-
-    float lighting = lerp(-2, 1, saturate((dot(sunDir, normal) + 1) * .5));
-
-    buffer[id.xy] = float4(source[id.xy].xyz, 0);
-
+    buffer[id.xy] = float4(normal, cut);
 }
