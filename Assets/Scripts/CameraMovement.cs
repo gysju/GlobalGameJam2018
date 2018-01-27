@@ -23,8 +23,11 @@ public class CameraMovement : MonoBehaviour {
 
     // Update is called once per frame
     void LateUpdate () {
-        if( Player._Instance != null )
-            transform.position = Vector3.Lerp(transform.position, new Vector3(Player._Instance.transform.position.x, transform.position.y, transform.position.z), 0.1f );
+        if (Player._Instance != null)
+            transform.position = Vector3.Lerp(transform.position, new Vector3(Player._Instance.transform.position.x, transform.position.y, transform.position.z), 0.1f);
+        else {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(0, transform.position.y, transform.position.z), 0.02f);
+        }
 	}
 
     public void Snap() {
