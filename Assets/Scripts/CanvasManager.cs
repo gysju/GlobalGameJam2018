@@ -74,7 +74,7 @@ public class CanvasManager : MonoBehaviour {
     {
         FadeInIsFinished += delegate
         {
-            //clean level
+            LevelGenerator._Instance.CleanLevels();
             currentMenu.SetActive(false);
             _currentMenu = MainMenu;
             _currentMenu.SetActive(true);

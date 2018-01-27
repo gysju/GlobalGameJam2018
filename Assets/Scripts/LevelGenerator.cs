@@ -79,6 +79,23 @@ public class LevelGenerator : MonoBehaviour
         CheckPathType();
     }
 
+    public void CleanLevels()
+    {
+        foreach (Point p in _Points)
+        {
+            Destroy(p.gameObject);
+        }
+        _Points.Clear();
+
+        foreach (Link l in _Links)
+        {
+            Destroy(l.gameObject);
+        }
+
+        _Links.Clear();
+        Destroy( Player._Instance.gameObject );
+    }
+
     public void GeneratePlayer()
     {
         if (Player._Instance == null)
