@@ -65,7 +65,8 @@ public class CanvasManager : MonoBehaviour {
         FadeInIsFinished += delegate {
             StartCoroutine(fadeout());
             _currentMenu.SetActive(true);
-            LevelGenerator._Instance.ResetPlayer();
+            LevelGenerator._Instance.CleanLevels();
+            LevelGenerator._Instance._Difficulty++;
         };
         StartCoroutine(fadein());
     }
@@ -78,6 +79,7 @@ public class CanvasManager : MonoBehaviour {
             currentMenu.SetActive(false);
             _currentMenu = MainMenu;
             _currentMenu.SetActive(true);
+            LevelGenerator._Instance._Difficulty = 1;
             StartCoroutine(fadeout());
         };
         StartCoroutine(fadein());

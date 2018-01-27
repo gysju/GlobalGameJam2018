@@ -10,6 +10,8 @@ public class LevelGenerator : MonoBehaviour
 
     public static LevelGenerator _Instance = null;
 
+    public int _Difficulty = 1;
+
     [Header("Game Construction info")]
     [Range(1, 100)]
     public float _Length = 5;
@@ -40,7 +42,7 @@ public class LevelGenerator : MonoBehaviour
     [Header("DeathZone")]
     public GameObject _DeathZone;
     public float _DeathSpeed = 1.0f;
-    public float _DeathSpawnBias = 1.0f;
+    public float _DeathSpawnBias = 50.0f;
 
     public GameObject _Player;
     public GameObject _CounterSignal; 
@@ -66,13 +68,14 @@ public class LevelGenerator : MonoBehaviour
         //_deathZoneCoroutine = StartCoroutine(DeathZone());
     }
 
-    public IEnumerator GenerateLevel(int i = 1)
+    public IEnumerator GenerateLevel()
     {
+        _DeathZone.transform.position = - (Vector3.right * _DeathSpawnBias);
 
-        _Length = 5 * i;
-        _Segments = 5 * i;
-        _SegmentPointCount = 4 * i;
-        _CounterSignalNmb = i;
+        _Length = 5 * _Difficulty;
+        _Segments = 5 * _Difficulty;
+        _SegmentPointCount = 4 * _Difficulty;
+        _CounterSignalNmb = _Difficulty;
 
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
@@ -101,6 +104,7 @@ public class LevelGenerator : MonoBehaviour
 
         Destroy(Player._Instance.gameObject);
     }
+
     public void GeneratePlayer()
     {
         if (_Player)
@@ -116,10 +120,10 @@ public class LevelGenerator : MonoBehaviour
             Player._Instance._Immobile = false;
         }
 
-        if (Camera.main)
-        {
-            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
-        }
+        //if (Camera.main)
+        //{
+        //    Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
+        //}
 
         if(_CounterSignal) 
             for (int i = 0; i < _CounterSignalNmb; i++) {
@@ -228,13 +232,16 @@ public class LevelGenerator : MonoBehaviour
 
     void CheckPathType()
     {
-        _Points[0]._Links[0]._PointB.SetInitialType(Point.PointType.Normal);
-        _Points[_Points.Count - 1]._Links[0]._PointA.SetInitialType(Point.PointType.Normal);
+        _Points[1].SetInitialType(Point.PointType.Normal);
+        _Points[0].SetInitialType(Point.PointType.Normal);
+
+        _Points[_Points.Count - 1].SetInitialType(Point.PointType.Normal);
+        _Points[_Points.Count - 2].SetInitialType(Point.PointType.Normal);
     }
 
     IEnumerator DeathZone()
     {
-        _DeathZone.transform.position = Player._Instance.transform.position - (Vector3.right * _DeathSpawnBias);
+        _DeathZone.transform.position = -(Vector3.right * _DeathSpawnBias);
 
         while (!Player._Instance._Immobile)
         {
@@ -280,8 +287,8 @@ public class LevelGenerator : MonoBehaviour
             Player._Instance.transform.position = _Points[0].transform.position;
             CameraMovement._Instance.Snap();
         }
-        _DeathZone.transform.position = Vector3.right*-10;
-        
+        _DeathZone.transform.position = -(Vector3.right * _DeathSpawnBias);
+
         foreach (Point p in _Points)
             p.Reset();
 
