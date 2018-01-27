@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 
     Vector3 LastInput = Vector3.right;
 
-    Coroutine GoToPointCorroutine;
+    protected Coroutine GoToPointCorroutine;
 
     public AnimationCurve _SpeedCurve;
 
@@ -80,7 +80,7 @@ public class Player : MonoBehaviour {
             case Point.PointType.Fried:
                 {
                     _Start = _Target;
-                    _Target = _Target._Links[Random.Range(0, _Target._Links.Count-1)].getOtherPoint(_Target);
+                    _Target = _Target.GetRandomForwardPath() ;
                     
                     break;
                 }
@@ -100,8 +100,7 @@ public class Player : MonoBehaviour {
     public void Kill() {
 
         _Immobile = true;
-        LevelGenerator._Instance.StartResetRoutine();
-
+        LevelGenerator._Instance.KillPlayer();
     }
 
 
