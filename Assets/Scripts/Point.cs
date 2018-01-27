@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Point: MonoBehaviour{
 
+    private LevelGenerator levelGenerator;
+
     public enum PointType {
         Normal,
         Dead,
@@ -34,9 +36,17 @@ public class Point: MonoBehaviour{
         GeneratedType();
     }
 
+    private void Start()
+    {
+        levelGenerator = LevelGenerator._Instance;
+    }
+
     private void Update()
     {
-        if (transform.position.x < LevelGenerator._Instance._DeathZone.transform.position.x)
+        if (_Type == PointType.Dead)
+            return;
+
+        if (transform.position.x < levelGenerator._DeathZone.transform.position.x)
             _Type = PointType.Dead;
     }
 
@@ -45,14 +55,14 @@ public class Point: MonoBehaviour{
         PointType type;
         float val = Random.Range(0.0f, 1.0f);
 
-        if (val <= LevelGenerator._Instance._NormalPointsSpawnPercentage)
+        if (val <= levelGenerator._NormalPointsSpawnPercentage)
             type = PointType.Normal;
-        else if (val <= LevelGenerator._Instance._NormalPointsSpawnPercentage 
-                      + LevelGenerator._Instance._BackPointsSpawnPercentage)
+        else if (val <= levelGenerator._NormalPointsSpawnPercentage 
+                      + levelGenerator._BackPointsSpawnPercentage)
             type = PointType.Fried;
-        else if (val <= LevelGenerator._Instance._NormalPointsSpawnPercentage 
-                      + LevelGenerator._Instance._BackPointsSpawnPercentage
-                      + LevelGenerator._Instance._FriedPointsSpawnPercentage)
+        else if (val <= levelGenerator._NormalPointsSpawnPercentage 
+                      + levelGenerator._BackPointsSpawnPercentage
+                      + levelGenerator._FriedPointsSpawnPercentage)
             type = PointType.Back;
         else
             type = PointType.Dead;
