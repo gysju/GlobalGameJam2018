@@ -113,17 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &275632121 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114936084576122216, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-    type: 2}
-  m_PrefabInternal: {fileID: 1400535434}
-  m_Script: {fileID: 11500000, guid: d20b935097f22d6438170901aafee98e, type: 3}
---- !u!1 &342645493 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1001908124637730, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-    type: 2}
-  m_PrefabInternal: {fileID: 1400535434}
 --- !u!1 &1052913701
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,36 +336,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 275632121}
-    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 114893792484244948, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 342645493}
-    - target: {fileID: 114262760303398498, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
-        type: 2}
-      propertyPath: m_UiScaleMode
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1f6a38f40e250074bb84e47d30c3cd6e, type: 2}
