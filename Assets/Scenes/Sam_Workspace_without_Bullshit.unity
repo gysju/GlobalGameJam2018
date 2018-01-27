@@ -2100,6 +2100,7 @@ MonoBehaviour:
   _MinLinkLenght: 5
   _MaxLinkLenght: 20
   _Speed: 0
+  _CounterSignalNmb: 0
   _Points: []
   _Links: []
   _KillPointsSpawnPercentage: 0.1
