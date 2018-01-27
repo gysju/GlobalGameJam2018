@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
 
     }
 
-    IEnumerator goToPoint() {
+    public virtual IEnumerator goToPoint() {
 
         _CurrentLink = _Start.GetConnectingLink(_Target);
         //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;

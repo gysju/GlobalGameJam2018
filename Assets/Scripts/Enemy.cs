@@ -7,10 +7,13 @@ public class Enemy : Player {
 
     public void Awake()
     {
-        
+        _Start = LevelGenerator._Instance._Points[LevelGenerator._Instance._Points.Count - 1];
+        _Target = _Start._Links[0].getOtherPoint(_Start);
+        _Immobile = false;
     }
 
-    IEnumerator goToPoint()
+
+    public override IEnumerator goToPoint()
     {
 
         _CurrentLink = _Start.GetConnectingLink(_Target);
@@ -44,7 +47,7 @@ public class Enemy : Player {
                 }
             case Point.PointType.Dead:
                 {
-                    Kill();
+                    //Kill();
                     break;
                 }
             case Point.PointType.Back:
@@ -59,4 +62,13 @@ public class Enemy : Player {
         StopAllCoroutines();
         GoToPointCorroutine = null;
     }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawWireSphere(transform.position, 0.1f);
+    }
+
 }
