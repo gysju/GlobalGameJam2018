@@ -42,6 +42,7 @@ public class LevelGenerator : MonoBehaviour
     public float _DeathSpawnBias = 1.0f;
 
     public GameObject _Player;
+    public GameObject _CounterSignal;
     public Coroutine _deathZoneCoroutine;
 
     private void Awake()
@@ -66,10 +67,10 @@ public class LevelGenerator : MonoBehaviour
 
     public IEnumerator GenerateLevel(int i = 1)
     {
-        i = 2;
+
         _Length = 5 * i;
         _Segments = 5 * i;
-        _SegmentPointCount = 5 * i;
+        _SegmentPointCount = 4 * i;
         _CounterSignalNmb = i;
 
         yield return StartCoroutine(SpawnPoints());
@@ -79,7 +80,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void GeneratePlayer()
     {
-        if (!_Player)
+        if (_Player)
         {
             Instantiate(_Player);
             Player._Instance._Start = _Points[0];
@@ -96,6 +97,13 @@ public class LevelGenerator : MonoBehaviour
         {
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
         }
+
+        if(_CounterSignal)
+        for (int i = 0; i < _CounterSignalNmb; i++) {
+                Instantiate(_CounterSignal);
+        }
+
+
 
         _deathZoneCoroutine = StartCoroutine(DeathZone());
     }

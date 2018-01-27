@@ -1289,6 +1289,7 @@ MonoBehaviour:
   _MinLinkLenght: 0.5
   _MaxLinkLenght: 3
   _Speed: 0.01
+  _CounterSignalNmb: 0
   _Points: []
   _Links: []
   _KillPointsSpawnPercentage: 0.047
@@ -1299,6 +1300,8 @@ MonoBehaviour:
   _DeathSpeed: 1
   _DeathSpawnBias: 1
   _Player: {fileID: 1511820335342222, guid: a35a46e538c20ff4293b75dd2b5bc011, type: 2}
+  _CounterSignal: {fileID: 1825913286528416, guid: d5012efeae89921449bc9c48b330a809,
+    type: 2}
 --- !u!4 &1211663251
 Transform:
   m_ObjectHideFlags: 0
