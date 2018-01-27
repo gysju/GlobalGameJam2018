@@ -1,4 +1,4 @@
-﻿#pragma kernel CSMain
+﻿#pragma kernel LevelToField
 
 struct Node
 {
@@ -27,6 +27,7 @@ float4 PlayerColor;
 float BlendingFactor;
 float LinkSize;
 float CutThreshold;
+float4 NormalRemap;
 
 
 float CircleDistance(float2 center, float radius, float2 sample)
@@ -54,7 +55,7 @@ float smin(float a, float b, float k)
 }
 
 [numthreads(32,32,1)]
-void CSMain (uint3 id : SV_DispatchThreadID)
+void LevelToField(uint3 id : SV_DispatchThreadID)
 {
     //Init variables
     uint count, strides;
@@ -85,6 +86,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         {
             float t = j * invLen;
             float dist = CircleDistance(lerp(Links[b].xy, Links[b].zw, t), LinkSize, worldPos);
+            dist *= dist;
             aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
         }
     }
@@ -94,8 +96,31 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     color += saturate(1 - dist) * PlayerColor;
     aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
 
-    float cut = 1-step(CutThreshold, aggregate);
+    Result[id.xy] = float4(color.rgb, (aggregate - 1) * -NormalRemap.w);
+}
 
 
-    Result[id.xy] = float4(color.rgb * cut, cut);
+
+
+#pragma kernel FieldToNormal
+Texture2D<float4> SourceField;
+RWTexture2D<float4> Normal;
+
+[numthreads(32, 32, 1)]
+void FieldToNormal(uint3 id : SV_DispatchThreadID)
+{
+    float factor = smoothstep(NormalRemap.x, NormalRemap.y, SourceField[id.xy].a);
+    float cut = step(CutThreshold, SourceField[id.xy].a);
+
+    float height = factor;
+    float right = smoothstep(NormalRemap.x, NormalRemap.y, SourceField[int2(id.x + 1, id.y)].a);
+    float up = smoothstep(NormalRemap.x, NormalRemap.y, SourceField[int2(id.x, id.y + 1)].a);
+    float depth = 1;
+
+    float normX = (height - right) * NormalRemap.z + .5;
+    float normY = (height - up) * NormalRemap.z + .5;
+
+    float3 normal = normalize(float3(normX, normY, depth));
+    Normal[id.xy] = float4(normal, cut);
+
 }
