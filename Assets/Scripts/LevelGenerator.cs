@@ -49,6 +49,11 @@ public class LevelGenerator : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float _NormalPointsSpawnPercentage;
 
+    [Header("DeathZone")]
+    public GameObject _DeathZone;
+    public float _DeathSpeed = 1.0f;
+    public float _DeathSpawnBias = 1.0f;
+
     public GameObject _Player;
 
     IEnumerator Start()
@@ -89,6 +94,7 @@ public class LevelGenerator : MonoBehaviour
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
         }
 
+        StartCoroutine(DeathZone());
     }
 
     IEnumerator SpawnPoints()
@@ -187,6 +193,17 @@ public class LevelGenerator : MonoBehaviour
         yield return null;
     }
 
+    IEnumerator DeathZone()
+    {
+        _DeathZone.transform.position = Player._Instance.transform.position - (Vector3.right * _DeathSpawnBias);
+
+        while (true)
+        {
+            _DeathZone.transform.position += Vector3.right * (Time.deltaTime * _DeathSpeed);
+            yield return null;
+        }
+    }
+
     public bool DoesIntersectLinks(Vector3 p1, Vector3 p2)
     {
 
@@ -257,5 +274,13 @@ public class LevelGenerator : MonoBehaviour
 
 
         Player._Instance._Immobile = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        // draw death zone
+        Gizmos.color = Color.red;
+        if(_DeathZone != null)
+            Gizmos.DrawLine(_DeathZone.transform.position + Vector3.up * 100, _DeathZone.transform.position - Vector3.up * 100);
     }
 }

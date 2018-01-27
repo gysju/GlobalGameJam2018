@@ -28,6 +28,12 @@ public class Point: MonoBehaviour{
         GeneratedType();
     }
 
+    private void Update()
+    {
+        if (transform.position.x < LevelGenerator._Instance._DeathZone.transform.position.x)
+            _Type = PointType.Dead;
+    }
+
     public void GeneratedType()
     {
         PointType type;
@@ -68,7 +74,6 @@ public class Point: MonoBehaviour{
         return bestPoint;
     }
 
-
     private void OnDrawGizmos()
     {
         switch (_Type)
@@ -107,7 +112,6 @@ public class Point: MonoBehaviour{
     {
         _Type = _InitialType;
     }
-
 
     public Link GetConnectingLink(Point other) {
 
