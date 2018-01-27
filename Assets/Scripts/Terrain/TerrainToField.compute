@@ -18,9 +18,16 @@ struct Plane
     float3 normal;
 };
 
+struct Node
+{
+    float3 center;
+    float radius;
+    float4 color;
+};
+
 Texture2D<float4> src;
 RWTexture2D<float4> dst;
-StructuredBuffer<float4> spheres;
+StructuredBuffer<Node> Nodes;
 StructuredBuffer<Line> lines;
 float3 player;
 
@@ -109,17 +116,21 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     viewDir.direction = projectPlane.normal;
 
     float4 color = src[id.xy];
+    float4 nodeColor = float4(0,0,0,0);
     uint spheresCount, spheresStride, linesCount, linesStride;
-    spheres.GetDimensions(spheresCount, spheresStride);
+    Nodes.GetDimensions(spheresCount, spheresStride);
     lines.GetDimensions(linesCount, linesStride);
 	
     float aggregate = 1;
     for (uint i = 0; i < spheresCount; ++i)
     {
-      float dist = DistanceToSphere(viewDir, spheres[i].xyz, spheres[i].w);
-      dist = max(dist, 0);
-      dist = 1-saturate(dist * 0.1);
-      aggregate = smin(aggregate, dist, _Utils.x);
+        float dist = DistanceToSphere(viewDir, Nodes[i].center, Nodes[i].radius);
+		dist = max(dist, 0);
+		dist = 1-saturate(dist * 0.1);
+        float colorFactor = aggregate;
+		aggregate = smin(aggregate, dist, _Utils.x);
+        colorFactor = max(colorFactor - aggregate, 0);
+        nodeColor += Nodes[i].color * colorFactor;
     }
 
     float playerDist = DistanceToSphere(viewDir, player, 10);
@@ -147,6 +158,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     float cut = step(_Utils.w, aggregate);
     color.rgb = lerp(color.xyz, aggregate * 0.2, cut);
     color.gb += playerFactor * cut * 2;
+    color.rgb += nodeColor * cut;
 
     dst[id.xy] = color;
 }
