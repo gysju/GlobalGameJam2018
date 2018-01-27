@@ -9,10 +9,11 @@ public class Player : MonoBehaviour {
     public Point _Start;
     public Point _Target;
 
-    public float _Speed = 1f;
+    public float _Speed = 3f;
 
+    Vector3 LastInput = Vector3.right;
 
-
+    Coroutine GoToPointCorroutine;
 
     // Use this for initialization
     private void Awake()
@@ -28,7 +29,17 @@ public class Player : MonoBehaviour {
 
     }
     void Start () {
-        StartCoroutine(goToPoint());
+
+    }
+
+    private void Update()
+    {
+
+        if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            LastInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized;
+
+        if ( GoToPointCorroutine == null)
+            GoToPointCorroutine = StartCoroutine(goToPoint());
 
     }
 
@@ -48,10 +59,10 @@ public class Player : MonoBehaviour {
         transform.position = _Target.transform.position;
 
         _Start = _Target;
-        _Target = _Target.getMostAccurateDestinaton(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0 ).normalized);
+        _Target = _Target.getMostAccurateDestinaton(LastInput);
 
-        if( _Target!= null)
-            StartCoroutine(goToPoint());
+        StopAllCoroutines();
+        GoToPointCorroutine = null;
     }
 
 
@@ -64,7 +75,7 @@ public class Player : MonoBehaviour {
 
         Gizmos.DrawWireSphere(transform.position, 0.1f);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized);
+        Gizmos.DrawLine(transform.position, transform.position + LastInput);
 
 
     }

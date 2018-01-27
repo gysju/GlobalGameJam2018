@@ -13,6 +13,7 @@ public class LevelGenerator : MonoBehaviour {
     public int _SegmentPointCount = 5;
     public int _Segments = 5;
     public float _Height = 5;
+    public float _MinLinkLenght = 0.2f;
     public float _MaxLinkLenght = 2;
 
     public List<Point> _Points = new List<Point>();
@@ -22,7 +23,14 @@ public class LevelGenerator : MonoBehaviour {
     {
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
-	}
+
+
+        GameObject player = new GameObject();
+        player.AddComponent<Player>();
+        Player._Instance._Start = _Points[0];
+        Player._Instance._Target = _Points[1];
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -32,7 +40,12 @@ public class LevelGenerator : MonoBehaviour {
 
     IEnumerator SpawnPoints() {
 
-        GameObject go = new GameObject("Point_" + 0 + "-" + 0, typeof(Point));
+        GameObject go = new GameObject("Point_Start", typeof(Point));
+        go.transform.position = new Vector3(-1, _Height / 2, 0);
+        go.transform.parent = transform;
+        _Points.Add(go.GetComponent<Point>());
+
+        go = new GameObject("Point_" + 0 + "-" + 0, typeof(Point));
         go.transform.position = new Vector3(0, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
@@ -51,12 +64,35 @@ public class LevelGenerator : MonoBehaviour {
                 yield return new WaitForSeconds(0.01f);
             }
         }
+        List<Point> pointsToDelete = new List<Point>();
+
+        foreach (Point p in _Points) {
+            foreach (Point p2 in _Points) {
+                if (p != p2)
+                    if ((p.transform.position - p2.transform.position).magnitude < _MinLinkLenght && (!pointsToDelete.Contains(p2) && !pointsToDelete.Contains(p))) {
+                        pointsToDelete.Add(p2);
+                    }
+            }
+        }
+        Debug.Log("pouet");
+        for(int i = pointsToDelete.Count; i > 0; i-- )
+        {
+            _Points.Remove(pointsToDelete[i-1]);
+            Destroy(pointsToDelete[i-1].gameObject);
+            yield return new WaitForSeconds(0.1f);
+        }
+        pointsToDelete.Clear();
+
     }
+
+
 
     IEnumerator BuildPath() {
 
         foreach( Point  p in _Points){
             foreach (Point p2 in _Points) {
+                if (p == p2)
+                    continue;
                 Vector3 pToP2 = p2.transform.position - p.transform.position;
                 if (pToP2.magnitude < _MaxLinkLenght) {
                     if (Vector3.Dot(Vector3.right, pToP2.normalized) > -0.2f ) {

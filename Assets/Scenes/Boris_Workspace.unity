@@ -330,10 +330,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Length: 16
-  _SegmentPointCount: 5
+  _SegmentPointCount: 10
   _Segments: 5
   _Height: 5
-  _MaxLinkLenght: 2
+  _MinLinkLenght: 0.5
+  _MaxLinkLenght: 3
   _Points: []
   _Links: []
 --- !u!4 &1211663251
@@ -478,7 +479,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1610316364}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 093810fffb7d88547b9899763c415acf, type: 3}
   m_Name: 
