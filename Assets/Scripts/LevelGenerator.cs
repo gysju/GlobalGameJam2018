@@ -9,6 +9,8 @@ public class LevelGenerator : MonoBehaviour
 
 
     public static LevelGenerator _Instance = null;
+    [Header("Game info")]
+    public int _Difficulty = 1;
 
     [Header("Game Construction info")]
     [Range(1, 100)]
@@ -79,7 +81,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void GeneratePlayer()
     {
-        if (!_Player)
+        if (Player._Instance == null)
         {
             Instantiate(_Player);
             Player._Instance._Start = _Points[0];

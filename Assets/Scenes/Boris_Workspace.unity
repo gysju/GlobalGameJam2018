@@ -1164,7 +1164,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1619941407}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 70887361}
+        m_MethodName: PlayGame
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 54959426}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!224 &1147313273
@@ -1282,6 +1293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6fb455c0c9a34419c039515abd05d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Difficulty: 1
   _Length: 16
   _SegmentPointCount: 10
   _Segments: 7
@@ -1289,6 +1301,7 @@ MonoBehaviour:
   _MinLinkLenght: 0.5
   _MaxLinkLenght: 3
   _Speed: 0.01
+  _CounterSignalNmb: 0
   _Points: []
   _Links: []
   _KillPointsSpawnPercentage: 0.047
