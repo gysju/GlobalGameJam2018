@@ -109,7 +109,8 @@ public class LevelGenerator : MonoBehaviour
         }
         _Enemies.Clear();
 
-        Destroy(Player._Instance.gameObject);
+        if(Player._Instance != null)
+            Destroy(Player._Instance.gameObject);
     }
 
     public void GeneratePlayer()

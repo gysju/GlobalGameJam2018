@@ -19,6 +19,7 @@ public class CanvasManager : MonoBehaviour {
     public GameObject WinMenu;
 
     private GameObject _currentMenu;
+    private Button[] buttonToEnable;
 
     public void Awake()
     {
@@ -45,6 +46,12 @@ public class CanvasManager : MonoBehaviour {
         {
             StartCoroutine(GenerateLevel(restartLevel));
             _currentMenu.SetActive(false);
+
+            buttonToEnable = _currentMenu.GetComponentsInChildren<Button>();
+            FadeOutIsFinished += delegate {
+                for (int i = 0; i < buttonToEnable.Length; i++)
+                    buttonToEnable[i].interactable = true;
+            };
         };
     }
 
@@ -55,6 +62,12 @@ public class CanvasManager : MonoBehaviour {
             StartCoroutine(fadeout());
             _currentMenu.SetActive(true);
             LevelGenerator._Instance.ResetPlayer();
+
+            buttonToEnable = _currentMenu.GetComponentsInChildren<Button>();
+            FadeOutIsFinished += delegate {
+                for (int i = 0; i < buttonToEnable.Length; i++)
+                    buttonToEnable[i].interactable = true;
+            };
         };
         StartCoroutine(fadein());
     }
@@ -80,6 +93,13 @@ public class CanvasManager : MonoBehaviour {
             _currentMenu = MainMenu;
             _currentMenu.SetActive(true);
             LevelGenerator._Instance._Difficulty = 1;
+            buttonToEnable = _currentMenu.GetComponentsInChildren<Button>();
+
+            FadeOutIsFinished += delegate {
+                for (int i = 0; i < buttonToEnable.Length; i++)
+                    buttonToEnable[i].interactable = true;
+            };
+
             StartCoroutine(fadeout());
         };
         StartCoroutine(fadein());
@@ -95,7 +115,7 @@ public class CanvasManager : MonoBehaviour {
         if(!restartLevel)
             yield return StartCoroutine(LevelGenerator._Instance.GenerateLevel());
 
-        FadeOutIsFinished = delegate { LevelGenerator._Instance.GeneratePlayer(); };
+        FadeOutIsFinished += delegate { LevelGenerator._Instance.GeneratePlayer(); };
         yield return StartCoroutine(fadeout());
     }
 
