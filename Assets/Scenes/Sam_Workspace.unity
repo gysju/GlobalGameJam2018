@@ -137,7 +137,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282103133}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -471,12 +471,32 @@ Prefab:
     - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
         type: 2}
       propertyPath: _Length
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
         type: 2}
       propertyPath: _Segments
-      value: 50
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: _Difficulty
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: _SegmentPointCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: _MinLinkLenght
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: _MaxLinkLenght
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f, type: 2}
