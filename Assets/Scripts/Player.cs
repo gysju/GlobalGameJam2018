@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public static Player _Instance = null;
-
+    public bool _Immobile = true;
     public Point _Start;
     public Point _Target;
 
@@ -29,10 +29,6 @@ public class Player : MonoBehaviour {
         else {
             Destroy(this);
         }
-
-    }
-    void Start () {
-        
     }
 
     private void Update()
@@ -41,7 +37,7 @@ public class Player : MonoBehaviour {
         if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             LastInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized;
 
-        if ( GoToPointCorroutine == null)
+        if ( GoToPointCorroutine == null && !_Immobile )
             GoToPointCorroutine = StartCoroutine(goToPoint());
 
     }
@@ -62,14 +58,47 @@ public class Player : MonoBehaviour {
         }
         transform.position = _Target.transform.position;
 
-        _Start = _Target;
-        _Target = _Target.getMostAccurateDestinaton(LastInput);
+
+        switch (_Target._Type)
+        {
+            case Point.PointType.Normal:
+                {
+
+                    _Start = _Target;
+                    _Target = _Target.getMostAccurateDestinaton(LastInput);
+                    break;
+                }
+            case Point.PointType.Dead:
+                {
+                    Kill();
+                    break;
+                }
+            case Point.PointType.Fried:
+                {
+                    _Start = _Target;
+                    _Target = _Target._Links[Random.Range(0, _Target._Links.Count-1)].getOtherPoint(_Target);
+                    
+                    break;
+                }
+            case Point.PointType.Back:
+                {
+                    Point temp = _Start;
+                    _Start = _Target;
+                    _Target = temp;
+                    break;
+                }
+        }
 
         StopAllCoroutines();
         GoToPointCorroutine = null;
     }
+    [ContextMenu("KillPlayer")]
+    public void Kill() {
 
+        _Immobile = true;
+        LevelGenerator._Instance.StartResetRoutine();
 
+    }
 
 
 

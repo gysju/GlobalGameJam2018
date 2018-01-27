@@ -5,6 +5,18 @@ using UnityEngine;
 
 public class Point: MonoBehaviour{
 
+    public enum PointType {
+        Normal,
+        Dead,
+        Fried,
+        Back
+
+
+    }
+
+    public PointType _Type = PointType.Normal;
+    public PointType _InitialType = PointType.Normal;
+
     public List<Link> _Links = new List<Link>();
 
     public Point(Vector3 pos) {
@@ -41,4 +53,16 @@ public class Point: MonoBehaviour{
 
         Gizmos.DrawWireSphere(transform.position, 0.1f);
     }
+
+    public void SetInitialType(PointType type) {
+
+        _InitialType = type;
+        _Type = type;
+    }
+
+    public void Reset()
+    {
+        _Type = _InitialType;
+    }
+
 }

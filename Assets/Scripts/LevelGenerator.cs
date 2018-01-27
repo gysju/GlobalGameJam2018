@@ -6,6 +6,22 @@ public class LevelGenerator : MonoBehaviour {
 
     // Use this for initialization
 
+
+    public static LevelGenerator _Instance = null;
+    private void Awake()
+    {
+        if (!_Instance)
+        {
+            _Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
+    }
+
+
     [Range( 1 , 100 )]
     public float _Length = 5;
 
@@ -32,6 +48,7 @@ public class LevelGenerator : MonoBehaviour {
             Instantiate(_Player);
             Player._Instance._Start = _Points[0];
             Player._Instance._Target = _Points[1];
+            Player._Instance._Immobile = false;
         }
 
         if (Camera.main) {
@@ -40,11 +57,6 @@ public class LevelGenerator : MonoBehaviour {
 
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 
     IEnumerator SpawnPoints() {
 
@@ -140,5 +152,48 @@ public class LevelGenerator : MonoBehaviour {
 
         return false;
     }
+
+    public void StartResetRoutine() {
+        StartCoroutine(KillPlayer());
+
+    }
+    public IEnumerator KillPlayer() {
+
+        foreach (Point p in _Points) {
+            p.Reset();
+        }
+
+        
+
+        float fadeTime = 1;
+        float t = 0;
+        Color c = CameraMovement._Instance._FadePlane.color;
+        while (t < fadeTime) { //Fade out
+            t += Time.deltaTime;
+
+            CameraMovement._Instance._FadePlane.color = new Color(c.r, c.g, c.b, t / fadeTime);
+
+            yield return null;
+        }
+
+        if (Player._Instance)
+        {
+            Player._Instance._Start = _Points[0];
+            Player._Instance._Target = _Points[1];
+            Player._Instance.transform.position = _Points[0].transform.position;
+            CameraMovement._Instance.Snap();
+        }
+
+        while (t > 0)
+        { //Fade out
+            t -= Time.deltaTime;
+            CameraMovement._Instance._FadePlane.color = new Color(c.r, c.g, c.b, t / fadeTime);
+            yield return null;
+        }
+
+
+        Player._Instance._Immobile = false;
+    }
+
 
 }
