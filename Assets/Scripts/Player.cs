@@ -15,6 +15,9 @@ public class Player : MonoBehaviour {
 
     Coroutine GoToPointCorroutine;
 
+    public AnimationCurve _SpeedCurve;
+
+
     // Use this for initialization
     private void Awake()
     {
@@ -29,7 +32,7 @@ public class Player : MonoBehaviour {
 
     }
     void Start () {
-
+        
     }
 
     private void Update()
@@ -52,7 +55,7 @@ public class Player : MonoBehaviour {
         while (t < duration) {
             t += Time.deltaTime;
 
-            transform.position = Vector3.Lerp(_Start.transform.position, _Target.transform.position, t / duration);
+            transform.position = Vector3.Lerp(_Start.transform.position, _Target.transform.position, _SpeedCurve.Evaluate( t / duration) );
 
             yield return null;              
         }

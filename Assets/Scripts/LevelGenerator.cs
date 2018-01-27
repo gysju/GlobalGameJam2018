@@ -19,16 +19,23 @@ public class LevelGenerator : MonoBehaviour {
     public List<Point> _Points = new List<Point>();
     public List<Link> _Links = new List<Link>();
 
+    public GameObject _Player;
+
     IEnumerator Start()
     {
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
 
 
-        GameObject player = new GameObject();
-        player.AddComponent<Player>();
-        Player._Instance._Start = _Points[0];
-        Player._Instance._Target = _Points[1];
+        if (_Player) {
+            Instantiate(_Player);
+            Player._Instance._Start = _Points[0];
+            Player._Instance._Target = _Points[1];
+        }
+
+        if (Camera.main) {
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
+        }
 
     }
 	
@@ -74,12 +81,12 @@ public class LevelGenerator : MonoBehaviour {
                     }
             }
         }
-        Debug.Log("pouet");
+
         for(int i = pointsToDelete.Count; i > 0; i-- )
         {
             _Points.Remove(pointsToDelete[i-1]);
             Destroy(pointsToDelete[i-1].gameObject);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
         }
         pointsToDelete.Clear();
 
