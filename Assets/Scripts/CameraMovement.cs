@@ -19,17 +19,33 @@ public class CameraMovement : MonoBehaviour {
         {
             Destroy(this);
         }
-
     }
 
-    // Update is called once per frame
     void LateUpdate () {
+        camMovement();
+    }
+
+    void camMovement()
+    {
         if (Player._Instance != null)
+        {
+            //X
             transform.position = Vector3.Lerp(transform.position, new Vector3(Player._Instance.transform.position.x, transform.position.y, transform.position.z), 0.1f);
-        else {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(0, transform.position.y, transform.position.z), 0.02f);
+            //Y
+            if (Player._Instance.transform.position.y > transform.position.y + _HeightBias)
+            {
+                float bias = Player._Instance.transform.position.y - (transform.position.y + _HeightBias);
+                transform.position += Vector3.up * bias;
+            }
+            else if (Player._Instance.transform.position.y < transform.position.y - _HeightBias)
+            {
+                float bias =  (transform.position.y - _HeightBias) - Player._Instance.transform.position.y;
+                transform.position -= Vector3.up * bias;
+            }
         }
-	}
+        else
+            transform.position = Vector3.Lerp(transform.position, new Vector3(0, transform.position.y, transform.position.z), 0.02f);
+    }
 
     public void Snap() {
         if (Player._Instance != null)
@@ -44,7 +60,5 @@ public class CameraMovement : MonoBehaviour {
 
         Gizmos.DrawLine(pos - Vector3.right * 100 - Vector3.up * _HeightBias, pos + Vector3.right * 100 - Vector3.up * _HeightBias );
         Gizmos.DrawLine(pos - Vector3.right * 100 + Vector3.up * _HeightBias, pos + Vector3.right * 100 + Vector3.up * _HeightBias );
-
     }
-
 }
