@@ -77,6 +77,9 @@ public class LevelGenerator : MonoBehaviour
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
         CheckPathType();
+
+        LevelReader.CurrentLevel.Redefine(_Links);
+        Debug.Log("Level generated");
     }
 
     public void GeneratePlayer()

@@ -1,0 +1,92 @@
+﻿#pragma kernel CSMain
+
+struct Node
+{
+    float2 center;
+    float radius;
+    float4 color;
+};
+
+
+RWTexture2D<float4> Result;
+StructuredBuffer<Node> Nodes;
+StructuredBuffer<float4> Links;
+
+
+//Mesh informations
+float3 CornerLD;
+float3 CornerRD;
+float3 CornerRU;
+float3 CornerLU;
+
+//Parameters
+float BlendingFactor;
+float LinkSize;
+float CutThreshold;
+
+
+float CircleDistance(float2 center, float radius, float2 sample)
+{
+    return distance(center, sample) - radius;
+}
+
+float sminPolynomial(float a, float b, float k)
+{
+    float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
+    return lerp(b, a, h) - k * h * (1.0 - h);
+}
+
+float sminPower(float a, float b, float k)
+{
+    a = pow(a, k);
+    b = pow(b, k);
+    return pow((a * b) / (a + b), 1.0 / k);
+}
+
+float smin(float a, float b, float k)
+{
+    float res = exp(-k * a) + exp(-k * b);
+    return -log(res) / k;
+}
+
+[numthreads(32,32,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    //Init variables
+    uint count, strides;
+    uint nCount, nStrides;
+    uint lCount, lStrides;
+    Result.GetDimensions(count, strides);
+    Nodes.GetDimensions(nCount, nStrides);
+    Links.GetDimensions(lCount, lStrides);
+    float2 uv = id.xy / (float2)count;
+    float2 worldPos = lerp(lerp(CornerLD, CornerRD, uv.x), lerp(CornerLU, CornerRU, uv.x), uv.y).xy;
+    float4 color = float4(0,0,0,0);
+
+    //Aggregate nodes
+    float aggregate = 1;
+    for (uint a = 0; a < nCount; ++a)
+    {
+        float dist = CircleDistance(Nodes[a].center, Nodes[a].radius, worldPos);
+        color += saturate(1-dist) * Nodes[a].color;
+        aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
+    }
+
+    //Aggregate links
+    for (uint b = 0; b < lCount; ++b)
+    {
+        float len = distance(Links[b].xy, Links[b].zw);
+        float invLen = 1.0 / len;
+        for (float j = 0; j < len; j += 0.5)
+        {
+            float t = j * invLen;
+            float dist = CircleDistance(lerp(Links[b].xy, Links[b].zw, t), LinkSize, worldPos);
+            aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
+        }
+    }
+
+    float cut = 1-step(CutThreshold, aggregate);
+
+
+    Result[id.xy] = float4(color.rgb * cut, 1);
+}
