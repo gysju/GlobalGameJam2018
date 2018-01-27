@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 [ExecuteInEditMode, ImageEffectAllowedInSceneView, RequireComponent(typeof(Camera))]
 public class TerrainToField : MonoBehaviour
 {
 
     public ComputeShader Compute;
+    public Vector4[] Spheres;
+    public Vector4 Utils;
     private RenderTexture temp = null;
+    private ComputeBuffer sphereBuffer;
     private int kernel;
 
     void Start()
@@ -50,9 +54,21 @@ public class TerrainToField : MonoBehaviour
         //Apply compute
         Compute.SetTexture(kernel, "src", src);
         Compute.SetTexture(kernel, "dst", temp);
+        Compute.SetVector("_Utils", Utils);
+
+        if (Spheres.Length > 0)
+        {
+            sphereBuffer = new ComputeBuffer(Spheres.Length, sizeof(float) * 4);
+            sphereBuffer.SetData(Spheres);
+            Compute.SetBuffer(kernel, "spheres", sphereBuffer);
+        }
+
         ShareCameraParameters();
         Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(Screen.width / 8.0f), Mathf.CeilToInt(Screen.height / 8.0f), 1);
         Compute.Dispatch(kernel, threadSize.x, threadSize.y, threadSize.z);
+
+        if (Spheres.Length > 0)
+            sphereBuffer.Release();
 
         //Apply result to dst
         Graphics.Blit(temp, dst);
