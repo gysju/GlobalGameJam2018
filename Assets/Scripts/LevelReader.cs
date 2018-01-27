@@ -18,15 +18,19 @@ public class LevelReader : MonoBehaviour
     public float BlendingFactor;
     public float LinkSize;
     public float CutThreshold;
+    public Vector4 NormalRemap;
 
     //Private
     private int worldToFieldKernel;
+    private int FieldToNormalKernel;
     private RenderTexture bufferA;
     private RenderTexture bufferB;
     private ComputeBuffer nodesBuffer;
     private ComputeBuffer linksBuffer;
     private MeshRenderer rend;
-    
+    private Player player;
+
+
     void OnDrawGizmos()
     {
         Matrix4x4 l2World = transform.localToWorldMatrix;
@@ -83,6 +87,10 @@ public class LevelReader : MonoBehaviour
         if (Level == null || LevelToField == null)
             return;
 
+        //Get basics
+        worldToFieldKernel = LevelToField.FindKernel("LevelToField");
+        FieldToNormalKernel = LevelToField.FindKernel("FieldToNormal");
+
         //Rebuild renderTextures
         bufferA = RebuildBuffer(bufferA);
         bufferB = RebuildBuffer(bufferB);
@@ -94,6 +102,17 @@ public class LevelReader : MonoBehaviour
         LevelToField.SetVector("CornerRD", corners[1]);
         LevelToField.SetVector("CornerRU", corners[2]);
         LevelToField.SetVector("CornerLU", corners[3]);
+
+        //Share player info
+        if (player == null)
+            player = FindObjectOfType<Player>();
+        else
+        {
+            Vector4 playerPos = (Vector4)player.transform.position;
+            playerPos.w = player._Range;
+            LevelToField.SetVector("PlayerPosition", playerPos);
+            LevelToField.SetVector("PlayerColor", player._Color);
+        }
 
         //Compute level informations
         Rect rect = new Rect(transform.position, transform.localScale);
@@ -139,11 +158,20 @@ public class LevelReader : MonoBehaviour
         LevelToField.SetFloat("BlendingFactor", BlendingFactor);
         LevelToField.SetFloat("LinkSize", LinkSize);
         LevelToField.SetFloat("CutThreshold", CutThreshold);
+        LevelToField.SetVector("NormalRemap", NormalRemap);
+        
 
         //Execute compute
         LevelToField.SetTexture(worldToFieldKernel, "Result", bufferA);
         Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(bufferA.width / 32.0f), Mathf.CeilToInt(bufferA.height / 32.0f), 1);
         LevelToField.Dispatch(worldToFieldKernel, threadSize.x, threadSize.y, threadSize.z);
+
+        //LevelToField.SetTexture(FieldToNormalKernel, "Field", bufferB);
+        //LevelToField.Dispatch(FieldToNormalKernel, threadSize.x, threadSize.y, threadSize.z);
+
+        LevelToField.SetTexture(FieldToNormalKernel, "SourceField", bufferA);
+        LevelToField.SetTexture(FieldToNormalKernel, "Normal", bufferB);
+        LevelToField.Dispatch(FieldToNormalKernel, threadSize.x, threadSize.y, threadSize.z);
 
         //Release buffers
         if (nodes.Count > 0)
@@ -153,7 +181,7 @@ public class LevelReader : MonoBehaviour
 
         //Apply texture to material
         rend.sharedMaterial.SetTexture("_Color_Distance", bufferA);
-
+        rend.sharedMaterial.SetTexture("_Normal_Alpha", bufferB);
     }
 
     void OnDestroy()
