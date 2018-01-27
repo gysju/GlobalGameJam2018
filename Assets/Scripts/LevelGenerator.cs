@@ -14,11 +14,14 @@ public class LevelGenerator : MonoBehaviour
 
     [Header("Game Construction info")]
     [Range(1, 100)]
-    public float _Length = 5;
+    public float _LengthScale = 5;
+    float _Length = 5;
 
     [Range(1, 100)]
-    public int _SegmentPointCount = 5;
-    public int _Segments = 5;
+    public int _SegmentPointCountScale = 5;
+    int _SegmentPointCount = 5;
+    public int _SegmentsScale = 5;
+    int _Segments = 5;
     public float _Height = 5;
     public float _MinLinkLenght = 0.2f;
     public float _MaxLinkLenght = 2;
@@ -72,9 +75,9 @@ public class LevelGenerator : MonoBehaviour
     {
         _DeathZone.transform.position = - (Vector3.right * _DeathSpawnBias);
 
-        _Length = 5 * _Difficulty;
-        _Segments = 5 * _Difficulty;
-        _SegmentPointCount = 4 * _Difficulty;
+        _Length = _LengthScale * _Difficulty;
+        _Segments = _SegmentsScale * _Difficulty;
+        _SegmentPointCount = _SegmentPointCountScale * _Difficulty;
         _CounterSignalNmb = _Difficulty;
 
         yield return StartCoroutine(SpawnPoints());
