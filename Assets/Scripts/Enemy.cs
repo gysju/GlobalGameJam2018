@@ -60,6 +60,7 @@ public class Enemy : Player {
             case Point.PointType.Dead:
                 {
                     //Kill();
+                    LevelGenerator._Instance._Enemies.Remove(this);
                     Destroy(gameObject);
                     break;
                 }

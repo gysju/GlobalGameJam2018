@@ -18,7 +18,6 @@ public class Player : MonoBehaviour {
 
     public AnimationCurve _SpeedCurve;
 
-
     // Use this for initialization
     private void Awake()
     {
@@ -62,51 +61,62 @@ public class Player : MonoBehaviour {
         if (_CurrentLink)
             _CurrentLink.OnCrossed();
 
-
-        switch (_Target._Type)
+        if (_Target == LevelGenerator._Instance._Points[LevelGenerator._Instance._Points.Count - 1])
         {
-            case Point.PointType.Normal:
-                {
+            Win();
+        }
+        else
+        {
+            switch (_Target._Type)
+            {
+                case Point.PointType.Normal:
+                    {
 
-                    _Start = _Target;
-                    _Target = _Target.getMostAccurateDestinaton(LastInput);
-                    break;
-                }
-            case Point.PointType.Dead:
-                {
-                    Kill();
-                    break;
-                }
-            case Point.PointType.Fried:
-                {
-                    _Start = _Target;
-                    _Target = _Target.GetRandomForwardPath() ;
+                        _Start = _Target;
+                        _Target = _Target.getMostAccurateDestinaton(LastInput);
+                        break;
+                    }
+                case Point.PointType.Dead:
+                    {
+                        Kill();
+                        break;
+                    }
+                case Point.PointType.Fried:
+                    {
+                        _Start = _Target;
+                        _Target = _Target.GetRandomForwardPath() ;
                     
-                    break;
-                }
-            case Point.PointType.Back:
-                {
-                    Point temp = _Start;
-                    _Start = _Target;
-                    _Target._Type = Point.PointType.Normal;
-                    _Target = temp;
+                        break;
+                    }
+                case Point.PointType.Back:
+                    {
+                        Point temp = _Start;
+                        _Start = _Target;
+                        _Target._Type = Point.PointType.Normal;
+                        _Target = temp;
 
                     
-                    break;
-                }
+                        break;
+                    }
+            }
         }
 
         StopAllCoroutines();
         GoToPointCorroutine = null;
     }
+
+    public void Win()
+    {
+        _Immobile = true;
+        CanvasManager._Instance.GoToWinMenu();
+    }
+
     [ContextMenu("KillPlayer")]
     public void Kill() {
 
         _Immobile = true;
         CanvasManager._Instance.GoToDeathMenu();
     }
-
-
 
     private void OnDrawGizmos()
     {
@@ -117,5 +127,4 @@ public class Player : MonoBehaviour {
         
         Gizmos.DrawLine(transform.position, transform.position + LastInput);
     }
-
 }
