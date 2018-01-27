@@ -376,6 +376,13 @@ MonoBehaviour:
   _Speed: 0.01
   _Points: []
   _Links: []
+  _KillPointsSpawnPercentage: 0.047
+  _FriedPointsSpawnPercentage: 0.1
+  _BackPointsSpawnPercentage: 0.17
+  _NormalPointsSpawnPercentage: 0
+  _DeathZone: {fileID: 1332615148}
+  _DeathSpeed: 1
+  _DeathSpawnBias: 1
   _Player: {fileID: 1511820335342222, guid: a35a46e538c20ff4293b75dd2b5bc011, type: 2}
 --- !u!4 &1211663251
 Transform:
@@ -389,6 +396,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1332615148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1332615149}
+  m_Layer: 0
+  m_Name: DeathZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1332615149
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332615148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -62.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1340778346
 GameObject:
