@@ -85,7 +85,8 @@ public class LevelGenerator : MonoBehaviour
     {
         _DefaultPos  = -(Vector3.right * 1000.0f);
         _DeathZone.transform.position = _DefaultPos;
-        
+
+        UglyFadeScript.LoadNewPanel(CurrentLevel);
 
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
