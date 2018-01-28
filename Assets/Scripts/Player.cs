@@ -140,6 +140,9 @@ public class Player : MonoBehaviour {
     public void Kill() {
 
         //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
+        string[] s = new string[] { "SndDeathPT01", "SndDeathPT01a", "SndDeathPT01b", "SndDeathPT01c", "SndDeathPT01d", "SndDeathPT02" };
+        SoundManager.Instance.PlaySoundOneShot(s, _audioSource);
+
         _Immobile = true;
         CanvasManager._Instance.GoToDeathMenu();
         StartCoroutine(SetVibration(1.0f, 0.25f));
