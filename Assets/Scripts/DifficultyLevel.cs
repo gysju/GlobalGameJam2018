@@ -4,6 +4,11 @@
 public class DifficultyLevel : ScriptableObject
 {
 
+    [Header("Interface")]
+    public string Name;
+    public string Description;
+    public Sprite Image;
+
     [Header("Game Construction")]
     public int Lenght = 100;
     public int SegmentPointCount = 40;

@@ -86,7 +86,6 @@ public class LevelGenerator : MonoBehaviour
     {
         _DefaultPos  = -(Vector3.right * 1000.0f);
         _DeathZone.transform.position = _DefaultPos;
-        
 
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
