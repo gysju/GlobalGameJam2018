@@ -1,0 +1,49 @@
+﻿#pragma kernel CSMain
+
+struct NodeNode
+{
+    float2 offset;
+    int index[5];
+};
+
+RWStructuredBuffer<NodeNode> Nodes;
+float Transmission = 0.1;
+float Velocity = 0.99;
+int ReactNodeId = -1;
+float2 ReactForce = float2(0, 1);
+float maxDist = 500;
+
+[numthreads(8,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    if (ReactNodeId > -1)
+    {
+        Nodes[ReactNodeId].offset = ReactForce;
+    }
+
+    Nodes[Nodes[id.x].index[0]].offset += Nodes[id.x].offset * Transmission;
+    int nextId = Nodes[id.x].index[1];
+    if (nextId > -1)
+    {
+        Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+        nextId = Nodes[id.x].index[2];
+        if (nextId > -1)
+        {
+            Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+            nextId = Nodes[id.x].index[3];
+            if (nextId > -1)
+            {
+                Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+                nextId = Nodes[id.x].index[4];
+                if (nextId > -1)
+                    Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+            }
+        }
+    }
+
+    Nodes[id.x].offset *= Velocity;
+    float mgn = length(Nodes[id.x].offset);
+    if (mgn > maxDist)
+        Nodes[id.x].offset = Nodes[id.x].offset / mgn * maxDist;
+
+}

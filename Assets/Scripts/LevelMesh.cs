@@ -8,6 +8,7 @@ public class LevelMesh : ScriptableObject
     public Node[] Nodes;
     public LinkF[] Links;
     public Dictionary<Point, int> adress;
+    public bool dirty;
 
     [System.Serializable]
     public struct LinkF
@@ -68,6 +69,7 @@ public class LevelMesh : ScriptableObject
 
         Nodes = nodes.ToArray();
         Links = ls.ToArray();
+        dirty = true;
     }
 
 }
