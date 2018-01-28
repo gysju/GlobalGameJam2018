@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 028598fcfb8fdce468691425309e825b, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.611814, g: 0.008339024, b: 0.3163605, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -908,7 +908,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 576327766}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8569458c9b0add545bfb3557cf93d981, type: 3}
   m_Name: 
@@ -2093,6 +2093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6fb455c0c9a34419c039515abd05d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Difficulty: 1
   _Length: 100
   _SegmentPointCount: 2
   _Segments: 250
@@ -2349,6 +2350,7 @@ GameObject:
   - component: {fileID: 2025409547}
   - component: {fileID: 2025409546}
   - component: {fileID: 2025409545}
+  - component: {fileID: 2025409548}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2401,6 +2403,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2025409548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2025409544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc6cee5eba9c3c45a1660ab35dea16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 2100000, guid: 028598fcfb8fdce468691425309e825b, type: 2}
+  Name: _MainTex
+  Gradient:
+    serializedVersion: 2
+    key0: {r: 0, g: 0, b: 0, a: 1}
+    key1: {r: 0.809, g: 0, b: 0, a: 1}
+    key2: {r: 0.42403647, g: 0, b: 0.5441177, a: 0}
+    key3: {r: 0.2464533, g: 0.15603375, b: 0.27205884, a: 0}
+    key4: {r: 1, g: 1, b: 1, a: 0}
+    key5: {r: 1, g: 1, b: 1, a: 0}
+    key6: {r: 1, g: 1, b: 1, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 15219
+    ctime2: 34432
+    ctime3: 50602
+    ctime4: 65535
+    ctime5: 65535
+    ctime6: 65535
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
+  WarpMode: 1
+  Refresh: 0
+  KeepRefreshing: 1
 --- !u!1 &2030960353
 GameObject:
   m_ObjectHideFlags: 0

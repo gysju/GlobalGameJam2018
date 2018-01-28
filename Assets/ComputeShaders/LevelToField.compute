@@ -73,7 +73,7 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
     for (uint a = 0; a < nCount; ++a)
     {
         float dist = CircleDistance(Nodes[a].center, Nodes[a].radius, worldPos);
-        color += saturate(1-dist) * Nodes[a].color;
+        color += saturate(1-(dist*0.3)) * Nodes[a].color;
         aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
     }
 
@@ -106,21 +106,35 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
 Texture2D<float4> SourceField;
 RWTexture2D<float4> Normal;
 
+float mathLinear(float edge0, float edge1, float x)
+{
+	// Scale, bias and saturate x to 0..1 range
+	x = clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+	return x;
+}
+
+
 [numthreads(32, 32, 1)]
 void FieldToNormal(uint3 id : SV_DispatchThreadID)
 {
-    float factor = smoothstep(NormalRemap.x, NormalRemap.y, SourceField[id.xy].a);
-    float cut = step(CutThreshold, SourceField[id.xy].a);
+	const float halfPI = 1.5707963267948966192313216916398;
+
+    float factor = sin(mathLinear(NormalRemap.x, NormalRemap.y, SourceField[id.xy].a) * halfPI);
+
+	float smoothness = 0.1f;
+
+    float cut = smoothstep(CutThreshold- smoothness, CutThreshold + smoothness, SourceField[id.xy].a);
 
     float height = factor;
-    float right = smoothstep(NormalRemap.x, NormalRemap.y, SourceField[int2(id.x + 1, id.y)].a);
-    float up = smoothstep(NormalRemap.x, NormalRemap.y, SourceField[int2(id.x, id.y + 1)].a);
+    float right = sin(mathLinear(NormalRemap.x, NormalRemap.y, SourceField[int2(id.x + 1, id.y)].a)*halfPI);
+    float up = sin(mathLinear(NormalRemap.x, NormalRemap.y, SourceField[int2(id.x, id.y + 1)].a)*halfPI);
     float depth = 1;
 
-    float normX = (height - right) * NormalRemap.z + .5;
-    float normY = (height - up) * NormalRemap.z + .5;
+	float normX = (height - right) * NormalRemap.z;
+    float normY = (height - up) * NormalRemap.z;
+	depth = sqrt(1 - normX*normX - normY * normY);
 
-    float3 normal = normalize(float3(normX, normY, depth));
+    float3 normal = float3(saturate(normX+.5), saturate(normY+.5), saturate(depth+.5));
     Normal[id.xy] = float4(normal, cut);
 
 }
