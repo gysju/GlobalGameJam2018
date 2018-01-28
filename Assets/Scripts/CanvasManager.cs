@@ -114,6 +114,9 @@ public class CanvasManager : MonoBehaviour {
     {
         if(!restartLevel)
             yield return StartCoroutine(LevelGenerator._Instance.GenerateLevel());
+        //TODO Reload level
+        //else
+        //    LevelReader.CurrentLevel.Redefine(LevelGenerator._Instance._Links);
 
         FadeOutIsFinished += delegate { LevelGenerator._Instance.GeneratePlayer(); };
         yield return StartCoroutine(fadeout());

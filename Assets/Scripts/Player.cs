@@ -26,7 +26,7 @@ public class Player : MonoBehaviour {
         if (!_Instance)
         {
             _Instance = this;
-
+            _Speed = LevelGenerator._Instance.CurrentLevel.PlayerSpeed;
         }
         else {
             Destroy(this);

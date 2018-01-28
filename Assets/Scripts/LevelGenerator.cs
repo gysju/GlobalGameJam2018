@@ -6,45 +6,53 @@ public class LevelGenerator : MonoBehaviour
 {
 
     // Use this for initialization
-
     public static LevelGenerator _Instance = null;
+    public int _Difficulty = 0;
+    public List<DifficultyLevel> DifficultyLevels = new List<DifficultyLevel>();
+    public DifficultyLevel ForceALevel;
 
-    public int _Difficulty = 1;
+    public DifficultyLevel CurrentLevel
+    {
+        get { if (ForceALevel)
+                return ForceALevel;
+            else
+                return DifficultyLevels[_Difficulty];
+        }
+    }
+    public float _Length
+    {get { return CurrentLevel.Lenght; }}
 
-    [Header("Game Construction info")]
-    [Range(1, 100)]
-    public float _LengthScale = 5;
-    float _Length = 5;
-
-    [Range(1, 100)]
-    public int _SegmentPointCountScale = 5;
-    int _SegmentPointCount = 5;
-    public int _SegmentsScale = 5;
-    int _Segments = 5;
-    public float _Height = 5;
-    public float _MinLinkLenght = 0.2f;
-    public float _MaxLinkLenght = 2;
+    public int _SegmentPointCount
+    {get { return CurrentLevel.SegmentPointCount; }}
+    public int _Segments
+    {get { return CurrentLevel.Segments; }}
+    public float _Height
+    { get { return CurrentLevel.Height; } }
+    public float _MinLinkLenght
+    {get { return CurrentLevel.MinLinkLenght; }}
+    public float _MaxLinkLenght
+    { get { return CurrentLevel.MaxLinkLenght; } }
     public float _Speed = 0.001f;
     public int _CounterSignalNmb = 0;
-    public List<Point> _Points = new List<Point>();
-    public List<Link> _Links = new List<Link>();
-    public List<Enemy> _Enemies = new List<Enemy>();
 
-    [Header("Points type info")]
-    [Range(0.0f, 0.25f)]
-    public float _KillPointsSpawnPercentage = 0.1f;
-    [Range(0.0f, 0.25f)]
-    public float _FriedPointsSpawnPercentage = 0.1f;
-    [Range(0.0f, 0.25f)]
-    public float _BackPointsSpawnPercentage = 0.1f;
-
-    [Range(0.0f, 1.0f)]
+    public float _KillPointsSpawnPercentage
+    { get { return CurrentLevel.KillPoint; } }
+    public float _FriedPointsSpawnPercentage
+    { get { return CurrentLevel.FriedPoint; } }
+    public float _BackPointsSpawnPercentage
+    { get { return CurrentLevel.BackPoint; } }
     public float _NormalPointsSpawnPercentage;
+
+
+    [HideInInspector] public List<Point> _Points = new List<Point>();
+    [HideInInspector] public List<Link> _Links = new List<Link>();
+    [HideInInspector] public List<Enemy> _Enemies = new List<Enemy>();
 
     [Header("DeathZone")]
     [HideInInspector]
     public GameObject _DeathZone;
-    public float _DeathSpeed = 1.0f;
+    public float _DeathSpeed
+    { get { return CurrentLevel.DeathWaveSpeed; } }
     public float _DeathSpawnBias = 50.0f;
     private Vector3 _DefaultPos;
     public GameObject _Player;
@@ -75,9 +83,6 @@ public class LevelGenerator : MonoBehaviour
         _DefaultPos  = -(Vector3.right * 1000.0f);
         _DeathZone.transform.position = _DefaultPos;
 
-        _Length = _LengthScale * _Difficulty;
-        _Segments = _SegmentsScale * _Difficulty;
-        _SegmentPointCount = _SegmentPointCountScale * _Difficulty;
         _CounterSignalNmb = _Difficulty;
 
         yield return StartCoroutine(SpawnPoints());
@@ -295,6 +300,9 @@ public class LevelGenerator : MonoBehaviour
         foreach (Enemy e in _Enemies)
             if (e != null)
                 Destroy(e.gameObject);
+
+        //LevelReader.CurrentLevel.Redefine(_Links);
+
         _Enemies.Clear();
     }
 

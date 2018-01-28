@@ -227,6 +227,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.size
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4133828088751602, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -292,6 +297,65 @@ Prefab:
         type: 2}
       propertyPath: _DeathSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 799137dca530d9b429daf4e6ff16bcbf,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d017d13c7e25af46ad9b155a9fb38ec,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: cc9778c1a94bede4b90105f678580d91,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: edd014e4dfef9ba4ba92e072ee82cc15,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 42c85374d5df0dd4d815446462b27453,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ebaa465398ea5a4ea024fb5986221bf,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: e3e5fce50b24fdc4fb9d35cd8a1995c1,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8500e243272f40840b3b143aa1d8c4e8,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: DifficultyLevels.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea1722228e11a094fb50b612c500739a,
+        type: 2}
+    - target: {fileID: 114711907565226158, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f,
+        type: 2}
+      propertyPath: _Difficulty
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41e4d4a15a1dd3947a47e1b1a4490a3f, type: 2}
