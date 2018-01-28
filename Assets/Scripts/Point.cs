@@ -117,7 +117,7 @@ public class Point: MonoBehaviour{
             case PointType.Fried:
                 return Color.blue;
             case PointType.Back:
-                return Color.black;
+                return new Color(0.7f, 0, 0.7f);
             default:
                 return Color.white;
         }

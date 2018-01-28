@@ -13,37 +13,54 @@ int ReactNodeId = -1;
 float2 ReactForce = float2(0, 1);
 float maxDist = 500;
 
+
+float2 maxblah(float2 src)
+{
+    float mgn = length(src);
+    if (mgn > maxDist)
+        src = src / mgn * maxDist;
+    return src;
+}
+
 [numthreads(8,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
+    Nodes[id.x].offset *= Velocity;
+
     if (ReactNodeId > -1)
     {
         Nodes[ReactNodeId].offset = ReactForce;
+        //Nodes[ReactNodeId].offset = maxblah(Nodes[ReactNodeId].offset);
     }
 
     Nodes[Nodes[id.x].index[0]].offset += Nodes[id.x].offset * Transmission;
+    Nodes[Nodes[id.x].index[0]].offset = maxblah(Nodes[Nodes[id.x].index[0]].offset);
     int nextId = Nodes[id.x].index[1];
     if (nextId > -1)
     {
         Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+        Nodes[nextId].offset = maxblah(Nodes[nextId].offset);
+
         nextId = Nodes[id.x].index[2];
         if (nextId > -1)
         {
             Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+            Nodes[nextId].offset = maxblah(Nodes[nextId].offset);
+
             nextId = Nodes[id.x].index[3];
             if (nextId > -1)
             {
                 Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+                Nodes[nextId].offset = maxblah(Nodes[nextId].offset);
+
                 nextId = Nodes[id.x].index[4];
                 if (nextId > -1)
+                {
                     Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+                    Nodes[nextId].offset = maxblah(Nodes[nextId].offset);
+                }
             }
         }
     }
-
-    Nodes[id.x].offset *= Velocity;
-    float mgn = length(Nodes[id.x].offset);
-    if (mgn > maxDist)
-        Nodes[id.x].offset = Nodes[id.x].offset / mgn * maxDist;
 
 }

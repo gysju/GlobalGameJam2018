@@ -32,6 +32,8 @@ public class LevelReaction : MonoBehaviour
 
     public static void AddForceToNode(Point node, Vector2 force)
     {
+        if (main == null || main.level == null)
+            return;
         main.AddForce = true;
         main.ReactNode = main.level.adress[node];
         main.ReactForce = force;
