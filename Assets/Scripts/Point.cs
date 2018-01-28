@@ -135,6 +135,12 @@ public class Point: MonoBehaviour{
         _Level.Nodes[_Level.adress[this]].color = GetNodeColor();
     }
 
+    public void SetDefaultType()
+    {
+        _Type = PointType.Normal;
+        _Level.Nodes[_Level.adress[this]].color = Color.cyan;
+    }
+
     public Link GetConnectingLink(Point other) {
 
         foreach (Link l in _Links) {

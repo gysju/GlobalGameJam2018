@@ -129,7 +129,7 @@ public class Player : MonoBehaviour {
                     {
                         Point temp = _Start;
                         _Start = _Target;
-                        _Target._Type = Point.PointType.Normal;
+                        _Target.SetDefaultType();
                         _Target = temp;
                         StartCoroutine(SetVibration(1f, 0.1f));
 
