@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sounds:
   - Name: MasterTrack_mixdown
-    audioClip: {fileID: 8300000, guid: 942e09d84362a814fa8a7b10ba53eb10, type: 3}
+    audioClip: {fileID: 8300000, guid: a9a99b6feee245946bc0a7a1afd688b3, type: 3}
     Volume: 1
     priority: 128
     Pitch: {x: 1, y: 1}
