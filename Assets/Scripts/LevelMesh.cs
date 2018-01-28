@@ -21,6 +21,7 @@ public class LevelMesh : ScriptableObject
     public struct Node
     {
         public Vector2 center;
+        public Vector2 offset;
         public float radius;
         public Color color;
     }

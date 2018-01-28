@@ -118,12 +118,12 @@ public class LevelReader : MonoBehaviour
 
         //Compute level informations
         Rect rect = new Rect(corners[0].x, corners[0].y, corners[1].x - corners[0].x, corners[2].y - corners[1].y);
-        Dictionary<int, LevelMesh.Node> nodes = new Dictionary<int, LevelMesh.Node>();
+        Dictionary<int, NodeC> nodes = new Dictionary<int, NodeC>();
         for (int i = 0; i < Level.Nodes.Length; i++)
         {
             LevelMesh.Node node = Level.Nodes[i];
             if (CircleInRect(node.center, node.radius + 5, rect))
-                nodes.Add(i, node);
+                nodes.Add(i, new NodeC() { center = node.center + node.offset, color = node.color, radius = node.radius});
         }
 
         //Add ennemies
@@ -132,7 +132,7 @@ public class LevelReader : MonoBehaviour
             for (int i = 0; i < LevelGenerator._Instance._Enemies.Count; i++)
             {
                 Enemy enemy = LevelGenerator._Instance._Enemies[i];
-                LevelMesh.Node node = new LevelMesh.Node() { center = enemy.transform.position, color = Color.red, radius = enemy._Range };
+                NodeC node = new NodeC() { center = enemy.transform.position, color = Color.red, radius = enemy._Range };
                 nodes.Add(GetRandomKey(nodes), node);
             }
         }
@@ -209,6 +209,13 @@ public class LevelReader : MonoBehaviour
         public Vector2 p0;
         public Vector2 p1;
         public float focus;
+    }
+
+    struct NodeC
+    {
+        public Vector2 center;
+        public float radius;
+        public Color color;
     }
 
     void OnDestroy()
