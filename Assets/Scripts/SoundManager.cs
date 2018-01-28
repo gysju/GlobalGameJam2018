@@ -216,4 +216,8 @@ public class SoundManager : MonoBehaviour
         PlaySoundOneShot( s[ Random.Range(0, s.Length) ] , au);
 
     }
+    public void SpawnPlaySound(string[] s, Vector3 v)
+    {
+        SpawnPlaySound(s[Random.Range(0, s.Length)], v);
+    }
 }

@@ -18,6 +18,7 @@ public class Enemy : Player {
 
         if (_Instance && !_Instance._Immobile && (_Instance.transform.position - transform.position).magnitude < _CollisionDistance)
         {
+            SoundManager.Instance.SpawnPlaySound("SndDieByEnemy", Vector3.zero);
             _Instance.Kill();
         }
         if (GoToPointCorroutine == null && !_Immobile)
