@@ -178,6 +178,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -206.95, y: -219.68, z: -37.50699}
+--- !u!1 &248903860 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1574720160866198, guid: ec21bfdf929c40640b9178c912b839d4,
+    type: 2}
+  m_PrefabInternal: {fileID: 457196808}
+--- !u!114 &248903865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 248903860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a916dce9b94de774193d85c1e1516733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NodeFlocking: {fileID: 7200000, guid: f17fcfdd69e9073498eed99ffa57faa6, type: 3}
+  Transmission: 0.08
+  Velocity: 0.95
+  AddForce: 0
+  ReactNode: 3
+  ReactForce: {x: 4, y: 0}
 --- !u!1001 &457196808
 Prefab:
   m_ObjectHideFlags: 0
@@ -499,6 +521,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!1 &1111508000 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1640298118052376, guid: 1f6a38f40e250074bb84e47d30c3cd6e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1264741964}
+--- !u!114 &1111508001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1111508000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d952d5d9d759b8438a89585456e6356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1001 &1264741964
 Prefab:
   m_ObjectHideFlags: 0
