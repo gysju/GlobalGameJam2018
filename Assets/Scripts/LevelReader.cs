@@ -196,7 +196,7 @@ public class LevelReader : MonoBehaviour
         rend.sharedMaterial.SetTexture("_Normal_Alpha", bufferB);
     }
 
-    int GetRandomKey(Dictionary<int, LevelMesh.Node> dico)
+    int GetRandomKey(Dictionary<int, NodeC> dico)
     {
         int key = rnd.Next();
         while (dico.ContainsKey(key))
