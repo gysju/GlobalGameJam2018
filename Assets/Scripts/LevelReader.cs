@@ -129,7 +129,7 @@ public class LevelReader : MonoBehaviour
             Vector2Int index = Level.Links[i];
             if (nodes.ContainsKey(index.x) || nodes.ContainsKey(index.y))
             {
-                Vector2 p0 = Level.Nodes[index.x].center; 
+                Vector2 p0 = Level.Nodes[Level.Links[i].].center; 
                 Vector2 p1 = Level.Nodes[index.y].center;
                 links.Add(new Vector4(p0.x, p0.y, p1.x, p1.y));
             }
