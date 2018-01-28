@@ -55,7 +55,7 @@ MonoBehaviour:
   _Start: {fileID: 0}
   _Target: {fileID: 0}
   _CurrentLink: {fileID: 0}
-  _Speed: 10
+  _Speed: 20
   _Range: 1
   _Color: {r: 1.8279998, g: 1.4750067, b: 0, a: 0}
   _SpeedCurve:

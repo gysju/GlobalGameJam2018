@@ -4,4 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Sam_Workspace_without_Bullshit.unity
+    guid: 8a76c2306a60c06448582d2e767b71cc

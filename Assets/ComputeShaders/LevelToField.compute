@@ -7,10 +7,17 @@ struct Node
     float4 color;
 };
 
+struct Link
+{
+    float2 p0;
+    float2 p1;
+    float focus;
+};
+
 
 RWTexture2D<float4> Result;
 StructuredBuffer<Node> Nodes;
-StructuredBuffer<float4> Links;
+StructuredBuffer<Link> Links;
 
 
 //Mesh informations
@@ -73,6 +80,8 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
     for (uint a = 0; a < nCount; ++a)
     {
         float dist = CircleDistance(Nodes[a].center, Nodes[a].radius, worldPos);
+        if (dist * 0.5 > Nodes[a].radius)
+            continue;
         color += saturate(1-(dist*0.3)) * Nodes[a].color;
         aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
     }
@@ -80,12 +89,15 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
     //Aggregate links
     for (uint b = 0; b < lCount; ++b)
     {
-        float len = distance(Links[b].xy, Links[b].zw);
+        float len = distance(Links[b].p0, Links[b].p1);
         float invLen = 1.0 / len;
         for (float j = 0; j < len; j += 0.5)
         {
             float t = j * invLen;
-            float dist = CircleDistance(lerp(Links[b].xy, Links[b].zw, t), LinkSize, worldPos);
+            float dist = CircleDistance(lerp(Links[b].p0, Links[b].p1, t), LinkSize, worldPos);
+            if (dist > 1.5)
+                continue;
+            color += saturate(1 - (dist * 0.3)) * Links[b].focus * float4(10, 0, 0, 0);
             dist *= dist;
             aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
         }

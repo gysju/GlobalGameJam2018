@@ -29,6 +29,7 @@ public class LevelReader : MonoBehaviour
     private ComputeBuffer linksBuffer;
     private MeshRenderer rend;
     private Player player;
+    private System.Random rnd = new System.Random();
 
 
     void OnDrawGizmos()
@@ -45,12 +46,13 @@ public class LevelReader : MonoBehaviour
 
     Vector3[] GetCorners()
     {
+        const float range = .5f;
         Matrix4x4 l2World = transform.localToWorldMatrix;
         return new Vector3[] {
-            l2World.MultiplyPoint(new Vector3(-.5f, -.5f, 0)),
-            l2World.MultiplyPoint(new Vector3(.5f, -.5f, 0)),
-            l2World.MultiplyPoint(new Vector3(.5f, .5f, 0)),
-            l2World.MultiplyPoint(new Vector3(-.5f, .5f, 0)),
+            l2World.MultiplyPoint(new Vector3(-range, -range, 0)),
+            l2World.MultiplyPoint(new Vector3(range, -range, 0)),
+            l2World.MultiplyPoint(new Vector3(range, range, 0)),
+            l2World.MultiplyPoint(new Vector3(-range, range, 0)),
         };
     }
 
@@ -105,7 +107,7 @@ public class LevelReader : MonoBehaviour
 
         //Share player info
         if (player == null)
-            player = FindObjectOfType<Player>();
+            player = Player._Instance;
         else
         {
             Vector4 playerPos = (Vector4)player.transform.position;
@@ -115,23 +117,36 @@ public class LevelReader : MonoBehaviour
         }
 
         //Compute level informations
-        Rect rect = new Rect(transform.position, transform.localScale);
+        Rect rect = new Rect(corners[0].x, corners[0].y, corners[1].x - corners[0].x, corners[2].y - corners[1].y);
         Dictionary<int, LevelMesh.Node> nodes = new Dictionary<int, LevelMesh.Node>();
         for (int i = 0; i < Level.Nodes.Length; i++)
         {
             LevelMesh.Node node = Level.Nodes[i];
-            //if (CircleInRect(node.center, node.radius, rect))
+            if (CircleInRect(node.center, node.radius + 5, rect))
                 nodes.Add(i, node);
         }
-        List<Vector4> links = new List<Vector4>();
+
+        //Add ennemies
+        if (LevelGenerator._Instance != null && LevelGenerator._Instance._Enemies != null)
+        {
+            for (int i = 0; i < LevelGenerator._Instance._Enemies.Count; i++)
+            {
+                Enemy enemy = LevelGenerator._Instance._Enemies[i];
+                LevelMesh.Node node = new LevelMesh.Node() { center = enemy.transform.position, color = Color.red, radius = enemy._Range };
+                nodes.Add(GetRandomKey(nodes), node);
+            }
+        }
+
+        //Add links
+        List<LinkC> links = new List<LinkC>();
         for (int i = 0; i < Level.Links.Length; i++)
         {
-            Vector2Int index = Level.Links[i];
+            Vector2Int index = new Vector2Int(Level.Links[i].id0, Level.Links[i].id1);
             if (nodes.ContainsKey(index.x) || nodes.ContainsKey(index.y))
             {
-                Vector2 p0 = Level.Nodes[Level.Links[i].].center; 
+                Vector2 p0 = Level.Nodes[index.x].center; 
                 Vector2 p1 = Level.Nodes[index.y].center;
-                links.Add(new Vector4(p0.x, p0.y, p1.x, p1.y));
+                links.Add(new LinkC() { p0 = p0, p1 = p1, focus = Level.Links[i].focus});
             }
         }
 
@@ -148,7 +163,7 @@ public class LevelReader : MonoBehaviour
         {
             if (linksBuffer != null)
                 linksBuffer.Release();
-            linksBuffer = new ComputeBuffer(links.Count, sizeof(float) * 4);
+            linksBuffer = new ComputeBuffer(links.Count, sizeof(float) * 5);
             linksBuffer.SetData(links);
             LevelToField.SetBuffer(worldToFieldKernel, "Links", linksBuffer);
         }
@@ -165,10 +180,7 @@ public class LevelReader : MonoBehaviour
         LevelToField.SetTexture(worldToFieldKernel, "Result", bufferA);
         Vector3Int threadSize = new Vector3Int(Mathf.CeilToInt(bufferA.width / 32.0f), Mathf.CeilToInt(bufferA.height / 32.0f), 1);
         LevelToField.Dispatch(worldToFieldKernel, threadSize.x, threadSize.y, threadSize.z);
-
-        //LevelToField.SetTexture(FieldToNormalKernel, "Field", bufferB);
-        //LevelToField.Dispatch(FieldToNormalKernel, threadSize.x, threadSize.y, threadSize.z);
-
+        //Normal pass
         LevelToField.SetTexture(FieldToNormalKernel, "SourceField", bufferA);
         LevelToField.SetTexture(FieldToNormalKernel, "Normal", bufferB);
         LevelToField.Dispatch(FieldToNormalKernel, threadSize.x, threadSize.y, threadSize.z);
@@ -182,6 +194,21 @@ public class LevelReader : MonoBehaviour
         //Apply texture to material
         rend.sharedMaterial.SetTexture("_Color_Distance", bufferA);
         rend.sharedMaterial.SetTexture("_Normal_Alpha", bufferB);
+    }
+
+    int GetRandomKey(Dictionary<int, LevelMesh.Node> dico)
+    {
+        int key = rnd.Next();
+        while (dico.ContainsKey(key))
+            key = rnd.Next();
+        return key;
+    }
+
+    struct LinkC
+    {
+        public Vector2 p0;
+        public Vector2 p1;
+        public float focus;
     }
 
     void OnDestroy()

@@ -44,7 +44,11 @@ public class Point: MonoBehaviour{
             return;
 
         if (transform.position.x < levelGenerator._DeathZone.transform.position.x)
+        {
             _Type = PointType.Dead;
+            LevelMesh level = LevelReader.CurrentLevel;
+            level.Nodes[level.adress[this]].color = GetNodeColor();
+        }
     }
 
     public void GeneratedType()

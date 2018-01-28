@@ -6,7 +6,8 @@ public class LevelMesh : ScriptableObject
 {
 
     public Node[] Nodes;
-    public Link[] Links;
+    public LinkF[] Links;
+    public Dictionary<Point, int> adress;
 
     [System.Serializable]
     public struct LinkF
@@ -24,13 +25,11 @@ public class LevelMesh : ScriptableObject
         public Color color;
     }
 
-
-
     public void Redefine(List<Link> links)
     {
         List<Node> nodes = new List<Node>();
         List<LinkF> ls = new List<LinkF>();
-        Dictionary<Point, int> adress = new Dictionary<Point, int>();
+        adress = new Dictionary<Point, int>();
         for (int i = 0; i < links.Count; i++)
         {
             Vector2Int link = Vector2Int.zero;
@@ -57,11 +56,11 @@ public class LevelMesh : ScriptableObject
                 link.y = nodes.Count - 1;
                 adress.Add(links[i]._PointB, nodes.Count - 1);
             }
-            //ls.Add(new LinkF() { id0 = link.x, id1 = link.y, focus = links[i].});
+            ls.Add(new LinkF() { id0 = link.x, id1 = link.y, focus = links[i]._CurrentDot});
         }
 
         Nodes = nodes.ToArray();
-        //Links = ls.ToArray();
+        Links = ls.ToArray();
     }
 
 }
