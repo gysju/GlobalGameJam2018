@@ -17,7 +17,7 @@ public class LevelGenerator : MonoBehaviour
         get { if (ForceALevel)
                 return ForceALevel;
             else
-                return DifficultyLevels[_Difficulty];
+                return DifficultyLevels[Mathf.Min( DifficultyLevels.Count - 1, _Difficulty)];
         }
     }
     public float _Length

@@ -146,7 +146,7 @@ public class LevelReader : MonoBehaviour
             for (int i = 0; i < LevelGenerator._Instance._Enemies.Count; i++)
             {
                 Enemy enemy = LevelGenerator._Instance._Enemies[i];
-                NodeC node = new NodeC() { center = enemy.transform.position, color = Color.red, radius = enemy._Range };
+                NodeC node = new NodeC() { center = enemy.transform.position, color = Color.red * 0.5f, radius = enemy._Range };
                 nodes.Add(GetRandomKey(nodes), node);
             }
         }

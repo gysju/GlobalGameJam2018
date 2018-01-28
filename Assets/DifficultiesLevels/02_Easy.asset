@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: 02_Easy
   m_EditorClassIdentifier: 
   Name: 
-  Description: Black Synapses send you home... Once
+  Description: Pink Synapses send you home... Once
   Image: {fileID: 21300000, guid: 158357949af58b4469644aa0d27993cf, type: 3}
   Lenght: 25
   SegmentPointCount: 5
