@@ -10,7 +10,7 @@ public class Player : MonoBehaviour {
     public Point _Target;
     public Link _CurrentLink;
     public float _Speed = 3f;
-    public float _Range = 3f;
+    [HideInInspector] public float _Range = 3f;
     [ColorUsage(true,true, 0, 100, 0, 100)]public Color _Color;
 
     Vector3 LastInput = Vector3.right;
@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
     protected Coroutine GoToPointCorroutine;
 
     public AnimationCurve _SpeedCurve;
+    public AnimationCurve _RangeCurve;
 
     // Use this for initialization
     private void Awake()
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour {
             t += Time.deltaTime;
 
             transform.position = Vector3.Lerp(_Start.transform.position, _Target.transform.position, _SpeedCurve.Evaluate( t / duration) );
+            _Range = _RangeCurve.Evaluate(t / duration);
 
             yield return null;              
         }
