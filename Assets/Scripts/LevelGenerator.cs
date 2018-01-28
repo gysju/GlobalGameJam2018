@@ -46,7 +46,7 @@ public class LevelGenerator : MonoBehaviour
     public GameObject _DeathZone;
     public float _DeathSpeed = 1.0f;
     public float _DeathSpawnBias = 50.0f;
-
+    private Vector3 _DefaultPos;
     public GameObject _Player;
     public GameObject _CounterSignal; 
     public Coroutine _deathZoneCoroutine;
@@ -67,14 +67,13 @@ public class LevelGenerator : MonoBehaviour
     {
         _DeathZone = new GameObject("DeathZone");
         _NormalPointsSpawnPercentage = 1.0f - _KillPointsSpawnPercentage - _FriedPointsSpawnPercentage - _BackPointsSpawnPercentage;
-        CameraMovement._Instance.transform.position = new Vector3(_Length, _Height/2, CameraMovement._Instance.transform.position.z);   
-
-        //_deathZoneCoroutine = StartCoroutine(DeathZone());
+        CameraMovement._Instance.transform.position = new Vector3(_Length, _Height/2, CameraMovement._Instance.transform.position.z);
     }
 
     public IEnumerator GenerateLevel()
     {
-        _DeathZone.transform.position = - (Vector3.right * _DeathSpawnBias);
+        _DefaultPos  = -(Vector3.right * 1000.0f);
+        _DeathZone.transform.position = _DefaultPos;
 
         _Length = _LengthScale * _Difficulty;
         _Segments = _SegmentsScale * _Difficulty;
@@ -84,6 +83,8 @@ public class LevelGenerator : MonoBehaviour
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
         CheckPathType();
+
+        _DefaultPos = _Points[0].transform.position - Vector3.right * _DeathSpawnBias;
 
         LevelReader.CurrentLevel.Redefine(_Links);
         Debug.Log("Level generated");
@@ -128,17 +129,10 @@ public class LevelGenerator : MonoBehaviour
             Player._Instance._Immobile = false;
         }
 
-        //if (Camera.main)
-        //{
-        //    Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, _Height / 2, Camera.main.transform.position.z);
-        //}
-
-        if(_CounterSignal) 
+        if(_CounterSignal != null) 
             for (int i = 0; i < _CounterSignalNmb; i++) {
                     _Enemies.Add(Instantiate(_CounterSignal).GetComponent<Enemy>()); 
             } 
-
-
 
         _deathZoneCoroutine = StartCoroutine(DeathZone());
     }
@@ -171,16 +165,6 @@ public class LevelGenerator : MonoBehaviour
             yield return null;
         }
 
-        go = new GameObject("Point_toEnd", typeof(Point));
-        go.transform.position = new Vector3(_Length, _Height / 2, 0);
-        go.transform.parent = transform;
-        _Points.Add(go.GetComponent<Point>());
-
-        go = new GameObject("Point_End", typeof(Point));
-        go.transform.position = new Vector3(_Length+_MaxLinkLenght*0.9f, _Height / 2, 0);
-        go.transform.parent = transform;
-        _Points.Add(go.GetComponent<Point>());
-
         List<Point> pointsToDelete = new List<Point>();
 
         foreach (Point p in _Points)
@@ -203,11 +187,19 @@ public class LevelGenerator : MonoBehaviour
         }
         pointsToDelete.Clear();
 
+        go = new GameObject("Point_toEnd", typeof(Point));
+        go.transform.position = new Vector3(_Length, _Height / 2, 0);
+        go.transform.parent = transform;
+        _Points.Add(go.GetComponent<Point>());
+
+        go = new GameObject("Point_End", typeof(Point));
+        go.transform.position = new Vector3(_Length + _MaxLinkLenght * 0.9f, _Height / 2, 0);
+        go.transform.parent = transform;
+        _Points.Add(go.GetComponent<Point>());
     }
     
     IEnumerator BuildPath()
     {
-
         foreach (Point p in _Points)
         {
             foreach (Point p2 in _Points)
@@ -249,7 +241,7 @@ public class LevelGenerator : MonoBehaviour
 
     IEnumerator DeathZone()
     {
-        _DeathZone.transform.position = -(Vector3.right * _DeathSpawnBias);
+        _DeathZone.transform.position = _DefaultPos;
 
         while (!Player._Instance._Immobile)
         {
@@ -295,7 +287,7 @@ public class LevelGenerator : MonoBehaviour
             Player._Instance.transform.position = _Points[0].transform.position;
             CameraMovement._Instance.Snap();
         }
-        _DeathZone.transform.position = -(Vector3.right * _DeathSpawnBias);
+        _DeathZone.transform.position = _DefaultPos;
 
         foreach (Point p in _Points)
             p.Reset();
