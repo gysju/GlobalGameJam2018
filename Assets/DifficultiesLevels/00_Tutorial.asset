@@ -14,11 +14,11 @@ MonoBehaviour:
   Name: 
   Description: 
   Image: {fileID: 0}
-  Lenght: 20
+  Lenght: 25
   SegmentPointCount: 5
   Segments: 5
-  Height: 20
-  MinLinkLenght: 3
+  Height: 10
+  MinLinkLenght: 4
   MaxLinkLenght: 10
   KillPoint: 0
   FriedPoint: 0

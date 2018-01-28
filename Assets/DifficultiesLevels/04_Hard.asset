@@ -14,15 +14,15 @@ MonoBehaviour:
   Name: 
   Description: 
   Image: {fileID: 0}
-  Lenght: 100
-  SegmentPointCount: 40
-  Segments: 5
-  Height: 50
-  MinLinkLenght: 3
+  Lenght: 40
+  SegmentPointCount: 20
+  Segments: 8
+  Height: 20
+  MinLinkLenght: 4
   MaxLinkLenght: 15
-  KillPoint: 0.1
-  FriedPoint: 0.25
-  BackPoint: 0.25
-  PlayerSpeed: 16
-  DeathWaveSpeed: 6
-  EnemyCount: 6
+  KillPoint: 0
+  FriedPoint: 0.3
+  BackPoint: 0.3
+  PlayerSpeed: 13
+  DeathWaveSpeed: 4
+  EnemyCount: 3
