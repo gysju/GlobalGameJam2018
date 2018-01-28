@@ -46,7 +46,7 @@ public class CanvasManager : MonoBehaviour {
 
         _currentMenu = currentMenu;
 
-        StartCoroutine(fadein());
+        StartCoroutine(fadein(2.0f));
         UglyFadeScript.LoadNewPanel(LevelGenerator._Instance.DifficultyLevels[LevelGenerator._Instance._Difficulty]);
 
         FadeInIsFinished = delegate
@@ -56,7 +56,7 @@ public class CanvasManager : MonoBehaviour {
 
             buttonToEnable = _currentMenu.GetComponentsInChildren<Button>();
             RefreshHUD();
-
+            
             FadeOutIsFinished += delegate {
                 for (int i = 0; i < buttonToEnable.Length; i++)
                     buttonToEnable[i].interactable = true;
@@ -146,7 +146,7 @@ public class CanvasManager : MonoBehaviour {
         FadeOutIsFinished = null;
     }
 
-    public IEnumerator fadein()
+    public IEnumerator fadein(float wait = 0.0f)
     {
         float t = 0;
         while (t < fadeTime)
@@ -160,6 +160,7 @@ public class CanvasManager : MonoBehaviour {
         if (FadeInIsFinished != null)
             FadeInIsFinished();
         FadeInIsFinished = null;
+        yield return new WaitForSeconds(wait);
     }
 
     public void RefreshHUD()
