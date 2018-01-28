@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: 07_BrainPain
   m_EditorClassIdentifier: 
   Name: 
-  Description: 
+  Description: Now we are talking.
   Image: {fileID: 21300000, guid: 158357949af58b4469644aa0d27993cf, type: 3}
   Lenght: 100
   SegmentPointCount: 40

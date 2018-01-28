@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: 04_Hard
   m_EditorClassIdentifier: 
   Name: 
-  Description: 
+  Description: You are (not) alone.
   Image: {fileID: 21300000, guid: 158357949af58b4469644aa0d27993cf, type: 3}
   Lenght: 40
   SegmentPointCount: 20

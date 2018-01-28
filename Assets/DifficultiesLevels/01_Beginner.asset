@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: 01_Beginner
   m_EditorClassIdentifier: 
   Name: 
-  Description: 
+  Description: Dark blue synapses give you no choices.
   Image: {fileID: 21300000, guid: 158357949af58b4469644aa0d27993cf, type: 3}
   Lenght: 25
   SegmentPointCount: 5
