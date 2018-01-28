@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     public Point _Target;
     public Link _CurrentLink;
     public float _Speed = 3f;
+    public bool isPlayer;
     [HideInInspector] public float _Range = 3f;
     [ColorUsage(true,true, 0, 100, 0, 100)]public Color _Color;
 
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour {
 
     public AnimationCurve _SpeedCurve;
     public AnimationCurve _RangeCurve;
+    public AnimationCurve _FlockCurve;
 
     AudioSource _audioSource;
     private LevelMesh level;
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     private void Awake()
     {
+        isPlayer = true;
         if (!_Instance)
         {
             _Instance = this;
@@ -71,9 +74,13 @@ public class Player : MonoBehaviour {
         while (t < duration) {
             t += Time.deltaTime;
 
-            transform.position = Vector3.Lerp(level.GetPos(_Start), level.GetPos(_Target), _SpeedCurve.Evaluate( t / duration) );
+            Vector2 pStart = level.GetPos(_Start);
+            Vector2 pEnd = level.GetPos(_Target);
+            transform.position = Vector3.Lerp(pStart, pEnd, _SpeedCurve.Evaluate( t / duration) );
             _Range = _RangeCurve.Evaluate(t / duration);
-
+            Vector2 direction = (pEnd - pStart).normalized;
+            if (isPlayer)
+                LevelReaction.AddForceToNode(_Target, _FlockCurve.Evaluate(t / duration) * direction);
             yield return null;              
         }
         transform.position = level.GetPos(_Target);

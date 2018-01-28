@@ -137,6 +137,7 @@ MonoBehaviour:
   _Target: {fileID: 0}
   _CurrentLink: {fileID: 0}
   _Speed: 20
+  isPlayer: 1
   _Range: 1
   _Color: {r: 1.8279998, g: 1.4750067, b: 0, a: 0}
   _SpeedCurve:
@@ -207,6 +208,36 @@ MonoBehaviour:
       value: 1.9926028
       inSlope: -0.033514027
       outSlope: -0.033514027
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  _FlockCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: -0.14099064
+      outSlope: -0.14099064
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.64905244
+      value: 1.65646
+      inSlope: 8.563979
+      outSlope: 8.563979
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.925603
+      value: 1.9746277
+      inSlope: -12.646284
+      outSlope: -12.646284
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.9980376
+      value: 0.0023441315
+      inSlope: -37.488518
+      outSlope: -37.488518
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

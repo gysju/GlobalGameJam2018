@@ -11,6 +11,7 @@ float Transmission = 0.1;
 float Velocity = 0.99;
 int ReactNodeId = -1;
 float2 ReactForce = float2(0, 1);
+float maxDist = 500;
 
 [numthreads(8,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
@@ -41,4 +42,8 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     }
 
     Nodes[id.x].offset *= Velocity;
+    float mgn = length(Nodes[id.x].offset);
+    if (mgn > maxDist)
+        Nodes[id.x].offset = Nodes[id.x].offset / mgn * maxDist;
+
 }

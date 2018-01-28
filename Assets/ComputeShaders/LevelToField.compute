@@ -112,7 +112,7 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
     aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
 
     //Aggrgate noise
-    float noise = Noise.SampleLevel(_LinearRepeat, uv * NoiseParameters.y + NoiseParameters.zw * Time, 0).r - .5;
+    float noise = Noise.SampleLevel(_LinearRepeat, worldPos * NoiseParameters.y + NoiseParameters.zw * Time, 0).r - .5;
     //aggregate = sminPolynomial(aggregate, noise * NoiseParameters.x, BlendingFactor);
     aggregate += noise * NoiseParameters.x;
 

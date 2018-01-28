@@ -19,12 +19,22 @@ public class LevelReaction : MonoBehaviour
     public float Velocity = 0.99f;
 
     public bool AddForce;
+    public float maxDist;
     public int ReactNode;
     public Vector2 ReactForce;
+    public static LevelReaction main;
 
     void Awake()
     {
         reader = GetComponent<LevelReader>();
+        main = this;
+    }
+
+    public static void AddForceToNode(Point node, Vector2 force)
+    {
+        main.AddForce = true;
+        main.ReactNode = main.level.adress[node];
+        main.ReactForce = force;
     }
 
     void Update()
@@ -44,6 +54,7 @@ public class LevelReaction : MonoBehaviour
 
         NodeFlocking.SetFloat("Transmission", Transmission);
         NodeFlocking.SetFloat("Velocity", Velocity);
+        NodeFlocking.SetFloat("maxDist", maxDist);
 
         if (AddForce)
         {
