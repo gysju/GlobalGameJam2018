@@ -100,7 +100,10 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
             float dist = CircleDistance(lerp(Links[b].p0, Links[b].p1, t), LinkSize, worldPos);
             if (dist > 1.5)
                 continue;
-            color += saturate(1 - (dist * 0.3)) * Links[b].focus * float4(10, 0, 0, 0);
+
+			//color += saturate(1 - (dist * 0.3)) * Links[b].focus * float4(10, 0, 0, 0);
+			color = lerp(lerp(color, Nodes[a].color, saturate(1 - (dist*0.3))*0.55), color + saturate(1 - (dist*0.3)) * Nodes[a].color, 1-Nodes[a].color.a);
+
             dist *= dist;
             aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
         }
@@ -108,7 +111,7 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
 
     //Aggregate player
     float dist = CircleDistance(PlayerPosition.xy, PlayerPosition.w, worldPos);
-    color += saturate(1 - dist) * PlayerColor;
+    color = lerp(color, PlayerColor, saturate(1 - dist)*0.55);
     aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
 
     //Aggrgate noise
