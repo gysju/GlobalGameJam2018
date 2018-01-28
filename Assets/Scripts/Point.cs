@@ -6,6 +6,7 @@ using UnityEngine;
 public class Point: MonoBehaviour{
 
     private LevelGenerator levelGenerator;
+    private LevelMesh _Level;
 
     public enum PointType {
         Normal,
@@ -34,6 +35,7 @@ public class Point: MonoBehaviour{
     {
         _Links = new List<Link>();
         levelGenerator = LevelGenerator._Instance;
+        _Level = LevelReader.CurrentLevel;
 
         //GeneratedType();
     }
@@ -46,8 +48,7 @@ public class Point: MonoBehaviour{
         if (transform.position.x < levelGenerator._DeathZone.transform.position.x)
         {
             _Type = PointType.Dead;
-            LevelMesh level = LevelReader.CurrentLevel;
-            level.Nodes[level.adress[this]].color = GetNodeColor();
+            _Level.Nodes[_Level.adress[this]].color = GetNodeColor();
         }
     }
 
@@ -131,6 +132,7 @@ public class Point: MonoBehaviour{
     public void Reset()
     {
         _Type = _InitialType;
+        _Level.Nodes[_Level.adress[this]].color = GetNodeColor();
     }
 
     public Link GetConnectingLink(Point other) {
@@ -142,7 +144,6 @@ public class Point: MonoBehaviour{
         }
         return null;
     }
-
 
     public int GetClearPathCount() {
         int count = 0;
@@ -214,7 +215,6 @@ public class Point: MonoBehaviour{
         }
 
     }
-
 
     public void ClearAllDots() {
 
