@@ -64,8 +64,8 @@ public class Player : MonoBehaviour {
         string[] s = new string[] { "SndMovePT01", "SndMovePT02", "SndMovePT03", "SndMovePT04", "SndMovePT06" };
         SoundManager.Instance.PlaySoundOneShot(s, _audioSource);
 
-        string[] moveSnds = new string[] { "SndMove", "SndMove2" };
-        SoundManager.Instance.PlaySoundOneShot(moveSnds, _audioSource);
+        //string[] moveSnds = new string[] { "SndMove", "SndMove2" };
+        //SoundManager.Instance.PlaySoundOneShot(moveSnds, _audioSource);
 
         _CurrentLink = _Start.GetConnectingLink(_Target);
         //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
