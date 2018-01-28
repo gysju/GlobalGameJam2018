@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 public class CanvasManager : MonoBehaviour {
 
@@ -29,6 +30,7 @@ public class CanvasManager : MonoBehaviour {
         if (_Instance == null)
         {
             _Instance = this;
+            Cursor.visible = false;
         }
         else
         {
@@ -163,5 +165,10 @@ public class CanvasManager : MonoBehaviour {
     public void RefreshHUD()
     {
         _LevelText.text = "Level : " + LevelGenerator._Instance._Difficulty;
+    }
+
+    void OnDestroy()
+    {
+        GamePad.SetVibration(0, 0.0f, 0.0f);
     }
 }
