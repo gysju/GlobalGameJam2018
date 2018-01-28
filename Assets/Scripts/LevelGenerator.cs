@@ -147,7 +147,7 @@ public class LevelGenerator : MonoBehaviour
     {
 
         GameObject go = new GameObject("Point_Start", typeof(Point));
-        go.transform.position = new Vector3(-2, _Height / 2, 0);
+        go.transform.position = new Vector3(-_MaxLinkLenght * 0.9f, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
 
@@ -177,7 +177,7 @@ public class LevelGenerator : MonoBehaviour
         _Points.Add(go.GetComponent<Point>());
 
         go = new GameObject("Point_End", typeof(Point));
-        go.transform.position = new Vector3(_Length+2, _Height / 2, 0);
+        go.transform.position = new Vector3(_Length+_MaxLinkLenght*0.9f, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
 

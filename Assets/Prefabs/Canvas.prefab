@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224222812194163218}
+  - component: {fileID: 114946684943545770}
   m_Layer: 5
   m_Name: '[EndMenu]'
   m_TagString: Untagged
@@ -332,6 +333,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224340789311643688}
+  - component: {fileID: 114438484996526646}
   m_Layer: 5
   m_Name: '[FailMenu]'
   m_TagString: Untagged
@@ -481,6 +483,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224857034852687144}
+  - component: {fileID: 114440155512611074}
   m_Layer: 5
   m_Name: '[MainMenu]'
   m_TagString: Untagged
@@ -878,6 +881,30 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114438484996526646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575293177762048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bbc29f6a06a234f87406404d094e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ButtonToEnable: {fileID: 114428768018374916}
+--- !u!114 &114440155512611074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1987425186614188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bbc29f6a06a234f87406404d094e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ButtonToEnable: {fileID: 114301646779627332}
 --- !u!114 &114443992164309942
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1264,6 +1291,18 @@ MonoBehaviour:
   MainMenu: {fileID: 1987425186614188}
   FailMenu: {fileID: 1575293177762048}
   WinMenu: {fileID: 1001908124637730}
+--- !u!114 &114946684943545770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1001908124637730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bbc29f6a06a234f87406404d094e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ButtonToEnable: {fileID: 114893792484244948}
 --- !u!114 &114961243876622268
 MonoBehaviour:
   m_ObjectHideFlags: 1

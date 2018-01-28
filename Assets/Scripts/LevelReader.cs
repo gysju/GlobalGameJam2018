@@ -60,7 +60,7 @@ public class LevelReader : MonoBehaviour
         {
             if (buffer != null)
                 buffer.Release();
-            RenderTexture temp = new RenderTexture(TextureSize, TextureSize, 0);
+            RenderTexture temp = new RenderTexture(TextureSize, TextureSize, 0,RenderTextureFormat.ARGBHalf);
             temp.enableRandomWrite = true;
             temp.Create();
             return temp;
