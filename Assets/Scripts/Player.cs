@@ -38,6 +38,11 @@ public class Player : MonoBehaviour {
         if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             LastInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized;
 
+
+        if (_Target) {
+            _Target.getMostAccurateDestinaton(LastInput);
+        }
+
         if ( GoToPointCorroutine == null && !_Immobile )
             GoToPointCorroutine = StartCoroutine(goToPoint());
 
@@ -68,6 +73,7 @@ public class Player : MonoBehaviour {
         }
         else
         {
+            _Target.ClearAllDots();
             switch (_Target._Type)
             {
                 case Point.PointType.Normal:

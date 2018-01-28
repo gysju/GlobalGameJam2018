@@ -79,6 +79,7 @@ public class Point: MonoBehaviour{
                 continue;
             Point potentialDest = l.getOtherPoint(this);
             currentDot = Vector3.Dot(targetDirection, (potentialDest.transform.position - transform.position).normalized);
+            l._CurrentDot = currentDot;
             if (bestPointDot < currentDot)
             {
                 bestPoint = potentialDest;
@@ -207,5 +208,12 @@ public class Point: MonoBehaviour{
             return null;
         }
 
+    }
+
+
+    public void ClearAllDots() {
+
+        foreach (Link l in _Links)
+            l._CurrentDot = 0;
     }
 }
