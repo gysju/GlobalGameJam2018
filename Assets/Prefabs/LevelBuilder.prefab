@@ -52,23 +52,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Difficulty: 1
-  _Length: 16
-  _SegmentPointCount: 10
-  _Segments: 7
-  _Height: 8.01
-  _MinLinkLenght: 0.5
-  _MaxLinkLenght: 3
+  DifficultyLevels:
+  - {fileID: 11400000, guid: 799137dca530d9b429daf4e6ff16bcbf, type: 2}
+  - {fileID: 11400000, guid: 2d017d13c7e25af46ad9b155a9fb38ec, type: 2}
+  - {fileID: 11400000, guid: cc9778c1a94bede4b90105f678580d91, type: 2}
+  - {fileID: 11400000, guid: edd014e4dfef9ba4ba92e072ee82cc15, type: 2}
+  - {fileID: 11400000, guid: 42c85374d5df0dd4d815446462b27453, type: 2}
+  - {fileID: 11400000, guid: 0ebaa465398ea5a4ea024fb5986221bf, type: 2}
+  - {fileID: 11400000, guid: e3e5fce50b24fdc4fb9d35cd8a1995c1, type: 2}
+  - {fileID: 11400000, guid: 8500e243272f40840b3b143aa1d8c4e8, type: 2}
+  - {fileID: 11400000, guid: ea1722228e11a094fb50b612c500739a, type: 2}
+  ForceALevel: {fileID: 0}
   _Speed: 0.01
-  _CounterSignalNmb: 0
+  _NormalPointsSpawnPercentage: 0
   _Points: []
   _Links: []
   _Enemies: []
-  _KillPointsSpawnPercentage: 0.047
-  _FriedPointsSpawnPercentage: 0.1
-  _BackPointsSpawnPercentage: 0.17
-  _NormalPointsSpawnPercentage: 0
   _DeathZone: {fileID: 0}
-  _DeathSpeed: 1
   _DeathSpawnBias: 4
   _Player: {fileID: 1511820335342222, guid: a35a46e538c20ff4293b75dd2b5bc011, type: 2}
   _CounterSignal: {fileID: 1825913286528416, guid: d5012efeae89921449bc9c48b330a809,

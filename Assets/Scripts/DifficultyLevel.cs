@@ -20,5 +20,6 @@ public class DifficultyLevel : ScriptableObject
     [Space(10), Header("Other parameters")]
     public float PlayerSpeed = 10;
     public float DeathWaveSpeed = 4;
+    public int EnemyCount = 0;
 
 }

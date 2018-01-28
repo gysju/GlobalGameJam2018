@@ -21,6 +21,9 @@ public class CanvasManager : MonoBehaviour {
     private GameObject _currentMenu;
     private Button[] buttonToEnable;
 
+    [Header("HUD")]
+    public Text _LevelText;
+
     public void Awake()
     {
         if (_Instance == null)
@@ -48,6 +51,8 @@ public class CanvasManager : MonoBehaviour {
             _currentMenu.SetActive(false);
 
             buttonToEnable = _currentMenu.GetComponentsInChildren<Button>();
+            RefreshHUD();
+
             FadeOutIsFinished += delegate {
                 for (int i = 0; i < buttonToEnable.Length; i++)
                     buttonToEnable[i].interactable = true;
@@ -151,5 +156,10 @@ public class CanvasManager : MonoBehaviour {
         if (FadeInIsFinished != null)
             FadeInIsFinished();
         FadeInIsFinished = null;
+    }
+
+    public void RefreshHUD()
+    {
+        _LevelText.text = "Level : " + LevelGenerator._Instance._Difficulty;
     }
 }
