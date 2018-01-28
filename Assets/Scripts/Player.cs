@@ -64,6 +64,12 @@ public class Player : MonoBehaviour {
     public virtual IEnumerator goToPoint() {
 
         StartCoroutine(SetVibration(0.1f, 0.1f));
+        string[] s = new string[] { "SndMovePT01", "SndMovePT02", "SndMovePT03", "SndMovePT04", "SndMovePT06" };
+        SoundManager.Instance.PlaySoundOneShot(s, _audioSource);
+
+        //string[] moveSnds = new string[] { "SndMove", "SndMove2" };
+        //SoundManager.Instance.PlaySoundOneShot(moveSnds, _audioSource);
+
         _CurrentLink = _Start.GetConnectingLink(_Target);
         //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
         float duration = Mathf.Lerp((level.GetPos(_Start) - level.GetPos(_Target)).magnitude / _Speed, 10f / _Speed, 0.5f);
@@ -107,6 +113,7 @@ public class Player : MonoBehaviour {
                     }
                 case Point.PointType.Dead:
                     {
+                        SoundManager.Instance.SpawnPlaySound("SndDie", Vector3.zero);
                         Kill();
                         break;
                     }
@@ -126,6 +133,10 @@ public class Player : MonoBehaviour {
                         _Target = temp;
                         StartCoroutine(SetVibration(1f, 0.1f));
 
+                        string[] snd = new string[] { "SndBouncePT1", "SndBouncePT2"};
+                        SoundManager.Instance.SpawnPlaySound("SndBounce", Vector3.zero);
+                        SoundManager.Instance.PlaySoundOneShot(s, _audioSource);
+
                         break;
                     }
             }
@@ -137,7 +148,8 @@ public class Player : MonoBehaviour {
 
     public void Win()
     {
-        //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
+        SoundManager.Instance.SpawnPlaySound("SndVictoryPT01", Vector3.zero);
+        SoundManager.Instance.SpawnPlaySound("SndVictory", Vector3.zero);
         StartCoroutine(SetVibration(0.2f, 0.5f));
         _Immobile = true;
         CanvasManager._Instance.GoToWinMenu();
@@ -147,6 +159,9 @@ public class Player : MonoBehaviour {
     public void Kill() {
 
         //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
+        string[] s = new string[] { "SndDeathPT01", "SndDeathPT01a", "SndDeathPT01b", "SndDeathPT01c", "SndDeathPT01d", "SndDeathPT02" };
+        SoundManager.Instance.PlaySoundOneShot(s, _audioSource);
+        
         _Immobile = true;
         CanvasManager._Instance.GoToDeathMenu();
         StartCoroutine(SetVibration(1.0f, 0.25f));

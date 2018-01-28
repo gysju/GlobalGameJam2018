@@ -233,6 +233,17 @@ public class LevelGenerator : MonoBehaviour
             yield return null;
         }
 
+        if (_Points[_Points.Count - 1]._Links.Count < 1)
+        {
+            GameObject go = new GameObject("link", typeof(Link));
+            _Links.Add(go.GetComponent<Link>().buildLink(_Points[_Points.Count - 1], _Points[_Points.Count - 2]));
+        }
+
+        if (_Points[_Points.Count - 2]._Links.Count < 2) {
+            GameObject go = new GameObject("link", typeof(Link));
+            _Links.Add(go.GetComponent<Link>().buildLink(_Points[_Points.Count - 2], _Points[_Points.Count - 3]));
+        }
+
         foreach (Point p in _Points)
         {
             p.GeneratedType();

@@ -11,15 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff3a749e77a1d1429bbd547d12ba6ce, type: 3}
   m_Name: 05_VeryHard
   m_EditorClassIdentifier: 
-  Lenght: 100
+  Name: 
+  Description: 
+  Image: {fileID: 0}
+  Lenght: 60
   SegmentPointCount: 40
-  Segments: 5
-  Height: 50
-  MinLinkLenght: 3
+  Segments: 12
+  Height: 30
+  MinLinkLenght: 4
   MaxLinkLenght: 15
-  KillPoint: 0.1
-  FriedPoint: 0.1
-  BackPoint: 0.1
-  PlayerSpeed: 18
-  DeathWaveSpeed: 8
-  EnemyCount: 6
+  KillPoint: 0.05
+  FriedPoint: 0.3
+  BackPoint: 0.3
+  PlayerSpeed: 14
+  DeathWaveSpeed: 4
+  EnemyCount: 4

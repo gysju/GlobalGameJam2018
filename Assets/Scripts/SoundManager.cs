@@ -94,7 +94,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySoundOnShot(string name, AudioSource source)
+    public void PlaySoundOneShot(string name, AudioSource source)
     {
         Sound s = findSound(name);
         if (s.audioClip != null)
@@ -210,5 +210,14 @@ public class SoundManager : MonoBehaviour
             audioSources[i].UnPause();
             yield return null;
         }
+    }
+
+    public void PlaySoundOneShot(string[] s, AudioSource au) {
+        PlaySoundOneShot( s[ Random.Range(0, s.Length) ] , au);
+
+    }
+    public void SpawnPlaySound(string[] s, Vector3 v)
+    {
+        SpawnPlaySound(s[Random.Range(0, s.Length)], v);
     }
 }

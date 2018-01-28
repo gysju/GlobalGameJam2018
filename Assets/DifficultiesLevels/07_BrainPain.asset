@@ -11,15 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff3a749e77a1d1429bbd547d12ba6ce, type: 3}
   m_Name: 07_BrainPain
   m_EditorClassIdentifier: 
+  Name: 
+  Description: 
+  Image: {fileID: 0}
   Lenght: 100
   SegmentPointCount: 40
-  Segments: 5
+  Segments: 10
   Height: 50
-  MinLinkLenght: 3
+  MinLinkLenght: 4
   MaxLinkLenght: 15
-  KillPoint: 0.1
-  FriedPoint: 0.1
-  BackPoint: 0.1
-  PlayerSpeed: 20
-  DeathWaveSpeed: 8
-  EnemyCount: 8
+  KillPoint: 0.25
+  FriedPoint: 0.25
+  BackPoint: 0.25
+  PlayerSpeed: 16
+  DeathWaveSpeed: 7
+  EnemyCount: 7
