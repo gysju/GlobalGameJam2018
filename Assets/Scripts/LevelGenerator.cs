@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -98,6 +99,8 @@ public class LevelGenerator : MonoBehaviour
 
     public void CleanLevels()
     {
+        GamePad.SetVibration(0, 0.0f, 0.0f);
+
         foreach (Point p in _Points)
         {
             Destroy(p.gameObject);
