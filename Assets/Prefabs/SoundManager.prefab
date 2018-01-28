@@ -54,7 +54,7 @@ MonoBehaviour:
   Sounds:
   - Name: test1
     audioClip: {fileID: 8300000, guid: 9dcabab549c788b41a6075b88abd50cf, type: 3}
-    Volume: 1
+    Volume: 0.516
     priority: 128
     Pitch: {x: 1, y: 1}
     fadeDuration: 0

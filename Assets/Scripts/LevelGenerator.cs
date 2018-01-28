@@ -33,7 +33,9 @@ public class LevelGenerator : MonoBehaviour
     public float _MaxLinkLenght
     { get { return CurrentLevel.MaxLinkLenght; } }
     public float _Speed = 0.001f;
-    public int _CounterSignalNmb = 0;
+
+    public int _CounterSignalNmb
+    { get { return CurrentLevel.EnemyCount; } }
 
     public float _KillPointsSpawnPercentage
     { get { return CurrentLevel.KillPoint; } }
@@ -82,8 +84,7 @@ public class LevelGenerator : MonoBehaviour
     {
         _DefaultPos  = -(Vector3.right * 1000.0f);
         _DeathZone.transform.position = _DefaultPos;
-
-        _CounterSignalNmb = _Difficulty;
+        
 
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());
@@ -193,7 +194,7 @@ public class LevelGenerator : MonoBehaviour
         pointsToDelete.Clear();
 
         go = new GameObject("Point_toEnd", typeof(Point));
-        go.transform.position = new Vector3(_Length, _Height / 2, 0);
+        go.transform.position = new Vector3(_Length + _MaxLinkLenght * 0.1f, _Height / 2, 0);
         go.transform.parent = transform;
         _Points.Add(go.GetComponent<Point>());
 
