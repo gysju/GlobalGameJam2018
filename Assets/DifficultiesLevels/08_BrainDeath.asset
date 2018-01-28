@@ -13,16 +13,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Description: 
-  Image: {fileID: 0}
+  Image: {fileID: 21300000, guid: 158357949af58b4469644aa0d27993cf, type: 3}
   Lenght: 100
   SegmentPointCount: 40
   Segments: 10
   Height: 50
   MinLinkLenght: 4
   MaxLinkLenght: 15
-  KillPoint: 0.25
+  KillPoint: 0.1
   FriedPoint: 0.25
   BackPoint: 0.25
-  PlayerSpeed: 17
-  DeathWaveSpeed: 8
+  PlayerSpeed: 25
+  DeathWaveSpeed: 12
   EnemyCount: 8

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Description: 
-  Image: {fileID: 0}
+  Image: {fileID: 21300000, guid: 28f7cf67b423bff43893e891312b33e6, type: 3}
   Lenght: 25
   SegmentPointCount: 5
   Segments: 5
