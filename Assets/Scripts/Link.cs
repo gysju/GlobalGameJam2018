@@ -7,7 +7,7 @@ public class Link:MonoBehaviour  {
 
     public Point _PointA;
     public Point _PointB;
-
+    public float _CurrentDot = 0;
     public bool _Open = true;
     public Link _LinkedPassage;
     public Link buildLink(Point a, Point b) {
