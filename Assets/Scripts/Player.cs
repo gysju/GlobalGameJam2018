@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class Player : MonoBehaviour {
 
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour {
     public AnimationCurve _SpeedCurve;
     public AnimationCurve _RangeCurve;
 
+    AudioSource _audioSource;
+
     // Use this for initialization
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour {
         {
             _Instance = this;
             _Speed = LevelGenerator._Instance.CurrentLevel.PlayerSpeed;
+            _audioSource = GetComponent<AudioSource>();
         }
         else {
             Destroy(this);
@@ -55,6 +59,8 @@ public class Player : MonoBehaviour {
         float duration = Mathf.Lerp((_Start.transform.position - _Target.transform.position).magnitude / _Speed, 10f / _Speed, 0.5f);
         float t = 0;
 
+        //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
+
         while (t < duration) {
             t += Time.deltaTime;
 
@@ -82,6 +88,7 @@ public class Player : MonoBehaviour {
 
                         _Start = _Target;
                         _Target = _Target.getMostAccurateDestinaton(LastInput);
+                        StartCoroutine(SetVibration(1.0f, 0.1f));
                         break;
                     }
                 case Point.PointType.Dead:
@@ -92,8 +99,9 @@ public class Player : MonoBehaviour {
                 case Point.PointType.Fried:
                     {
                         _Start = _Target;
-                        _Target = _Target.GetRandomForwardPath() ;
-                    
+                        _Target = _Target.GetRandomForwardPath();
+                        StartCoroutine(SetVibration(1.5f, 0.1f));
+
                         break;
                     }
                 case Point.PointType.Back:
@@ -102,19 +110,19 @@ public class Player : MonoBehaviour {
                         _Start = _Target;
                         _Target._Type = Point.PointType.Normal;
                         _Target = temp;
-
-                    
+               
                         break;
                     }
             }
         }
 
-        StopAllCoroutines();
+        StopCoroutine(GoToPointCorroutine);
         GoToPointCorroutine = null;
     }
 
     public void Win()
     {
+        //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
         _Immobile = true;
         CanvasManager._Instance.GoToWinMenu();
     }
@@ -122,8 +130,10 @@ public class Player : MonoBehaviour {
     [ContextMenu("KillPlayer")]
     public void Kill() {
 
+        //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
         _Immobile = true;
         CanvasManager._Instance.GoToDeathMenu();
+        StartCoroutine(SetVibration(1.0f, 0.25f));
     }
 
     private void OnDrawGizmos()
@@ -134,5 +144,19 @@ public class Player : MonoBehaviour {
         Gizmos.color = Color.yellow;
         
         Gizmos.DrawLine(transform.position, transform.position + LastInput);
+    }
+
+    private IEnumerator SetVibration(float intensity, float duration)
+    {
+        GamePad.SetVibration(0, intensity, intensity);
+
+        float t = 0.0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+
+            yield return null;
+        }
+        GamePad.SetVibration(0, 0.0f, 0.0f);
     }
 }
