@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff3a749e77a1d1429bbd547d12ba6ce, type: 3}
   m_Name: 00_Tutorial
   m_EditorClassIdentifier: 
-  Name: Tutorial
-  Description: Use the right joystick to move
-  Image: {fileID: 21300000, guid: 28f7cf67b423bff43893e891312b33e6, type: 3}
+  Name: 
+  Description: 
+  Image: {fileID: 0}
   Lenght: 20
   SegmentPointCount: 5
   Segments: 5

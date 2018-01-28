@@ -52,9 +52,161 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sounds:
-  - Name: test1
-    audioClip: {fileID: 8300000, guid: 9dcabab549c788b41a6075b88abd50cf, type: 3}
-    Volume: 0.516
+  - Name: MasterTrack_mixdown
+    audioClip: {fileID: 8300000, guid: 942e09d84362a814fa8a7b10ba53eb10, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndBounce
+    audioClip: {fileID: 8300000, guid: 382943741fa713b41aec811462e1fde2, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndBouncePT01
+    audioClip: {fileID: 8300000, guid: a001af75a0df5ac4496fe42736920748, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndBouncePT02
+    audioClip: {fileID: 8300000, guid: 04edebd3c997c96439f56536921179e1, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndDeathPT01
+    audioClip: {fileID: 8300000, guid: 982e218acd8e5134c9acd91fde96cc7d, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndDeathPT02
+    audioClip: {fileID: 8300000, guid: 3f38d2328736c554d90bb5c2af6d4f8d, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndDie
+    audioClip: {fileID: 8300000, guid: 7ba4ebb4d42034749801f6813895b46b, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndDieByEnemy
+    audioClip: {fileID: 8300000, guid: 9a96df5afc995dd408f16ca3faa65a5d, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndGuiMove
+    audioClip: {fileID: 8300000, guid: 63be52a7fa7113144aa0e89a2ee739e4, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndGuiMove2
+    audioClip: {fileID: 8300000, guid: 7439f413f4bd10940bec6307710d4498, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndGuiSelect
+    audioClip: {fileID: 8300000, guid: eb578dd9bda37ec468b07304fde4ccf1, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndMove
+    audioClip: {fileID: 8300000, guid: e38be7b466dec0f418a5c2607ae03d1d, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndMove2
+    audioClip: {fileID: 8300000, guid: 7ce2627148df0424c807cc5e1917aff7, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndMovePT01
+    audioClip: {fileID: 8300000, guid: fe6c0fee1d2f5c7448ee5a0d12937504, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndMovePT02
+    audioClip: {fileID: 8300000, guid: 0b87909bbd1fb8143bc76c9c6bcf878a, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndMovePT03
+    audioClip: {fileID: 8300000, guid: 5c6585ecbce32924186c3731eaf7f964, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndMovePT04
+    audioClip: {fileID: 8300000, guid: aa6a92f1e1c459a41a7c34d16ce1fe55, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndMovePT06
+    audioClip: {fileID: 8300000, guid: 35ea2a2ac1edc924c8a7150c29114f95, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndVictory
+    audioClip: {fileID: 8300000, guid: 11bcd3a552b065d48a33f6ece4c65ff6, type: 3}
+    Volume: 1
+    priority: 128
+    Pitch: {x: 1, y: 1}
+    fadeDuration: 0
+    loop: 0
+    SpatialBlend: 1
+  - Name: SndVictoryPT01
+    audioClip: {fileID: 8300000, guid: e4813ad1008cc264d953fedbc6a995a3, type: 3}
+    Volume: 1
     priority: 128
     Pitch: {x: 1, y: 1}
     fadeDuration: 0

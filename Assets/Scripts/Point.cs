@@ -69,7 +69,7 @@ public class Point: MonoBehaviour{
         else if( GetClearPathCount() > 2)
             type = PointType.Dead;
 
-        Debug.Log("Spawn: " + type.ToString() + " for value: " + val);
+        //Debug.Log("Spawn: " + type.ToString() + " for value: " + val);
         SetInitialType(type);
     }
 

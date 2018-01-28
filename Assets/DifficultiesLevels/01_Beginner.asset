@@ -11,7 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff3a749e77a1d1429bbd547d12ba6ce, type: 3}
   m_Name: 01_Beginner
   m_EditorClassIdentifier: 
-  Lenght: 40
+  Name: 
+  Description: 
+  Image: {fileID: 0}
+  Lenght: 30
   SegmentPointCount: 10
   Segments: 10
   Height: 30
