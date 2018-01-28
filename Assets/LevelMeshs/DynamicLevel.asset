@@ -12,15 +12,67 @@ MonoBehaviour:
   m_Name: DynamicLevel
   m_EditorClassIdentifier: 
   Nodes:
-  - center: {x: 1.72, y: -1.99}
+  - center: {x: -9, y: 10}
+    offset: {x: 16.27, y: 0.16}
     radius: 2
-    color: {r: 1, g: 0, b: 0, a: 0}
-  - center: {x: 5.38, y: -2.9}
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 0, y: 10}
+    offset: {x: 0, y: 0}
     radius: 2
-    color: {r: 0.15862082, g: 0, b: 1, a: 0}
-  - center: {x: 16, y: 2.94}
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 1.4351999, y: 19.049812}
+    offset: {x: 0, y: 0}
     radius: 2
-    color: {r: 0.2827586, g: 1, b: 0, a: 0}
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 6.29786, y: 2.9852867}
+    offset: {x: 0, y: 0}
+    radius: 2
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 13.477754, y: 3.7543178}
+    offset: {x: 0, y: 0}
+    radius: 2
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 10.478964, y: 13.096083}
+    offset: {x: 0, y: 0}
+    radius: 2
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 18.084265, y: 12.067467}
+    offset: {x: 0, y: 0}
+    radius: 2
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 21, y: 10}
+    offset: {x: 0, y: 0}
+    radius: 2
+    color: {r: 0, g: 1, b: 1, a: 1}
+  - center: {x: 29, y: 10}
+    offset: {x: 0, y: 0}
+    radius: 2
+    color: {r: 0, g: 1, b: 1, a: 1}
   Links:
-  - {x: 0, y: 1}
-  - {x: 1, y: 2}
+  - id0: 0
+    id1: 1
+    focus: 0
+  - id0: 1
+    id1: 2
+    focus: 0
+  - id0: 1
+    id1: 3
+    focus: 0
+  - id0: 3
+    id1: 4
+    focus: 0
+  - id0: 5
+    id1: 4
+    focus: 0
+  - id0: 5
+    id1: 6
+    focus: 0
+  - id0: 4
+    id1: 7
+    focus: 0
+  - id0: 6
+    id1: 7
+    focus: 0
+  - id0: 7
+    id1: 8
+    focus: 0

@@ -19,6 +19,10 @@ public class LevelReader : MonoBehaviour
     public float LinkSize;
     public float CutThreshold;
     public Vector4 NormalRemap;
+    public Texture2D Noise;
+    public float NoiseFactor;
+    public float NoiseScale;
+    public Vector2 NoiseDirection;
 
     //Private
     private int worldToFieldKernel;
@@ -81,6 +85,14 @@ public class LevelReader : MonoBehaviour
         CurrentLevel = Level;
     }
 
+    void OnEnable()
+    {
+        if (Noise != null)
+        {
+            LevelToField.SetTexture(worldToFieldKernel, "Noise", Noise);
+        }
+    }
+
     void Update()
     {
         CurrentLevel = Level;
@@ -104,6 +116,8 @@ public class LevelReader : MonoBehaviour
         LevelToField.SetVector("CornerRD", corners[1]);
         LevelToField.SetVector("CornerRU", corners[2]);
         LevelToField.SetVector("CornerLU", corners[3]);
+        LevelToField.SetFloat("Time", Time.time);
+        LevelToField.SetVector("NoiseParameters", new Vector4(NoiseFactor, NoiseScale, NoiseDirection.x, NoiseDirection.y));
 
         //Share player info
         if (player == null)
@@ -144,8 +158,8 @@ public class LevelReader : MonoBehaviour
             Vector2Int index = new Vector2Int(Level.Links[i].id0, Level.Links[i].id1);
             if (nodes.ContainsKey(index.x) || nodes.ContainsKey(index.y))
             {
-                Vector2 p0 = Level.Nodes[index.x].center; 
-                Vector2 p1 = Level.Nodes[index.y].center;
+                Vector2 p0 = Level.Nodes[index.x].center + Level.Nodes[index.x].offset; 
+                Vector2 p1 = Level.Nodes[index.y].center + Level.Nodes[index.y].offset;
                 links.Add(new LinkC() { p0 = p0, p1 = p1, focus = Level.Links[i].focus});
             }
         }

@@ -22,6 +22,12 @@ public class Player : MonoBehaviour {
     public AnimationCurve _RangeCurve;
 
     AudioSource _audioSource;
+    private LevelMesh level;
+
+    void Start()
+    {
+        level = LevelReader.CurrentLevel;
+    }
 
     // Use this for initialization
     private void Awake()
@@ -57,7 +63,7 @@ public class Player : MonoBehaviour {
         StartCoroutine(SetVibration(0.1f, 0.1f));
         _CurrentLink = _Start.GetConnectingLink(_Target);
         //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
-        float duration = Mathf.Lerp((_Start.transform.position - _Target.transform.position).magnitude / _Speed, 10f / _Speed, 0.5f);
+        float duration = Mathf.Lerp((level.GetPos(_Start) - level.GetPos(_Target)).magnitude / _Speed, 10f / _Speed, 0.5f);
         float t = 0;
 
         //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
@@ -65,12 +71,12 @@ public class Player : MonoBehaviour {
         while (t < duration) {
             t += Time.deltaTime;
 
-            transform.position = Vector3.Lerp(_Start.transform.position, _Target.transform.position, _SpeedCurve.Evaluate( t / duration) );
+            transform.position = Vector3.Lerp(level.GetPos(_Start), level.GetPos(_Target), _SpeedCurve.Evaluate( t / duration) );
             _Range = _RangeCurve.Evaluate(t / duration);
 
             yield return null;              
         }
-        transform.position = _Target.transform.position;
+        transform.position = level.GetPos(_Target);
 
         if (_CurrentLink)
             _CurrentLink.OnCrossed();

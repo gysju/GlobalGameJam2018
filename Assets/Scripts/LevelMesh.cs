@@ -26,6 +26,12 @@ public class LevelMesh : ScriptableObject
         public Color color;
     }
 
+    public Vector3 GetPos(Point ptn)
+    {
+        Node node = Nodes[adress[ptn]];
+        return node.center + node.offset;
+    }
+
     public void Redefine(List<Link> links)
     {
         List<Node> nodes = new List<Node>();
