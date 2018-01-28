@@ -18,7 +18,8 @@ struct Link
 RWTexture2D<float4> Result;
 StructuredBuffer<Node> Nodes;
 StructuredBuffer<Link> Links;
-
+Texture2D<float1> Noise;
+SamplerState _LinearRepeat;
 
 //Mesh informations
 float3 CornerLD;
@@ -35,6 +36,8 @@ float BlendingFactor;
 float LinkSize;
 float CutThreshold;
 float4 NormalRemap;
+float Time;
+float4 NoiseParameters;
 
 
 float CircleDistance(float2 center, float radius, float2 sample)
@@ -107,6 +110,11 @@ void LevelToField(uint3 id : SV_DispatchThreadID)
     float dist = CircleDistance(PlayerPosition.xy, PlayerPosition.w, worldPos);
     color += saturate(1 - dist) * PlayerColor;
     aggregate = sminPolynomial(aggregate, dist, BlendingFactor);
+
+    //Aggrgate noise
+    float noise = Noise.SampleLevel(_LinearRepeat, uv * NoiseParameters.y + NoiseParameters.zw * Time, 0).r - .5;
+    //aggregate = sminPolynomial(aggregate, noise * NoiseParameters.x, BlendingFactor);
+    aggregate += noise * NoiseParameters.x;
 
     Result[id.xy] = float4(color.rgb, (aggregate - 1) * -NormalRemap.w);
 }
