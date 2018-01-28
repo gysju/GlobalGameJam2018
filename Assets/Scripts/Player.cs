@@ -141,7 +141,7 @@ public class Player : MonoBehaviour {
 
     public void Win()
     {
-        SoundManager.Instance.PlaySoundOneShot("SndVictoryPT01", _audioSource);
+        SoundManager.Instance.SpawnPlaySound("SndVictoryPT01", Vector3.zero);
         SoundManager.Instance.SpawnPlaySound("SndVictory", Vector3.zero);
         StartCoroutine(SetVibration(0.2f, 0.5f));
         _Immobile = true;
