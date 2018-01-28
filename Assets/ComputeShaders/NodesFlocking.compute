@@ -21,22 +21,22 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         Nodes[ReactNodeId].offset = ReactForce;
     }
 
-    Nodes[Nodes[id.x].index[0]].offset += Nodes[id.x].offset * Transmission;
+    Nodes[Nodes[id.x].index[0]].offset = max(Nodes[Nodes[id.x].index[0]].offset + Nodes[id.x].offset * Transmission, maxDist);
     int nextId = Nodes[id.x].index[1];
     if (nextId > -1)
     {
-        Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+        Nodes[nextId].offset = max(Nodes[nextId].offset + Nodes[id.x].offset * Transmission, maxDist);
         nextId = Nodes[id.x].index[2];
         if (nextId > -1)
         {
-            Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+            Nodes[nextId].offset = max(Nodes[nextId].offset + Nodes[id.x].offset * Transmission, maxDist);
             nextId = Nodes[id.x].index[3];
             if (nextId > -1)
             {
-                Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+                Nodes[nextId].offset = max(Nodes[nextId].offset + Nodes[id.x].offset * Transmission, maxDist);
                 nextId = Nodes[id.x].index[4];
                 if (nextId > -1)
-                    Nodes[nextId].offset += Nodes[id.x].offset * Transmission;
+                    Nodes[nextId].offset = max(Nodes[nextId].offset + Nodes[id.x].offset * Transmission, maxDist);
             }
         }
     }
