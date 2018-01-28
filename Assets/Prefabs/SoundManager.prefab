@@ -144,7 +144,7 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: e38be7b466dec0f418a5c2607ae03d1d, type: 3}
     Volume: 1
     priority: 128
-    Pitch: {x: 1, y: 1}
+    Pitch: {x: 0.9, y: 1.1}
     fadeDuration: 0
     loop: 0
     SpatialBlend: 1
@@ -152,7 +152,7 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 7ce2627148df0424c807cc5e1917aff7, type: 3}
     Volume: 1
     priority: 128
-    Pitch: {x: 1, y: 1}
+    Pitch: {x: 0.9, y: 1.1}
     fadeDuration: 0
     loop: 0
     SpatialBlend: 1
