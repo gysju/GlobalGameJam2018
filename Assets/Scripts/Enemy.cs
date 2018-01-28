@@ -66,9 +66,11 @@ public class Enemy : Player {
                 }
             case Point.PointType.Back:
                 {
-                    Point temp = _Start;
+                   //Point temp = _Start;
+                   //_Start = _Target;
+                   //_Target = temp;
                     _Start = _Target;
-                    _Target = temp;
+                    _Target = _Target.GetRandomForwardPath();
                     break;
                 }
         }

@@ -44,7 +44,8 @@ public class LevelGenerator : MonoBehaviour
     { get { return CurrentLevel.FriedPoint; } }
     public float _BackPointsSpawnPercentage
     { get { return CurrentLevel.BackPoint; } }
-    public float _NormalPointsSpawnPercentage;
+    public float _NormalPointsSpawnPercentage
+    { get { return 1- _BackPointsSpawnPercentage- _FriedPointsSpawnPercentage- _KillPointsSpawnPercentage; } }
 
 
     [HideInInspector] public List<Point> _Points = new List<Point>();
@@ -77,7 +78,7 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
         _DeathZone = new GameObject("DeathZone");
-        _NormalPointsSpawnPercentage = 1.0f - _KillPointsSpawnPercentage - _FriedPointsSpawnPercentage - _BackPointsSpawnPercentage;
+        //_NormalPointsSpawnPercentage = 1.0f - _KillPointsSpawnPercentage - _FriedPointsSpawnPercentage - _BackPointsSpawnPercentage;
         CameraMovement._Instance.transform.position = new Vector3(_Length, _Height/2, CameraMovement._Instance.transform.position.z);
     }
 
@@ -85,8 +86,6 @@ public class LevelGenerator : MonoBehaviour
     {
         _DefaultPos  = -(Vector3.right * 1000.0f);
         _DeathZone.transform.position = _DefaultPos;
-
-        UglyFadeScript.LoadNewPanel(CurrentLevel);
 
         yield return StartCoroutine(SpawnPoints());
         yield return StartCoroutine(BuildPath());

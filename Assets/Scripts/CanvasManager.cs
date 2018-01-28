@@ -45,6 +45,8 @@ public class CanvasManager : MonoBehaviour {
         _currentMenu = currentMenu;
 
         StartCoroutine(fadein());
+        UglyFadeScript.LoadNewPanel(LevelGenerator._Instance.DifficultyLevels[LevelGenerator._Instance._Difficulty]);
+
         FadeInIsFinished = delegate
         {
             StartCoroutine(GenerateLevel(restartLevel));
