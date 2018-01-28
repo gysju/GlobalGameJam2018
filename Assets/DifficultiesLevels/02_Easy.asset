@@ -11,14 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff3a749e77a1d1429bbd547d12ba6ce, type: 3}
   m_Name: 02_Easy
   m_EditorClassIdentifier: 
-  LenghtScale: 100
-  SegmentPointCountScale: 40
-  SegmentsScale: 5
-  Height: 50
-  MinLinkLenght: 4
-  MaxLinkLenght: 10
-  KillPoint: 0.1
-  FriedPoint: 0.1
-  BackPoint: 0.1
-  NormalPoint: 0
-  Speed: 10
+  Lenght: 40
+  SegmentPointCount: 10
+  Segments: 10
+  Height: 30
+  MinLinkLenght: 3
+  MaxLinkLenght: 15
+  KillPoint: 0
+  FriedPoint: 0.25
+  BackPoint: 0.25
+  PlayerSpeed: 12
+  DeathWaveSpeed: 3
+  EnemyCount: 2

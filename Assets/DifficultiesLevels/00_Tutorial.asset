@@ -22,3 +22,4 @@ MonoBehaviour:
   BackPoint: 0
   PlayerSpeed: 10
   DeathWaveSpeed: 0
+  EnemyCount: 0

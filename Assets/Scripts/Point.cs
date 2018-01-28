@@ -54,21 +54,22 @@ public class Point: MonoBehaviour{
     public void GeneratedType()
     {
 
-        PointType type;
+        PointType type = PointType.Normal;
         float val = Random.Range(0.0f, 1.0f);
 
-        if (val <= levelGenerator._NormalPointsSpawnPercentage || GetClearPathCount() <= 2)
+        if (val <= levelGenerator._NormalPointsSpawnPercentage)// || GetClearPathCount() <= 2)
             type = PointType.Normal;
         else if (val <= levelGenerator._NormalPointsSpawnPercentage 
-                      + levelGenerator._BackPointsSpawnPercentage)
+                      + levelGenerator._FriedPointsSpawnPercentage)
             type = PointType.Fried;
         else if (val <= levelGenerator._NormalPointsSpawnPercentage 
                       + levelGenerator._BackPointsSpawnPercentage
                       + levelGenerator._FriedPointsSpawnPercentage)
             type = PointType.Back;
-        else
+        else if( GetClearPathCount() > 2)
             type = PointType.Dead;
 
+        Debug.Log("Spawn: " + type.ToString() + " for value: " + val);
         SetInitialType(type);
     }
 
@@ -146,7 +147,7 @@ public class Point: MonoBehaviour{
     public int GetClearPathCount() {
         int count = 0;
         foreach (Link l in _Links) {
-            if (l.getOtherPoint(this)._Type == PointType.Normal) {
+            if (l.getOtherPoint(this)._Type == PointType.Normal){// && l.getOtherPoint(this)._Links.Count > 2) {
                 ++count;
             }
         }
