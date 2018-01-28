@@ -54,6 +54,7 @@ public class Player : MonoBehaviour {
 
     public virtual IEnumerator goToPoint() {
 
+        StartCoroutine(SetVibration(0.1f, 0.1f));
         _CurrentLink = _Start.GetConnectingLink(_Target);
         //float duration = (_Start.transform.position - _Target.transform.position).magnitude/_Speed ;
         float duration = Mathf.Lerp((_Start.transform.position - _Target.transform.position).magnitude / _Speed, 10f / _Speed, 0.5f);
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour {
 
                         _Start = _Target;
                         _Target = _Target.getMostAccurateDestinaton(LastInput);
-                        StartCoroutine(SetVibration(1.0f, 0.1f));
+                        
                         break;
                     }
                 case Point.PointType.Dead:
@@ -100,7 +101,7 @@ public class Player : MonoBehaviour {
                     {
                         _Start = _Target;
                         _Target = _Target.GetRandomForwardPath();
-                        StartCoroutine(SetVibration(1.5f, 0.1f));
+                        StartCoroutine(SetVibration(1f, 0.1f));
 
                         break;
                     }
@@ -110,7 +111,8 @@ public class Player : MonoBehaviour {
                         _Start = _Target;
                         _Target._Type = Point.PointType.Normal;
                         _Target = temp;
-               
+                        StartCoroutine(SetVibration(1f, 0.1f));
+
                         break;
                     }
             }
@@ -123,6 +125,7 @@ public class Player : MonoBehaviour {
     public void Win()
     {
         //SoundManager.Instance.PlaySoundOnShot("", _audioSource);
+        StartCoroutine(SetVibration(0.2f, 0.5f));
         _Immobile = true;
         CanvasManager._Instance.GoToWinMenu();
     }
