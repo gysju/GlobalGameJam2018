@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 224987827580591344}
   - component: {fileID: 114994758578330008}
   - component: {fileID: 82072957517442926}
+  - component: {fileID: 114033535872881240}
   m_Layer: 5
   m_Name: GoMainMenu
   m_TagString: Untagged
@@ -88,6 +89,7 @@ GameObject:
   - component: {fileID: 224175485365408770}
   - component: {fileID: 114428768018374916}
   - component: {fileID: 82968153207126268}
+  - component: {fileID: 114982254299372504}
   m_Layer: 5
   m_Name: Retry
   m_TagString: Untagged
@@ -154,6 +156,7 @@ GameObject:
   - component: {fileID: 224104782633199954}
   - component: {fileID: 114301646779627332}
   - component: {fileID: 82485671915760766}
+  - component: {fileID: 114456002879330802}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -224,6 +227,7 @@ GameObject:
   - component: {fileID: 224295392650781276}
   - component: {fileID: 114893792484244948}
   - component: {fileID: 82385000653281638}
+  - component: {fileID: 114259336457906222}
   m_Layer: 5
   m_Name: Next Level
   m_TagString: Untagged
@@ -326,6 +330,7 @@ GameObject:
   - component: {fileID: 224562351378525464}
   - component: {fileID: 114268744070704326}
   - component: {fileID: 82728015296625380}
+  - component: {fileID: 114440070005621516}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -343,6 +348,7 @@ GameObject:
   - component: {fileID: 224452430276388482}
   - component: {fileID: 114740411432335910}
   - component: {fileID: 82524613139832730}
+  - component: {fileID: 114003821502484066}
   m_Layer: 5
   m_Name: GoMainMenu
   m_TagString: Untagged
@@ -407,7 +413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4247583198473698}
   - component: {fileID: 114318141119367826}
-  - component: {fileID: 114084600313208464}
+  - component: {fileID: 114230945148352978}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1123,6 +1129,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114003821502484066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1405345095668948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea505d97c74654c429b020f0c533ceb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Move:
+  - SndGuiMove
+  - SndGuiMove2
+--- !u!114 &114033535872881240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1108307518055636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea505d97c74654c429b020f0c533ceb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Move:
+  - SndGuiMove
+  - SndGuiMove2
 --- !u!114 &114076087343223842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1150,24 +1184,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114084600313208464
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1640298118052376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &114122443316004536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1201,6 +1217,24 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Main Menu
+--- !u!114 &114230945148352978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1640298118052376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d952d5d9d759b8438a89585456e6356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!114 &114253983883795994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1234,6 +1268,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Main Menu
+--- !u!114 &114259336457906222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1335939598524164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea505d97c74654c429b020f0c533ceb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Move:
+  - SndGuiMove
+  - SndGuiMove2
 --- !u!114 &114262760303398498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1305,20 +1353,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114268744070704326}
+      - m_Target: {fileID: 114994758578330008}
         m_MethodName: set_interactable
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 82072957517442926}
-        m_MethodName: Play
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1412,20 +1449,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114301646779627332}
+      - m_Target: {fileID: 114994758578330008}
         m_MethodName: set_interactable
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 82072957517442926}
-        m_MethodName: Play
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1527,20 +1553,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114428768018374916}
+      - m_Target: {fileID: 114994758578330008}
         m_MethodName: set_interactable
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 82072957517442926}
-        m_MethodName: Play
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1590,6 +1605,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ButtonToEnable: {fileID: 114428768018374916}
+--- !u!114 &114440070005621516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392042504101172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea505d97c74654c429b020f0c533ceb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Move:
+  - SndGuiMove
+  - SndGuiMove2
 --- !u!114 &114440155512611074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1635,6 +1664,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Play
+--- !u!114 &114456002879330802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1175738590042512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea505d97c74654c429b020f0c533ceb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Move:
+  - SndGuiMove
+  - SndGuiMove2
 --- !u!114 &114503057219299646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1913,20 +1956,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114740411432335910}
+      - m_Target: {fileID: 114994758578330008}
         m_MethodName: set_interactable
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 82072957517442926}
-        m_MethodName: Play
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2057,20 +2089,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1335939598524164}
-        m_MethodName: 
+      - m_Target: {fileID: 114994758578330008}
+        m_MethodName: set_interactable
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 82072957517442926}
-        m_MethodName: Play
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2223,6 +2244,20 @@ MonoBehaviour:
   Image: {fileID: 114640616046642456}
   Title: {fileID: 114897568223769420}
   Description: {fileID: 114503057219299646}
+--- !u!114 &114982254299372504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147863192313606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea505d97c74654c429b020f0c533ceb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Move:
+  - SndGuiMove
+  - SndGuiMove2
 --- !u!114 &114994758578330008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2276,17 +2311,6 @@ MonoBehaviour:
       - m_Target: {fileID: 114994758578330008}
         m_MethodName: set_interactable
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 82072957517442926}
-        m_MethodName: Play
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2543,7 +2567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.4, y: 20.809998}
+  m_AnchoredPosition: {x: 0.39999998, y: 20.810059}
   m_SizeDelta: {x: -17.6, y: 42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224175485365408770
