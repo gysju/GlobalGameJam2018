@@ -9,7 +9,10 @@ public class SelectOnEnable : MonoBehaviour {
 
     void OnEnable()
     {
-        EventSystem.current.SetSelectedGameObject( _ButtonToEnable.gameObject );
-        _ButtonToEnable.OnSelect(null);
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject( _ButtonToEnable.gameObject );
+            _ButtonToEnable.OnSelect(null);
+        }
     }
 }
